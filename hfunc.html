@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – paneltime.github.io</title>
+<title>GARCH Heteroskedasticity Function Syntax Guide – paneltime.github.io</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +145,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./hfunc.html">GARCH Heteroskedasticity Function Syntax Guide</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -172,7 +172,7 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -190,7 +190,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./hfunc.html" class="sidebar-item-text sidebar-link">
+  <a href="./hfunc.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">GARCH Heteroskedasticity Function Syntax Guide</span></a>
   </div>
 </li>
@@ -204,12 +204,18 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a>
+  <li><a href="#defining-the-function" id="toc-defining-the-function" class="nav-link active" data-scroll-target="#defining-the-function">Defining the Function</a></li>
+  <li><a href="#exprtk-syntax-adaptations" id="toc-exprtk-syntax-adaptations" class="nav-link" data-scroll-target="#exprtk-syntax-adaptations">ExprTk Syntax Adaptations</a></li>
+  <li><a href="#temporary-variables-and-scripting" id="toc-temporary-variables-and-scripting" class="nav-link" data-scroll-target="#temporary-variables-and-scripting">Temporary Variables and Scripting</a>
   <ul class="collapse">
-  <li><a href="#the-model-string" id="toc-the-model-string" class="nav-link" data-scroll-target="#the-model-string">The model string</a></li>
+  <li><a href="#allowed-variables" id="toc-allowed-variables" class="nav-link" data-scroll-target="#allowed-variables">Allowed Variables</a>
+  <ul class="collapse">
+  <li><a href="#temporary-variables" id="toc-temporary-variables" class="nav-link" data-scroll-target="#temporary-variables">Temporary Variables</a></li>
   </ul></li>
-  <li><a href="#example-using-world-bank-data" id="toc-example-using-world-bank-data" class="nav-link" data-scroll-target="#example-using-world-bank-data">Example using world bank data</a></li>
+  </ul></li>
+  <li><a href="#supported-operators" id="toc-supported-operators" class="nav-link" data-scroll-target="#supported-operators">Supported Operators</a></li>
+  <li><a href="#built-in-functions" id="toc-built-in-functions" class="nav-link" data-scroll-target="#built-in-functions">Built-in Functions</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference">Reference</a></li>
   </ul>
 </nav>
     </div>
@@ -218,7 +224,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About</h1>
+<h1 class="title">GARCH Heteroskedasticity Function Syntax Guide</h1>
 </div>
 
 
@@ -235,146 +241,180 @@ window.Quarto = {
 </header>
 
 
-<p><strong>Paneltime</strong> is a statistical tool for estimating regressions on datasets that:</p>
+<p>This guide explains how to define a custom GARCH heteroskedasticity function in <code>paneltime</code> using the option <code>paneltime.options.h_dict</code>.</p>
+<section id="defining-the-function" class="level2">
+<h2 class="anchored" data-anchor-id="defining-the-function">Defining the Function</h2>
+<p>The <code>h_dict</code> option must be a dictionary containing the following keys:</p>
 <ul>
-<li>Are <strong>panels</strong> (have both a time and a group dimension)<br>
-</li>
-<li>Are <strong>non-stationary in means</strong> (ARIMA)<br>
-</li>
-<li>Are <strong>non-stationary in variance</strong> (GARCH)</li>
+<li><code>'h'</code>: the function ( h(e, z) )</li>
+<li><code>'h_e'</code>: the partial derivative ( )</li>
+<li><code>'h_e2'</code>: the second derivative ( )</li>
+<li><code>'h_z'</code>: the partial derivative ( )</li>
+<li><code>'h_z2'</code>: the second derivative ( )</li>
+<li><code>'h_e_z'</code>: the mixed derivative ( )</li>
 </ul>
-<p>Unlike any other statistical tool currently available, <strong>Paneltime</strong> simultaneously estimates <strong>random/fixed effects</strong>, <strong>ARIMA</strong>, and <strong>GARCH</strong> parameters.</p>
-<p>The package can also be used on <strong>non-panel data</strong> or datasets that only exhibit ARIMA or GARCH characteristics. However, if your data has none of these issues, <strong>OLS is the preferred method</strong>.</p>
-<p><strong>Author:</strong> Espen Sirnes<br>
-<strong>Current version:</strong> 1.2.65</p>
-<section id="installation" class="level1">
-<h1>Installation</h1>
-<p>“pip install paneltime” for installation</p>
+<p>Each entry must be a <strong>string representing a mathematical expression</strong>, not a Python function. The variables <code>e</code> and <code>z</code> represent the residual and shape parameter, respectively.</p>
+<p>As an example, here is an E-GARCH specification that safeguards the input to the logarithmic function to ensure it remains valid:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> paneltime <span class="im">as</span> pt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pt.options.h_dict <span class="op">=</span> {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'h'</span>:        <span class="st">'x0 = (e + z)^2; x1 = x0*(x0&gt;0) + (x0&lt;=0)*1e-18; log(x1)'</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'h_e'</span>:      <span class="st">'x0 = (e + z);   x1 = x0*(x0!=0) + (x0==0)*1e-18; (x0!=0)*2/x1'</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'h_e2'</span>:     <span class="st">'x0 = (e + z);   x1 = x0*(x0!=0) + (x0==0)*1e-18; -(x0!=0)*2/(x1^2)'</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'h_z'</span>:      <span class="st">'x0 = (e + z);   x1 = x0*(x0!=0) + (x0==0)*1e-18; (x0!=0)*2/x1'</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'h_z2'</span>:     <span class="st">'x0 = (e + z);   x1 = x0*(x0!=0) + (x0==0)*1e-18; -(x0!=0)*2/(x1^2)'</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'h_e_z'</span>:    <span class="st">'x0 = (e + z);   x1 = x0*(x0!=0) + (x0==0)*1e-18; -(x0!=0)*2/(x1^2)'</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These expressions are evaluated in C++ for performance using the <a href="https://github.com/ArashPartow/exprtk">ExprTk</a> library. Your expressions must follow its syntax with a few custom modifications, described below.</p>
 </section>
-<section id="usage" class="level1">
-<h1>Usage</h1>
-<p>Datasets are estimated with</p>
-<pre><code>paneltime.execute(model_string, dataframe, T,
-                        ID=None, HF=None,
-                        instruments=None, console_output=True)</code></pre>
-<p>It takes the following arguments:</p>
+<section id="exprtk-syntax-adaptations" class="level1">
+<h1>ExprTk Syntax Adaptations</h1>
+<p>To align with common Python expectations, we make the following automatic substitutions before passing expressions to the ExprTk parser:</p>
 <ul>
-<li><code>model_string</code>: A string on the form ‘Y ~ X1 + X2 + X3’, where Y is the dependent and X1-X3 are the independents, as named in the dataframe (required)</li>
-<li><code>dataframe</code>: a dataframe consisting of variables with the names used in <code>model_string</code> (required)</li>
-<li><code>T</code>: the time identifier (required)</li>
-<li><code>ID</code>: The group identifier (optional)</li>
-<li><code>HF</code>: list with names of heteroskedasticity factors (optional)</li>
-<li><code>instruments</code>: list with names of instruments (optional)</li>
+<li><code>=</code> is interpreted as <strong>assignment</strong>, and automatically rewritten to <code>:=</code>, the correct ExprTk assignment operator.</li>
+<li><code>==</code> is interpreted as <strong>relaxed equality</strong> (tolerant of small floating-point differences) and rewritten to <code>=</code>.</li>
+<li><code>**</code> is automatically converted to <code>^</code> for exponentiation.</li>
 </ul>
-<section id="the-model-string" class="level2">
-<h2 class="anchored" data-anchor-id="the-model-string">The model string</h2>
-<p>The model string can contain operations supported by the <code>numpy</code> package, using <code>np</code> as alias for numpy. For example <code>np.abs(x)</code> will result in a variable that is the absolute value of x.</p>
+<p>Furthermore, logical operations in ExprTk are not supported, as supporting them would require building a reverse Python parser, which is currently not implemented. Use mathematical expressions like <code>x0*(x0&gt;0) + (x0&lt;=0)*e-18</code> in stead.</p>
+</section>
+<section id="temporary-variables-and-scripting" class="level1">
+<h1>Temporary Variables and Scripting</h1>
+<p>You can perform multiple operations in a single expression using semicolons. Only the result of the <strong>last</strong> statement is returned.</p>
+<p>Example:</p>
+<pre><code>x0 = (e + z)^2; x0 + (x0&lt;=0)*e-18;</code></pre>
+<p>This computes <code>x0</code> as the square of <code>(e + z)</code> and returns the log of <code>x0</code>.</p>
+<section id="allowed-variables" class="level2">
+<h2 class="anchored" data-anchor-id="allowed-variables">Allowed Variables</h2>
+<ul>
+<li><code>e</code> – residual</li>
+<li><code>z</code> – shape parameter (optional)</li>
+</ul>
+<section id="temporary-variables" class="level3">
+<h3 class="anchored" data-anchor-id="temporary-variables">Temporary Variables</h3>
+<p>You may use the temporary variables: <code>x0</code>, <code>x1</code>, <code>x2</code>, <code>x3</code>, and <code>x4</code>.</p>
+<p>If your function does not depend on <code>z</code>, you may omit it and leave the related derivative entries as empty strings (<code>''</code>).</p>
+<hr>
 </section>
 </section>
-<section id="example-using-world-bank-data" class="level1">
-<h1>Example using world bank data</h1>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> paneltime <span class="im">as</span> pt</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> loadwb</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># loading data</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> loadwb.load_worldbank_data()</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#avoiding extreme interest rates</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[<span class="bu">abs</span>(df[<span class="st">'Inflation'</span>])<span class="op">&lt;</span><span class="dv">30</span>]</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the regression:</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>pt.options.pqdkm <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>pt.options.EGARCH <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyModel: <span class="co">#debug</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, e, e2, v, a, k, incl):</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.args <span class="op">=</span> (e, e2, v, a, k, incl)</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.v <span class="op">=</span> np.exp(v)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.v_inv <span class="op">=</span> np.exp(<span class="op">-</span>v)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.b_str <span class="op">=</span> <span class="st">'x0 = (e)^2+1e-8;    log(x0)'</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.h_dict <span class="op">=</span> {<span class="co">#exprtk compatible expressions for cpp:</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">'h_val'</span>:        <span class="st">'x0 = (e)^2+1e-8;    log(x0)'</span>,</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            <span class="st">'h_e_val'</span>:      <span class="st">'x0 = (e)^2+1e-8;    e*2/x0'</span>,</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">'h_e2_val'</span>:     <span class="st">'x0 = (e)^2+1e-8;    2/x0-4*e**2/x0**2'</span>,</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.h_add <span class="op">=</span> <span class="fl">1e-8</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.e2</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.h_dict <span class="op">=</span> { <span class="st">'h'</span>:        np.log(e2),</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'h_e_val'</span>:  <span class="dv">2</span><span class="op">*</span>e<span class="op">/</span>(e2),</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'h_2e_val'</span>: (<span class="dv">2</span><span class="op">/</span>(e2) <span class="op">-</span> <span class="dv">4</span><span class="op">*</span>e<span class="op">**</span><span class="dv">2</span><span class="op">/</span>(e2<span class="op">**</span><span class="dv">2</span>))</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>            }</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.minvar <span class="op">=</span> <span class="fl">1e-30</span></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.maxvar <span class="op">=</span> <span class="fl">1e+30</span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ll(<span class="va">self</span>):</span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>        (e, e2, v, a, k, incl) <span class="op">=</span> <span class="va">self</span>.args</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>        LL_CONST <span class="op">=-</span><span class="fl">0.5</span><span class="op">*</span>np.log(<span class="dv">2</span><span class="op">*</span>np.pi)</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>        ll <span class="op">=</span> LL_CONST<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>(v<span class="op">+</span>e2<span class="op">*</span><span class="va">self</span>.v_inv)</span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> ll</span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dll(<span class="va">self</span>):</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>        (e, e2, v, a, k, incl) <span class="op">=</span> <span class="va">self</span>.args</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>        dll_e<span class="op">=-</span>(e<span class="op">*</span><span class="va">self</span>.v_inv)</span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>        dll_var<span class="op">=-</span><span class="fl">0.5</span><span class="op">*</span>(incl<span class="op">-</span>(e2<span class="op">*</span><span class="va">self</span>.v_inv)) </span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> dll_var, dll_e</span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ddll(<span class="va">self</span>):</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>        (e, e2, v, a, k, incl) <span class="op">=</span> <span class="va">self</span>.args</span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>        d2ll_de2<span class="op">=-</span><span class="va">self</span>.v_inv</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>        d2ll_dln_de<span class="op">=</span>e<span class="op">*</span><span class="va">self</span>.v_inv</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>        d2ll_dln2<span class="op">=-</span><span class="fl">0.5</span><span class="op">*</span>e2<span class="op">*</span><span class="va">self</span>.v_inv</span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> d2ll_de2, d2ll_dln_de, d2ll_dln2</span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">False</span>:</span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>    pt.options.custom_model <span class="op">=</span> MyModel</span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">False</span>:<span class="co">#</span></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>    pt.options.h_dict <span class="op">=</span>{</span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>        <span class="st">'h'</span>:      <span class="st">'x0 = e^2 + 1e-8; x0^z'</span>,</span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>        <span class="st">'h_e'</span>:    <span class="st">'x0 = e^2 + 1e-8; z * x0^(z - 1) * 2 * e'</span>,</span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>        <span class="st">'h_e2'</span>:   <span class="st">'x0 = e^2 + 1e-8; z * (4 * e^2 * x0^(z - 2) * (z - 1) + 2 * x0^(z - 1))'</span>,</span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>        <span class="st">'h_z'</span>:    <span class="st">'x0 = e^2 + 1e-8; x0^z * log(x0)'</span>,</span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>        <span class="st">'h_z2'</span>:   <span class="st">'x0 = e^2 + 1e-8; x0^z * (log(x0))^2'</span>,</span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>        <span class="st">'h_e_z'</span>:  <span class="st">'x0 = e^2 + 1e-8; 2 * e * (z * x0^(z - 1) * log(x0) + x0^(z - 1))'</span></span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a><span class="co"># The h function avoids division by zero in the GARCH model using e2 + (e2==0)*1e-18.</span></span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a><span class="co"># The math of the h function is handled by `exprtk`. </span></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Refer to https://paneltime.github.io/paneltime/html/hfunc.html for `exprtk` syntax details.</span></span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="co">#pt.options.EGARCH = True</span></span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.time()</span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> pt.execute(<span class="st">'Inflation~L(Gross_Savings)+L(Inflation)+L(Interest_rate)+D(L(Gov_Consumption))'</span></span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>                     , df, timevar <span class="op">=</span> <span class="st">'date'</span>,idvar<span class="op">=</span><span class="st">'country'</span> )</span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Time taken: </span><span class="sc">{</span>time<span class="sc">.</span>time()<span class="op">-</span>t0<span class="sc">}</span><span class="ss"> seconds"</span>)</span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a><span class="co"># display results</span></span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(m)</span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span><span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="working_example.zip">Download working example zip</a></p>
+</section>
+<section id="supported-operators" class="level1">
+<h1>Supported Operators</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 29%">
+<col style="width: 17%">
+<col style="width: 18%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Description</th>
+<th>Example</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>+</code>, <code>-</code></td>
+<td>Addition, subtraction</td>
+<td><code>x + y - 2</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>*</code>, <code>/</code>, <code>%</code></td>
+<td>Multiplication, division, modulo</td>
+<td><code>x * y / 2</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>**</code>, <code>^</code></td>
+<td>Exponentiation</td>
+<td><code>x**2</code>, <code>x^2</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>==</code>, <code>!=</code></td>
+<td>Relaxed equality, inequality</td>
+<td><code>x == y</code>, <code>x != 0</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td>
+<td>Comparisons</td>
+<td><code>x0 = x &lt; y</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>=</code></td>
+<td>Assignment (converted to <code>:=</code>)</td>
+<td><code>x0 = e^2; log(x0)</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="built-in-functions" class="level1">
+<h1>Built-in Functions</h1>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>abs(x)</code></td>
+<td>Absolute value</td>
+</tr>
+<tr class="even">
+<td><code>sqrt(x)</code></td>
+<td>Square root</td>
+</tr>
+<tr class="odd">
+<td><code>log(x)</code></td>
+<td>Natural logarithm</td>
+</tr>
+<tr class="even">
+<td><code>exp(x)</code></td>
+<td>Exponential</td>
+</tr>
+<tr class="odd">
+<td><code>sin(x)</code>, <code>cos(x)</code>, <code>tan(x)</code></td>
+<td>Trigonometric functions</td>
+</tr>
+<tr class="even">
+<td><code>floor(x)</code>, <code>ceil(x)</code></td>
+<td>Rounding</td>
+</tr>
+<tr class="odd">
+<td><code>min(x, y)</code>, <code>max(x, y)</code></td>
+<td>Minimum / Maximum</td>
+</tr>
+<tr class="even">
+<td><code>sign(x)</code></td>
+<td>Returns -1, 0, or +1</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="reference" class="level1">
+<h1>Reference</h1>
+<p>ExprTk is a fast C++ mathematical expression parser.</p>
+<ul>
+<li>GitHub: <a href="https://github.com/ArashPartow/exprtk">https://github.com/ArashPartow/exprtk</a></li>
+<li>Documentation: <a href="https://www.partow.net/programming/exprtk/">https://www.partow.net/programming/exprtk/</a></li>
+</ul>
 
 
 

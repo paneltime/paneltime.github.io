@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Options – paneltime.github.io</title>
+<title>Setting options – paneltime.github.io</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -110,7 +110,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./options.html">Options</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./options.html">Setting options</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -150,7 +150,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./options.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Options</span></a>
+ <span class="menu-text">Setting options</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -169,7 +169,10 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#optionsobj-attributes" id="toc-optionsobj-attributes" class="nav-link active" data-scroll-target="#optionsobj-attributes"><code>OptionsObj</code> attributes</a></li>
+  <li><a href="#setting-options" id="toc-setting-options" class="nav-link active" data-scroll-target="#setting-options">Setting options</a>
+  <ul class="collapse">
+  <li><a href="#optionsobj-attributes" id="toc-optionsobj-attributes" class="nav-link" data-scroll-target="#optionsobj-attributes"><code>OptionsObj</code> attributes</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -178,7 +181,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Options</h1>
+<h1 class="title">Setting options</h1>
 </div>
 
 
@@ -195,6 +198,8 @@ window.Quarto = {
 </header>
 
 
+<section id="setting-options" class="level1">
+<h1>Setting options</h1>
 <p>You can set various options by setting attributes of the <code>options</code> attribute, for example:</p>
 <pre><code>import paneltime as pt
 pt.options.accuracy = 1e-10</code></pre>
@@ -275,32 +280,32 @@ pt.options.accuracy = 1e-10</code></pre>
 <td><b>Uses constraints engine:</b> Determines whether to use the constraints engine</td>
 </tr>
 <tr class="odd">
+<td>custom_model</td>
+<td>None</td>
+<td>None</td>
+<td>type</td>
+<td><b>Custom model class:</b> Custom model class. Must be a class with porperties and methods as definedin the documentation.</td>
+</tr>
+<tr class="even">
 <td>fixed_random_group_eff</td>
 <td>0</td>
 <td>[0, 1, 2]</td>
 <td>int</td>
 <td><b>Group fixed random effect:</b> No, fixed or random group effects</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>fixed_random_time_eff</td>
 <td>0</td>
 <td>[0, 1, 2]</td>
 <td>int</td>
 <td><b>Time fixed random effect:</b> No, fixed or random time effects</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>fixed_random_variance_eff</td>
 <td>0</td>
 <td>[0, 1, 2]</td>
 <td>int</td>
 <td><b>Variance fixed random effects:</b> No, fixed or random group effects for variance</td>
-</tr>
-<tr class="even">
-<td>h_function</td>
-<td>def h(e,z…</td>
-<td>None</td>
-<td>str</td>
-<td><b>GARCH function:</b> You can supply your own heteroskedasticity function. It must be a function of<br>residuals e and a shift parameter z that is determined by the maximization procedure<br>the function must return the value and its computation in the following order:<br>h, dh/de, (d<sup>2)h/de</sup>2, dh/dz, (d<sup>2)h/dz</sup>2,(d^2)h/(dz*de)</td>
 </tr>
 <tr class="odd">
 <td>include_initvar</td>
@@ -419,6 +424,7 @@ pt.options.accuracy = 1e-10</code></pre>
 
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

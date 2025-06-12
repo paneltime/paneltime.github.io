@@ -144,7 +144,7 @@
     "href": "index.html",
     "title": "About",
     "section": "",
-    "text": "Paneltime is a statistical tool for estimating regressions on datasets that:\nUnlike any other statistical tool currently available, Paneltime simultaneously estimates random/fixed effects, ARIMA, and GARCH parameters.\nThe package can also be used on non-panel data or datasets that only exhibit ARIMA or GARCH characteristics. However, if your data has none of these issues, OLS is the preferred method.\nAuthor: Espen Sirnes\nCurrent version: 1.2.66",
+    "text": "Paneltime is a statistical tool for estimating regressions on datasets that:\nUnlike any other statistical tool currently available, Paneltime simultaneously estimates random/fixed effects, ARIMA, and GARCH parameters.\nThe package can also be used on non-panel data or datasets that only exhibit ARIMA or GARCH characteristics. However, if your data has none of these issues, OLS is the preferred method.\nAuthor: Espen Sirnes\nCurrent version: 1.2.67",
     "crumbs": [
       "About"
     ]

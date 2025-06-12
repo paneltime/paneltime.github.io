@@ -22,31 +22,11 @@
   {
     "objectID": "hfunc.html",
     "href": "hfunc.html",
-    "title": "GARCH Heteroskedasticity Function Syntax Guide",
+    "title": "C++ heteroskedasticity function syntax guide",
     "section": "",
-    "text": "This guide explains how to define a custom GARCH heteroskedasticity function in paneltime using the option paneltime.options.h_dict.",
+    "text": "If you define a custom model, you must implement the heteroskedasticity function h(e, z) in both Python and C++.\nIn C++, define the function by assigning a valid string to self.h_val_cpp within your custom model class. For example, in the provided model class example, this is accomplished by the assignment:\nself.h_val_cpp = 'log(e)'\nMost of the paneltime package is implemented in pure Python, leveraging NumPy’s efficient linear algebra routines. However, the iterative computation of ARIMA and GARCH matrices must be executed in C++ to achieve acceptable performance. This includes the evaluation of the heteroskedasticity function.\nThe C++ expression assigned to self.h_val_cpp is parsed and evaluated using the ExprTk library. Your expressions must conform to ExprTk syntax, with some adaptations described below.\n\nExprTk Syntax Adaptations\nYou may use the following variables:\n\ne: The residuals.\nz: Shape parameter (optional). Is set to maximize the LL if used.\ntemporary variables that can be used: x0, x1, x2, x3, and x4.\n\nAdditional rules:\n\nPython’s exponent operator ** is automatically translated to the C++ equivalent ^. Other common operators are iden tical in C++ and Python.\nThe following functions are supported:\n\n\n\n\nFunction\nDescription\n\n\n\n\nabs(x)\nAbsolute value\n\n\nsqrt(x)\nSquare root\n\n\nlog(x)\nNatural logarithm\n\n\nexp(x)\nExponential\n\n\nsin(x), cos(x), tan(x)\nTrigonometric functions\n\n\nfloor(x), ceil(x)\nRounding operations\n\n\nmin(x, y), max(x, y)\nMinimum / Maximum\n\n\nsign(x)\nReturns -1, 0, or +1\n\n\n\nIf your function does not depend on z, you may omit it and provide empty strings ('') for the corresponding derivatives.\n\n\nTemporary Variables and Scripting\nYou can include multiple statements using ; to separate them. Only the result of the last statement is returned.\nTo maintain consistency with Python syntax, the following automatic substitutions are made before parsing the expression with ExprTk:\n\n= is interpreted as assignment, and rewritten to :=, the correct ExprTk assignment operator.\n== is interpreted as relaxed equality (tolerant of small floating-point differences) and rewritten to =.\n\nFor example, the following code forces the exponent of (e + z) to be 4 when its value is ≤ 1, and 2 otherwise:\nx0 = (e + z)^2; (x0 &lt;= 1) * x0^2 + (x0 &gt; 1) * x0\nLogical operations (e.g. and, or, not) are not supported. To emulate conditionals, use arithmetic expressions:\nx0 * (x0 &gt; 0) + (x0 &lt;= 0) * 1e-18\n\n\nReference\nExprTk is a fast C++ mathematical expression parser.\n\nGitHub: https://github.com/ArashPartow/exprtk\nDocumentation: https://www.partow.net/programming/exprtk/",
     "crumbs": [
-      "GARCH Heteroskedasticity Function Syntax Guide"
-    ]
-  },
-  {
-    "objectID": "hfunc.html#defining-the-function",
-    "href": "hfunc.html#defining-the-function",
-    "title": "GARCH Heteroskedasticity Function Syntax Guide",
-    "section": "Defining the Function",
-    "text": "Defining the Function\nThe h_dict option must be a dictionary containing the following keys:\n\n'h': the function ( h(e, z) )\n'h_e': the partial derivative ( )\n'h_e2': the second derivative ( )\n'h_z': the partial derivative ( )\n'h_z2': the second derivative ( )\n'h_e_z': the mixed derivative ( )\n\nEach entry must be a string representing a mathematical expression, not a Python function. The variables e and z represent the residual and shape parameter, respectively.\nAs an example, here is an E-GARCH specification that safeguards the input to the logarithmic function to ensure it remains valid:\nimport paneltime as pt\npt.options.h_dict = {\n    'h':        'x0 = (e + z)^2; x1 = x0*(x0&gt;0) + (x0&lt;=0)*1e-18; log(x1)',\n    'h_e':      'x0 = (e + z);   x1 = x0*(x0!=0) + (x0==0)*1e-18; (x0!=0)*2/x1',\n    'h_e2':     'x0 = (e + z);   x1 = x0*(x0!=0) + (x0==0)*1e-18; -(x0!=0)*2/(x1^2)',\n    'h_z':      'x0 = (e + z);   x1 = x0*(x0!=0) + (x0==0)*1e-18; (x0!=0)*2/x1',\n    'h_z2':     'x0 = (e + z);   x1 = x0*(x0!=0) + (x0==0)*1e-18; -(x0!=0)*2/(x1^2)',\n    'h_e_z':    'x0 = (e + z);   x1 = x0*(x0!=0) + (x0==0)*1e-18; -(x0!=0)*2/(x1^2)'\n}\nThese expressions are evaluated in C++ for performance using the ExprTk library. Your expressions must follow its syntax with a few custom modifications, described below.",
-    "crumbs": [
-      "GARCH Heteroskedasticity Function Syntax Guide"
-    ]
-  },
-  {
-    "objectID": "hfunc.html#allowed-variables",
-    "href": "hfunc.html#allowed-variables",
-    "title": "GARCH Heteroskedasticity Function Syntax Guide",
-    "section": "Allowed Variables",
-    "text": "Allowed Variables\n\ne – residual\nz – shape parameter (optional)\n\n\nTemporary Variables\nYou may use the temporary variables: x0, x1, x2, x3, and x4.\nIf your function does not depend on z, you may omit it and leave the related derivative entries as empty strings ('').",
-    "crumbs": [
-      "GARCH Heteroskedasticity Function Syntax Guide"
+      "C++ heteroskedasticity function syntax guide"
     ]
   },
   {
@@ -70,11 +50,101 @@
     ]
   },
   {
+    "objectID": "custom_model.html",
+    "href": "custom_model.html",
+    "title": "Custom Model",
+    "section": "",
+    "text": "You can define your own custom model likelihood model for use in paneltime by creating a Python class with specific properties and methods. Once defined, assign the class itself (not an instance) to:\nWith the custom class, you can change the following: * The likelihood function, which is by defalut either",
+    "crumbs": [
+      "Custom Model"
+    ]
+  },
+  {
+    "objectID": "custom_model.html#required-structure",
+    "href": "custom_model.html#required-structure",
+    "title": "Custom Model",
+    "section": "Required Structure",
+    "text": "Required Structure\nYour custom model class must define the following methods: * __init__(self, e, init_var, a, k, z): Initializes the model and stores all necessary variables. * ll(self): Computes the log-likelihood. * dll(self): Computes first derivatives of the log-likelihood. * ddll(self): Computes second derivatives of the log-likelihood.\nAdditionally, important variables must be initialized using the following functions: * variance_bounds(self, init_var): Sets bounds for the variance parameter. * variance_definitions(self): Defines the internal variance variables. * set_h_function(self): Defines the heteroskedasticity function and its derivatives.\nThese functions may be renamed or their logic reorganized. However, they must assign the attributes self.var and self.e, and if used in core methods (ll, dll, ddll), also self.z, self.v, and self.v_inv.",
+    "crumbs": [
+      "Custom Model"
+    ]
+  },
+  {
+    "objectID": "custom_model.html#initialization",
+    "href": "custom_model.html#initialization",
+    "title": "Custom Model",
+    "section": "Initialization",
+    "text": "Initialization\nIn __init__, store inputs and call initialization methods:\nself.k, self.a, self.z, self.e = k, a, z, e\nself.variance_bounds(init_var)\nself.variance_definitions()\nself.set_h_function(init_var)",
+    "crumbs": [
+      "Custom Model"
+    ]
+  },
+  {
+    "objectID": "custom_model.html#variance_boundsself-init_var",
+    "href": "custom_model.html#variance_boundsself-init_var",
+    "title": "Custom Model",
+    "section": "variance_bounds(self, init_var)",
+    "text": "variance_bounds(self, init_var)\nSet bounds for the variance parameter. For example:\nself.minvar = -500\nself.maxvar = 500\nThen apply bounds to the variance mask:\nself.var_pos = (init_var &lt; self.maxvar) * (init_var &gt; self.minvar)\nself.var is the variance passed to the optimizer. You may define additional internal variables (e.g., self.v, self.v_inv) but ensure all derivatives relate back to self.var. Multiply all derivatives by self.var_pos before returning.",
+    "crumbs": [
+      "Custom Model"
+    ]
+  },
+  {
+    "objectID": "custom_model.html#variance_definitionsself",
+    "href": "custom_model.html#variance_definitionsself",
+    "title": "Custom Model",
+    "section": "variance_definitions(self)",
+    "text": "variance_definitions(self)\nDefine internal representations of variance:\nself.v = np.exp(var)\nself.v_inv = np.exp(-var)\nself.e2 = e**2 + 1e-8  # Variance innovation, typically unmodified",
+    "crumbs": [
+      "Custom Model"
+    ]
+  },
+  {
+    "objectID": "custom_model.html#set_h_functionself",
+    "href": "custom_model.html#set_h_functionself",
+    "title": "Custom Model",
+    "section": "set_h_function(self)",
+    "text": "set_h_function(self)\nThis method defines the heteroskedasticity function and its derivatives.\n\nself.h_val: Heteroskedasticity function, usually a transformation of squared residuals.\nself.h_val_cpp: A C++-compliant string version of self.h_val used in a C++ extension (See how to write c++ compliant functions here).\nself.h_e_val: First derivative with respect to e.\nself.h_2e_val: Second derivative with respect to e.\nself.h_z_val, self.h_2z_val, self.h_ez_val: Optional derivatives with respect to z.\n\nExample:\nself.h_val = np.log(self.e2)\nself.h_val_cpp = 'log(e2)'\nself.h_e_val = 2 * e / self.e2\nself.h_2e_val = (2 / self.e2) - (4 * e**2 / self.e2**2)\nself.h_z_val = None\nself.h_2z_val = None\nself.h_ez_val = None\nSee GARCH Heteroskedasticity Function Syntax Guide for more about the C++ version of the function value, self.h_val_cpp.",
+    "crumbs": [
+      "Custom Model"
+    ]
+  },
+  {
+    "objectID": "custom_model.html#log-likelihood-and-derivatives",
+    "href": "custom_model.html#log-likelihood-and-derivatives",
+    "title": "Custom Model",
+    "section": "Log-Likelihood and Derivatives",
+    "text": "Log-Likelihood and Derivatives\n\nll(self)\nReturns log-likelihood per observation:\nll = -0.5 * np.log(2 * np.pi) - 0.5 * (self.var + self.e2 * self.v_inv)\nreturn ll\n\n\ndll(self)\nReturns a tuple of first derivatives:\ndll_e = -e * self.v_inv\ndll_var = -0.5 * (1 - self.e2 * self.v_inv)\ndll_var *= self.var_pos\nreturn dll_var, dll_e\n\n\nddll(self)\nReturns a tuple of second derivatives:\nd2ll_de2 = -self.v_inv\nd2ll_dvar_de = e * self.v_inv * self.var_pos\nd2ll_dvar2 = -0.5 * self.e2 * self.v_inv * self.var_pos\nreturn d2ll_de2, d2ll_dvar_de, d2ll_dvar2",
+    "crumbs": [
+      "Custom Model"
+    ]
+  },
+  {
+    "objectID": "custom_model.html#derivative-responsibility",
+    "href": "custom_model.html#derivative-responsibility",
+    "title": "Custom Model",
+    "section": "Derivative Responsibility",
+    "text": "Derivative Responsibility\nYou are responsible for ensuring that:\n\nll\ndll\nddll\nAll derivatives in set_h_function\n\nare mathematically consistent. Inconsistencies can cause biased results, convergence issues, or crashes.",
+    "crumbs": [
+      "Custom Model"
+    ]
+  },
+  {
+    "objectID": "custom_model.html#world-bank-example",
+    "href": "custom_model.html#world-bank-example",
+    "title": "Custom Model",
+    "section": "World Bank Example",
+    "text": "World Bank Example\nThis example demonstrates how to implement EGARCH as a custom model class. It replicates the internal EGARCH specification used by paneltime, and is provided as a starting point for users who wish to modify or extend the model to define their own custom likelihood functions.\n\nimport paneltime as pt\nimport loadwb\nimport numpy as np\n\n\n\n# loading data\ndf = loadwb.load_worldbank_data()\n\n#avoiding extreme interest rates\ndf = df[abs(df['Inflation'])&lt;30]\n\n# define ARIMA-GARCH lag structure:\npt.options.pqdkm = (2, 2, 1, 2, 2)\npt.options.EGARCH = False\n# Define a custom model class:\nclass MyModel:\n    def __init__(self, e, init_var, a, k, z):\n\n        # Do not change any variable names here, as they are used elsewhere\n        self.k, self.a, self.z, self.e = k, a, z, e\n\n        self.variance_bounds(init_var)\n        self.variance_definitions()\n        self.set_h_function()\n\n    def variance_bounds(self, init_var):\n        # Allways define a range for the variance. For an expnential model, minvar may be negative.\n        self.minvar = -500\n        self.maxvar = 500\n\n        # self.var is the variance measure exposed to the optimization algorithm.\n        # you can define other measures in internal calculations. In this expample self.v and self.v_inv are used internally.\n        # Make sure this is reflected in the derivatives with respect to the exposed variance measure.\n\n        self.var = np.maximum(np.minimum(init_var, self.maxvar), self.minvar)\n\n        # var_pos defines when the variance boundaries are active, in which case the derivatives are zero.\n        # You need to muptiply the variance derivatives with this variable in the dll and ddll functions to get \n        # correct derivatives.\n        self.var_pos=(init_var &lt; self.maxvar) * (init_var &gt; self.minvar)\n\n    def variance_definitions(self):\n        (var, e, z) = (self.var, self.e, self.z)\n\n        # variance and its inverse:\n        self.v = np.exp(var)\n        self.v_inv = np.exp(-var)\n        \n        # variance innovation   :\n        self.e2 = e**2 + 1e-8\n\n    def set_h_function(self):\n        \"Defines the heteroskedasticity function and its derivatives\"\n        (e, e2, v, z) = (self.e, self.e2, self.v, self.z)\n\n        # === Main function definition ===\n        # Define the h function definition:\n        self.h = lambda e, e2, v: np.log(e2)\n\n        # Define the h funciton value (do not change):\n        self.h_val = self.h(e, e2, v)\n\n        # The insert the c++ equivalent of self.h_val below.\n        self.h_val_cpp = 'log(e2)'\n\n        # === Derivatives of the h function ===\n        self.h_e_val = 2*e/(e2)\n        self.h_2e_val = (2/(e2) - 4*e**2/(e2**2))\n        self.h_z_val, self.h_2z_val,  self.h_ez_val = None,None,None\n\n\n    def ll(self):\n        \"Calculates the log-likelihood value for the model.\"\n        (e, e2, v, var, v_inv, a, k, var_pos, z) = (\n            self.e, self.e2, self.v, self.var, self.v_inv, self.a, self.k, self.var_pos, self.z)\n\n        LL_CONST =-0.5*np.log(2*np.pi)\n        ll = LL_CONST-0.5*(var + e2*v_inv)\n        \n        return ll\n\n    def dll(self):\n        \"Calculates the first derivatives of the log-likelihood function.\"\n        (e, e2, v, v_inv, a, k, var_pos, z) = (\n            self.e, self.e2, self.v, self.v_inv, self.a, self.k, self.var_pos, self.z)\n\n        dll_e = -(e*v_inv)\n        dll_var = -0.5*(1-(e2*v_inv))\n\n        dll_var *= var_pos\n\n        return dll_var, dll_e\n    \n    def ddll(self):\n        \"Calculates the second derivatives of the log-likelihood function.\"\n        (e, e2, v, v_inv, a, k, var_pos, z) = (\n            self.e, self.e2, self.v, self.v_inv, self.a, self.k, self.var_pos, self.z)\n\n        d2ll_de2 = -v_inv\n        d2ll_dvar_de = e*v_inv\n        d2ll_dvar2 = -0.5*((e2*v_inv))\n\n        d2ll_dvar_de*=var_pos\n        d2ll_dvar2*=var_pos\n\n        return d2ll_de2, d2ll_dvar_de, d2ll_dvar2\n\n# Assign the custom model to the relevant option in paneltime:\npt.options.custom_model = MyModel\n\n\nm = pt.execute('Inflation~L(Gross_Savings)+L(Inflation)+L(Interest_rate)+D(L(Gov_Consumption))'\n                     , df, timevar = 'date',idvar='country' )\n\n\nprint(m)\nDownload working example ZIP",
+    "crumbs": [
+      "Custom Model"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "About",
     "section": "",
-    "text": "Paneltime is a statistical tool for estimating regressions on datasets that:\nUnlike any other statistical tool currently available, Paneltime simultaneously estimates random/fixed effects, ARIMA, and GARCH parameters.\nThe package can also be used on non-panel data or datasets that only exhibit ARIMA or GARCH characteristics. However, if your data has none of these issues, OLS is the preferred method.\nAuthor: Espen Sirnes\nCurrent version: 1.2.65",
+    "text": "Paneltime is a statistical tool for estimating regressions on datasets that:\nUnlike any other statistical tool currently available, Paneltime simultaneously estimates random/fixed effects, ARIMA, and GARCH parameters.\nThe package can also be used on non-panel data or datasets that only exhibit ARIMA or GARCH characteristics. However, if your data has none of these issues, OLS is the preferred method.\nAuthor: Espen Sirnes\nCurrent version: 1.2.66",
     "crumbs": [
       "About"
     ]

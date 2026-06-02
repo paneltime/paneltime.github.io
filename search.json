@@ -50,26 +50,6 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "About",
-    "section": "",
-    "text": "Paneltime is a statistical tool for estimating regressions on datasets that:\nUnlike any other statistical tool currently available, Paneltime simultaneously handles common timeseries problems (ARIMA/GARCH) and panel data sets consisting of several groups/individuals (random/fixed effects).\nThe package can also be used on pure panel data sets without ARIMA/GARCH or single time series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.2.69",
-    "crumbs": [
-      "About"
-    ]
-  },
-  {
-    "objectID": "index.html#the-model-string",
-    "href": "index.html#the-model-string",
-    "title": "About",
-    "section": "The model string",
-    "text": "The model string\nThe model string can contain operations supported by the numpy package, using np as alias for numpy. For example np.abs(x) will result in a variable that is the absolute value of x.",
-    "crumbs": [
-      "About"
-    ]
-  },
-  {
     "objectID": "custom_model.html",
     "href": "custom_model.html",
     "title": "Custom Model",
@@ -157,6 +137,26 @@
     "text": "World Bank Example\nThis example demonstrates how to implement EGARCH as a custom model class. It replicates the internal EGARCH specification used by paneltime, and is provided as a starting point for users who wish to modify or extend the model to define their own custom likelihood functions.\n\nimport paneltime as pt\nimport loadwb\nimport numpy as np\n\n\n\n# loading data\ndf = loadwb.load_worldbank_data()\n\n#avoiding extreme interest rates\ndf = df[abs(df['Inflation'])&lt;30]\n\n# define ARIMA-GARCH lag structure:\npt.options.pqdkm = (2, 2, 1, 2, 2)\npt.options.EGARCH = False\n# Define a custom model class:\nclass MyModel:\n    def __init__(self, e, init_var, a, k, z):\n\n        # Do not change any variable names here, as they are used elsewhere\n        self.k, self.a, self.z, self.e = k, a, z, e\n\n        self.variance_bounds(init_var)\n        self.variance_definitions()\n        self.set_h_function()\n\n    def variance_bounds(self, init_var):\n        # Allways define a range for the variance. For an expnential model, minvar may be negative.\n        self.minvar = -500\n        self.maxvar = 500\n\n        # self.var is the variance measure exposed to the optimization algorithm.\n        # you can define other measures in internal calculations. In this expample self.v and self.v_inv are used internally.\n        # Make sure this is reflected in the derivatives with respect to the exposed variance measure.\n\n        self.var = np.maximum(np.minimum(init_var, self.maxvar), self.minvar)\n\n        # var_pos defines when the variance boundaries are active, in which case the derivatives are zero.\n        # You need to muptiply the variance derivatives with this variable in the dll and ddll functions to get \n        # correct derivatives.\n        self.var_pos=(init_var &lt; self.maxvar) * (init_var &gt; self.minvar)\n\n    def variance_definitions(self):\n        (var, e, z) = (self.var, self.e, self.z)\n\n        # variance and its inverse:\n        self.v = np.exp(var)\n        self.v_inv = np.exp(-var)\n        \n        # variance innovation   :\n        self.e2 = e**2 + 1e-8\n\n    def set_h_function(self):\n        \"Defines the heteroskedasticity function and its derivatives\"\n        (e, e2, v, z) = (self.e, self.e2, self.v, self.z)\n\n        # === Main function definition ===\n        # Define the h function definition:\n        self.h = lambda e, e2, v: np.log(e2)\n\n        # Define the h funciton value (do not change):\n        self.h_val = self.h(e, e2, v)\n\n        # The insert the c++ equivalent of self.h_val below.\n        self.h_val_cpp = 'log(e2)'\n\n        # === Derivatives of the h function ===\n        self.h_e_val = 2*e/(e2)\n        self.h_2e_val = (2/(e2) - 4*e**2/(e2**2))\n        self.h_z_val, self.h_2z_val,  self.h_ez_val = None,None,None\n\n\n    def ll(self):\n        \"Calculates the log-likelihood value for the model.\"\n        (e, e2, v, var, v_inv, a, k, var_pos, z) = (\n            self.e, self.e2, self.v, self.var, self.v_inv, self.a, self.k, self.var_pos, self.z)\n\n        LL_CONST =-0.5*np.log(2*np.pi)\n        ll = LL_CONST-0.5*(var + e2*v_inv)\n        \n        return ll\n\n    def dll(self):\n        \"Calculates the first derivatives of the log-likelihood function.\"\n        (e, e2, v, v_inv, a, k, var_pos, z) = (\n            self.e, self.e2, self.v, self.v_inv, self.a, self.k, self.var_pos, self.z)\n\n        dll_e = -(e*v_inv)\n        dll_var = -0.5*(1-(e2*v_inv))\n\n        dll_var *= var_pos\n\n        return dll_var, dll_e\n    \n    def ddll(self):\n        \"Calculates the second derivatives of the log-likelihood function.\"\n        (e, e2, v, v_inv, a, k, var_pos, z) = (\n            self.e, self.e2, self.v, self.v_inv, self.a, self.k, self.var_pos, self.z)\n\n        d2ll_de2 = -v_inv\n        d2ll_dvar_de = e*v_inv\n        d2ll_dvar2 = -0.5*((e2*v_inv))\n\n        d2ll_dvar_de*=var_pos\n        d2ll_dvar2*=var_pos\n\n        return d2ll_de2, d2ll_dvar_de, d2ll_dvar2\n\n# Assign the custom model to the relevant option in paneltime:\npt.options.custom_model = MyModel\n\n\nm = pt.execute('Inflation~L(Gross_Savings)+L(Inflation)+L(Interest_rate)+D(L(Gov_Consumption))'\n                     , df, timevar = 'date',idvar='country' )\n\n\nprint(m)\nDownload working example ZIP",
     "crumbs": [
       "Custom Model"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "About",
+    "section": "",
+    "text": "Paneltime is a statistical tool for estimating regressions on datasets that:\nUnlike any other statistical tool currently available, Paneltime simultaneously handles common timeseries problems (ARIMA/GARCH) and panel data sets consisting of several groups/individuals (random/fixed effects).\nThe package can also be used on pure panel data sets without ARIMA/GARCH or single time series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.2.70",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "index.html#the-model-string",
+    "href": "index.html#the-model-string",
+    "title": "About",
+    "section": "The model string",
+    "text": "The model string\nThe model string can contain operations supported by the numpy package, using np as alias for numpy. For example np.abs(x) will result in a variable that is the absolute value of x.",
+    "crumbs": [
+      "About"
     ]
   }
 ]

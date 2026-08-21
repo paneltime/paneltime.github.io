@@ -1,162 +1,362 @@
 [
   {
+    "objectID": "quickstart.html",
+    "href": "quickstart.html",
+    "title": "Quickstart",
+    "section": "",
+    "text": "Paneltime jointly estimates panel, ARIMA, and GARCH structure. This is useful when observations have group and time dimensions and both the conditional mean and conditional variance are dynamic.",
+    "crumbs": [
+      "Quickstart",
+      "Quickstart"
+    ]
+  },
+  {
+    "objectID": "quickstart.html#install",
+    "href": "quickstart.html#install",
+    "title": "Quickstart",
+    "section": "Install",
+    "text": "Install\n\n%pip install paneltime pandas",
+    "crumbs": [
+      "Quickstart",
+      "Quickstart"
+    ]
+  },
+  {
+    "objectID": "quickstart.html#fit-a-model",
+    "href": "quickstart.html#fit-a-model",
+    "title": "Quickstart",
+    "section": "Fit a model",
+    "text": "Fit a model\nThe v2 API follows the familiar model/results pattern used by statsmodels and arch.\n\nimport paneltime as pt\n\nmodel = pt.PanelARIMAGARCH(\n    \"Inflation ~ Gross_Savings + Interest_rate\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(\n    order=(2, 2, 1),\n    garch_order=(2, 2),\n    vol=\"EGARCH\",\n)\nprint(results.summary())\n\ndata may be a flat DataFrame with entity and time columns, or a DataFrame indexed by (entity, time).",
+    "crumbs": [
+      "Quickstart",
+      "Quickstart"
+    ]
+  },
+  {
+    "objectID": "quickstart.html#inspect-results",
+    "href": "quickstart.html#inspect-results",
+    "title": "Quickstart",
+    "section": "Inspect results",
+    "text": "Inspect results\n\nprint(results.params)\nprint(results.conf_int())\nforecast = results.forecast(steps=4)\n\nSee Results object for the complete public result surface.",
+    "crumbs": [
+      "Quickstart",
+      "Quickstart"
+    ]
+  },
+  {
+    "objectID": "migration.html",
+    "href": "migration.html",
+    "title": "Migrating from options/execute (v1 to v2)",
+    "section": "",
+    "text": "Replace global options and execute() with a model constructor followed by a fit call:\n\n# v1: pt.options.pqdkm = (2, 2, 1, 2, 2); pt.execute(formula, data, ...)\nmodel = pt.PanelARIMAGARCH(formula, data, entity=\"country\", time=\"date\")\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2))\n\nThe constructor accepts a (entity, time) MultiIndex or flat columns named with entity= and time=. Public result statistics are available directly from Results, including params, bse, conf_int(), and summary().",
+    "crumbs": [
+      "Migrating from options/execute (v1 to v2)"
+    ]
+  },
+  {
+    "objectID": "migration.html#the-modelresults-split",
+    "href": "migration.html#the-modelresults-split",
+    "title": "Migrating from options/execute (v1 to v2)",
+    "section": "",
+    "text": "Replace global options and execute() with a model constructor followed by a fit call:\n\n# v1: pt.options.pqdkm = (2, 2, 1, 2, 2); pt.execute(formula, data, ...)\nmodel = pt.PanelARIMAGARCH(formula, data, entity=\"country\", time=\"date\")\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2))\n\nThe constructor accepts a (entity, time) MultiIndex or flat columns named with entity= and time=. Public result statistics are available directly from Results, including params, bse, conf_int(), and summary().",
+    "crumbs": [
+      "Migrating from options/execute (v1 to v2)"
+    ]
+  },
+  {
+    "objectID": "migration.html#name-changes",
+    "href": "migration.html#name-changes",
+    "title": "Migrating from options/execute (v1 to v2)",
+    "section": "Name changes",
+    "text": "Name changes\n\n\n\nv1\nv2\n\n\n\n\nT, ID, HF\ntime, entity, het_factors\n\n\nSummary\nResults\n\n\nll, dll, ddll\nloglike, score, hessian\n\n\noutput, table\n_output, _table\n\n\nsupress_output\nsuppress_output\n\n\n\nThe deprecated pt.execute() and pt.options compatibility layer remains available during migration and emits DeprecationWarning.",
+    "crumbs": [
+      "Migrating from options/execute (v1 to v2)"
+    ]
+  },
+  {
+    "objectID": "guide/custom-likelihood-models.html",
+    "href": "guide/custom-likelihood-models.html",
+    "title": "Custom likelihood models",
+    "section": "",
+    "text": "Subclass LikelihoodModel, instantiate it, and pass that instance to model.fit(likelihood=...).\nimport numpy as np\nimport paneltime as pt\n\nclass GaussianLikelihood(pt.LikelihoodModel):\n    def loglike(self):\n        return -0.5 * (np.log(2 * np.pi) + self.var + self.e**2 * self.v_inv)\n\n    def variance_bounds(self, init_var):\n        self.var_pos = (init_var &gt; -500) & (init_var &lt; 500)\n        self.var = np.clip(init_var, -500, 500)\n\n    def variance_definitions(self):\n        self.v = np.exp(self.var)\n        self.v_inv = np.exp(-self.var)\n\nlikelihood = GaussianLikelihood()\nresults = model.fit(likelihood=likelihood)\nRequired lifecycle methods are variance_bounds(init_var), variance_definitions(), set_h_function(), and loglike(). Override score() and hessian() when analytical derivatives are available.",
+    "crumbs": [
+      "User Guide",
+      "Custom likelihood models"
+    ]
+  },
+  {
+    "objectID": "guide/custom-likelihood-models.html#skipping-analytical-derivatives",
+    "href": "guide/custom-likelihood-models.html#skipping-analytical-derivatives",
+    "title": "Custom likelihood models",
+    "section": "Skipping analytical derivatives",
+    "text": "Skipping analytical derivatives\nscore() and hessian() are optional. The base class computes finite differences of loglike() when they are not overridden, which is convenient for prototyping and custom distributions.\nThe constructor validates required state such as var, e, z, v, v_inv, and var_pos before optimization begins.",
+    "crumbs": [
+      "User Guide",
+      "Custom likelihood models"
+    ]
+  },
+  {
+    "objectID": "guide/custom-likelihood-models.html#egarch-and-symbolic-h-functions",
+    "href": "guide/custom-likelihood-models.html#egarch-and-symbolic-h-functions",
+    "title": "Custom likelihood models",
+    "section": "EGARCH and symbolic h-functions",
+    "text": "EGARCH and symbolic h-functions\nUse the built-in EGARCH model as a reference, or provide a SymPy expression through h_function=. The heteroskedasticity guide shows the recommended expression workflow.",
+    "crumbs": [
+      "User Guide",
+      "Custom likelihood models"
+    ]
+  },
+  {
+    "objectID": "changelog.html",
+    "href": "changelog.html",
+    "title": "Changelog",
+    "section": "",
+    "text": "Release history is maintained in the GitHub releases.",
+    "crumbs": [
+      "Changelog"
+    ]
+  },
+  {
+    "objectID": "changelog.html#x",
+    "href": "changelog.html#x",
+    "title": "Changelog",
+    "section": "1.2.x",
+    "text": "1.2.x\nThe 1.2 series includes releases from 1.2.0 through 1.2.73. Consult the release history for the exact patch-level notes.",
+    "crumbs": [
+      "Changelog"
+    ]
+  },
+  {
+    "objectID": "changelog.html#v2-in-development",
+    "href": "changelog.html#v2-in-development",
+    "title": "Changelog",
+    "section": "v2 (in development)",
+    "text": "v2 (in development)\n\nIntroduces the constructor plus .fit() API.\nReplaces Summary with the public Results object.\nGroups fit configuration into explicit per-call options.\nAdds symbolic SymPy heteroskedasticity functions and checked ExprTk codegen.\nAdds an instantiable LikelihoodModel extension point with numerical derivative fallback.",
+    "crumbs": [
+      "Changelog"
+    ]
+  },
+  {
+    "objectID": "api/index.html",
+    "href": "api/index.html",
+    "title": "API reference",
+    "section": "",
+    "text": "The v2 public API is organized around a model, a fit configuration, and a results object.\n\n\n\nObject\nDescription\n\n\n\n\nPanelARIMAGARCH\nConstructs a panel ARIMA/GARCH model.\n\n\nResults\nStores estimates, diagnostics, and forecasts.\n\n\nLikelihoodModel\nBase class for custom likelihoods.\n\n\nEffects\nGroups fixed and random group, time, and variance effects.\n\n\nOptimizerOptions\nGroups optimizer tolerances and numerical settings.\n\n\n\nStart with the Quickstart, then use the fit options reference for configuration details.",
+    "crumbs": [
+      "API Reference",
+      "API reference"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About paneltime",
+    "section": "",
+    "text": "Paneltime estimates regressions on datasets that:\nPaneltime jointly handles common time-series problems (ARIMA/GARCH) and panel data with group and time effects. To the best of our knowledge, no other package combines all three in one model.\nThe package can also be used on pure panel datasets without ARIMA/GARCH or single time-series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.2.73",
+    "crumbs": [
+      "User Guide",
+      "About paneltime"
+    ]
+  },
+  {
+    "objectID": "about.html#installation",
+    "href": "about.html#installation",
+    "title": "About paneltime",
+    "section": "Installation",
+    "text": "Installation\nInstall the package with:\n\n%pip install paneltime",
+    "crumbs": [
+      "User Guide",
+      "About paneltime"
+    ]
+  },
+  {
+    "objectID": "about.html#formula-syntax",
+    "href": "about.html#formula-syntax",
+    "title": "About paneltime",
+    "section": "Formula syntax",
+    "text": "Formula syntax\nModel formulas use the form Y ~ X1 + X2. Expressions supported by NumPy can be used with np as the alias, for example np.abs(x).\nSee the Quickstart for a complete model example.",
+    "crumbs": [
+      "User Guide",
+      "About paneltime"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html",
+    "href": "api/fit-options.html",
+    "title": "Fit options",
+    "section": "",
+    "text": "All v2 configuration is passed to fit(), so separate model fits do not share mutable global state.",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#arimagarch-order",
+    "href": "api/fit-options.html#arimagarch-order",
+    "title": "Fit options",
+    "section": "ARIMA/GARCH order",
+    "text": "ARIMA/GARCH order\norder=(p, d, q) controls the ARIMA mean process. garch_order=(k, m) controls the GARCH variance process. Set vol=\"GARCH\" or vol=\"EGARCH\".\n\nresults = model.fit(order=(1, 1, 0), garch_order=(1, 1), vol=\"GARCH\")",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#effects",
+    "href": "api/fit-options.html#effects",
+    "title": "Fit options",
+    "section": "Effects",
+    "text": "Effects\nPass an Effects instance with group, time, and variance set to \"none\", \"fixed\", or \"random\".\n\neffects = pt.Effects(group=\"random\", time=\"fixed\", variance=\"none\")\nresults = model.fit(effects=effects)",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#optimizer-and-covariance",
+    "href": "api/fit-options.html#optimizer-and-covariance",
+    "title": "Fit options",
+    "section": "Optimizer and covariance",
+    "text": "Optimizer and covariance\nUse OptimizerOptions for tolerance, max_iterations, accuracy, use_analytical_hessian, and the other optimizer controls. Select covariance behavior with cov_type and robust_cov_lags.\n\noptimizer = pt.OptimizerOptions(tolerance=1e-5, max_iterations=150)\nresults = model.fit(optimizer=optimizer, cov_type=\"robust\")",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#constraints",
+    "href": "api/fit-options.html#constraints",
+    "title": "Fit options",
+    "section": "Constraints",
+    "text": "Constraints\nUse constraints= for coefficient restrictions and add_intercept, subtract_means, include_initvar, tobit_limits, and suppress_output for fit behavior.",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#custom-model-and-h-function",
+    "href": "api/fit-options.html#custom-model-and-h-function",
+    "title": "Fit options",
+    "section": "Custom model and h-function",
+    "text": "Custom model and h-function\nPass a likelihood instance with likelihood= or a SymPy expression with h_function=. See the custom likelihood guide and heteroskedasticity guide.",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#migrating-from-pt.options",
+    "href": "api/fit-options.html#migrating-from-pt.options",
+    "title": "Fit options",
+    "section": "Migrating from pt.options",
+    "text": "Migrating from pt.options\n\n\n\n\n\n\n\nv1\nv2\n\n\n\n\npqdkm\norder= and garch_order=\n\n\nEGARCH\nvol=\"EGARCH\"\n\n\nfixed_random_group_eff, fixed_random_time_eff, fixed_random_variance_eff\neffects=pt.Effects(...)\n\n\ncustom_model\nlikelihood= (an instance)\n\n\nuser_constraints\nconstraints=\n\n\nuse_analytical\noptimizer.use_analytical_hessian\n\n\nsupress_output\nsuppress_output=",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/results.html",
+    "href": "api/results.html",
+    "title": "Results object",
+    "section": "",
+    "text": "model.fit() returns a Results object. Its everyday attributes are direct, named pandas.Series or scalar values; optimizer implementation details are kept under optim_result.",
+    "crumbs": [
+      "API Reference",
+      "Results object"
+    ]
+  },
+  {
+    "objectID": "api/results.html#results-everyday-use",
+    "href": "api/results.html#results-everyday-use",
+    "title": "Results object",
+    "section": "Results: everyday use",
+    "text": "Results: everyday use\n\n\n\n\n\n\n\nAttribute\nDescription\n\n\n\n\nparams\nEstimated coefficients indexed by variable name.\n\n\nbse\nStandard errors indexed like params.\n\n\ntvalues\nTest statistics indexed like params.\n\n\npvalues\nTwo-sided p-values indexed like params.\n\n\nconf_int()\nConfidence intervals for the coefficients.\n\n\nnobs\nNumber of observations used in the fit.\n\n\ndf_resid\nResidual degrees of freedom.\n\n\nllf\nMaximized log-likelihood.\n\n\naic, bic\nInformation criteria.\n\n\nconverged\nWhether optimization converged.\n\n\nrandom_effects\nObject exposing .group and .time residual effects and standard deviations.\n\n\nresid\nRegression residuals.\n\n\nfittedvalues\nFitted dependent-variable values.\n\n\nsummary()\nFormats a human-readable regression summary.\n\n\n\n\nresults.params\nresults.bse\nresults.summary()",
+    "crumbs": [
+      "API Reference",
+      "Results object"
+    ]
+  },
+  {
+    "objectID": "api/results.html#optimizer-internals-advanced",
+    "href": "api/results.html#optimizer-internals-advanced",
+    "title": "Results object",
+    "section": "Optimizer internals (advanced)",
+    "text": "Optimizer internals (advanced)\nAdvanced diagnostics are available from results.optim_result, including hessian, gradient_matrix, gradient_vector, dx_norm, its, msg, t0, t1, and log_likelihood_object.\nThe former output and table objects are implementation details and are private as results._output and results._table.",
+    "crumbs": [
+      "API Reference",
+      "Results object"
+    ]
+  },
+  {
+    "objectID": "examples.html",
+    "href": "examples.html",
+    "title": "Examples",
+    "section": "",
+    "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.PanelARIMAGARCH(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
+    "crumbs": [
+      "Examples",
+      "Examples"
+    ]
+  },
+  {
+    "objectID": "examples.html#world-bank-data",
+    "href": "examples.html#world-bank-data",
+    "title": "Examples",
+    "section": "",
+    "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.PanelARIMAGARCH(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
+    "crumbs": [
+      "Examples",
+      "Examples"
+    ]
+  },
+  {
+    "objectID": "guide/heteroskedasticity-functions.html",
+    "href": "guide/heteroskedasticity-functions.html",
+    "title": "Heteroskedasticity functions",
+    "section": "",
+    "text": "Define a function in terms of e (the residual) and z (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.\n\nimport sympy as sp\n\ne, z = sp.symbols(\"e z\")\nh_function = sp.log(e**2 + 1e-8)\nresults = model.fit(h_function=h_function)\n\nAt fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.",
+    "crumbs": [
+      "User Guide",
+      "Heteroskedasticity functions"
+    ]
+  },
+  {
+    "objectID": "guide/heteroskedasticity-functions.html#recommended-one-sympy-expression",
+    "href": "guide/heteroskedasticity-functions.html#recommended-one-sympy-expression",
+    "title": "Heteroskedasticity functions",
+    "section": "",
+    "text": "Define a function in terms of e (the residual) and z (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.\n\nimport sympy as sp\n\ne, z = sp.symbols(\"e z\")\nh_function = sp.log(e**2 + 1e-8)\nresults = model.fit(h_function=h_function)\n\nAt fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.",
+    "crumbs": [
+      "User Guide",
+      "Heteroskedasticity functions"
+    ]
+  },
+  {
+    "objectID": "guide/heteroskedasticity-functions.html#advanced-hand-writing-the-c-expression-directly",
+    "href": "guide/heteroskedasticity-functions.html#advanced-hand-writing-the-c-expression-directly",
+    "title": "Heteroskedasticity functions",
+    "section": "Advanced: hand-writing the C++ expression directly",
+    "text": "Advanced: hand-writing the C++ expression directly\nCustom likelihoods may still provide h_val_cpp and its Python counterpart. The expression is parsed by ExprTk. Use e, z, and temporary variables x0 through x4. Python ** becomes ExprTk ^.\nMultiple statements use ;; the final expression is returned. ExprTk uses := for assignment. Logical and/or are unsupported, so arithmetic masks must express conditions.\n\n\n\nFunction\nMeaning\n\n\n\n\nabs(x)\nAbsolute value\n\n\nsqrt(x)\nSquare root\n\n\nlog(x)\nNatural logarithm\n\n\nexp(x)\nExponential\n\n\nsin(x), cos(x), tan(x)\nTrigonometric functions\n\n\nfloor(x), ceil(x)\nRounding\n\n\nmin(x, y), max(x, y)\nBounds\n\n\nsign(x)\nSign of a value\n\n\n\nx0 := (e + z)^2; (x0 &lt;= 1) * x0^2 + (x0 &gt; 1) * x0\nSee the ExprTk documentation for parser details.",
+    "crumbs": [
+      "User Guide",
+      "Heteroskedasticity functions"
+    ]
+  },
+  {
     "objectID": "options.html",
     "href": "options.html",
     "title": "Setting options",
     "section": "",
-    "text": "You can set various options by setting attributes of the options attribute, for example:\nimport paneltime as pt\npt.options.accuracy = 1e-10\n\n\n\n\n\n\n\n\n\n\n\n\nAttribute name\nDefaultvalue\nPermissiblevalues*\nDatatype\nDescription\n\n\n\n\nARMA_constraint\n3\n%s&gt;0\nfloat\nARMA coefficient constraint: Maximum absolute value of ARMA coefficients\n\n\nARMA_round\n14\n%s&gt;0\nint\n# of signficant digits: Number og digits to round elements in the ARMA matrices by. Small differences in these values can change the optimization path and makes the estimate less robustNumber of significant digits in ARMA\n\n\nEGARCH\nFalse\n[True, False]\nbool\nEstimate GARCH directly: Normal GARCH, as opposed to EGARCH if True\n\n\nGARCH_assist\n0\n%s&gt;=0\nfloat\nGARCH assist: Amount of weight put on assisting GARCH variance to be close to squared residuals\n\n\nGARCH_min\n0\n%s&gt;0\nfloat\nGARCH coefficient constraint: Minimum absolute value of GARCH coefficients\n\n\naccuracy\n0\n%s&gt;0\nint\nAccuracy: Accuracy of the optimization algorithm. 0 = fast and inaccurate, 3=slow and maximum accuracy\n\n\nadd_intercept\nTrue\n[True, False]\nbool\nAdd intercept: If True, adds intercept if not all ready in the data\n\n\narguments\nNone\nNone\n[‘str’, ‘dict’, ‘list’, ‘ndarray’]\nInitial arguments: A dict or string defining a dictionary in python syntax containing the initial arguments.An example can be obtained by printing ll.args.args_d\n\n\nconstraints_engine\nTrue\n[True, False]\nbool\nUses constraints engine: Determines whether to use the constraints engine\n\n\ncustom_model\nNone\nNone\ntype\nCustom model class: Custom model class. Must be a class with porperties and methods as definedin the documentation.\n\n\nfixed_random_group_eff\n0\n[0, 1, 2]\nint\nGroup fixed random effect: No, fixed or random group effects\n\n\nfixed_random_time_eff\n0\n[0, 1, 2]\nint\nTime fixed random effect: No, fixed or random time effects\n\n\nfixed_random_variance_eff\n0\n[0, 1, 2]\nint\nVariance fixed random effects: No, fixed or random group effects for variance\n\n\ninclude_initvar\nFalse\n[True, False]\nbool\nInclude initial variance: If True, includes an initaial variance term\n\n\ninitial_arima_garch_params\n0.1\n%s&gt;=0\nfloat\ninitial size of arima-garch parameters: The initial size of arima-garch parameters (all directions will be attempted\n\n\nkurtosis_adj\n0\n%s&gt;=0\nfloat\nAmount of kurtosis adjustment: Amount of kurtosis adjustment\n\n\nmax_iterations\n150\n%s&gt;0\nint\nMaximum number of iterations: Maximum number of iterations\n\n\nmin_group_df\n1\n%s&gt;0\nint\nMinimum degrees of freedom: The smallest permissible number of observations in each group. Must be at least 1\n\n\nmulticoll_threshold_max\n200\n%s&gt;0\nfloat\nMulticollinearity threshold: Threshold for imposing constraints on collineary variables\n\n\nmulticoll_threshold_report\n30\n%s&gt;0\nfloat\nMulticollinearity threshold: Threshold for reporting multicoll problems\n\n\npqdkm\n[1, 1, 0, 1, 1]\n%s&gt;=0\nint\nARIMA-GARCH orders: ARIMA-GARCH parameters:\n\n\nrobustcov_lags_statistics\n[100, 30]\n%s&gt;1\nint\nRobust covariance lags (time): Numer of lags used in calculation of the robust covariance matrix for the time dimension\n\n\nsubtract_means\nFalse\n[True, False]\nbool\nSubtract means: If True, subtracts the mean of all variables. This may be a remedy for multicollinearity if the mean is not of interest.\n\n\nsupress_output\nTrue\n[True, False]\nbool\nSupress output: If True, no output is printed.\n\n\ntobit_limits\n[None, None]\n[‘%s&gt;0’, None]\n[‘float’, ‘NoneType’]\nTobit-model limits: Determines the limits in a tobit regression. Element 0 is lower limit and element1 is upper limit. If None, the limit is not active\n\n\ntolerance\n0.0001\n%s&gt;0\nfloat\nTolerance: Tolerance. When the maximum absolute value of the gradient divided by the hessian diagonalis smaller than the tolerance, the procedure is Tolerance in maximum likelihood\n\n\nuse_analytical\n1\n[0, 1, 2]\nint\nAnalytical Hessian: Use analytical Hessian\n\n\nuser_constraints\nNone\nNone\n[‘str’, ‘dict’]\nUser constraints: Constraints on the regression coefficient estimates. Must be a dict with groups of coefficients where each element can either be None (no constraint), a tuple with a range (min, max) or a single lenght list as a float representing a fixed constraint. Se example in README.md. You can extract the arguments dict from result.args, and substitute the elements with range restrictions or None, or remove groups.If you for example put in the dict in result.args as it is, you will restrict all parameters to be equal to the result.\n\n\nvariance_RE_norm\n5e-06\n%s&gt;0\nfloat\nVariance RE/FE normalization point in log function: This parameter determines at which point the log function involved in the variance RE/FE calculations, will be extrapolate by a linear function for smaller values",
-    "crumbs": [
-      "Setting options"
-    ]
+    "text": "You can set various options by setting attributes of the options attribute, for example:\nimport paneltime as pt\npt.options.accuracy = 1e-10\n\n\n\n\n\n\n\n\n\n\n\n\nAttribute name\nDefaultvalue\nPermissiblevalues*\nDatatype\nDescription\n\n\n\n\nARMA_constraint\n3\n%s&gt;0\nfloat\nARMA coefficient constraint: Maximum absolute value of ARMA coefficients\n\n\nARMA_round\n14\n%s&gt;0\nint\n# of signficant digits: Number og digits to round elements in the ARMA matrices by. Small differences in these values can change the optimization path and makes the estimate less robustNumber of significant digits in ARMA\n\n\nEGARCH\nFalse\n[True, False]\nbool\nEstimate GARCH directly: Normal GARCH, as opposed to EGARCH if True\n\n\nGARCH_assist\n0\n%s&gt;=0\nfloat\nGARCH assist: Amount of weight put on assisting GARCH variance to be close to squared residuals\n\n\nGARCH_min\n0\n%s&gt;0\nfloat\nGARCH coefficient constraint: Minimum absolute value of GARCH coefficients\n\n\naccuracy\n0\n%s&gt;0\nint\nAccuracy: Accuracy of the optimization algorithm. 0 = fast and inaccurate, 3=slow and maximum accuracy\n\n\nadd_intercept\nTrue\n[True, False]\nbool\nAdd intercept: If True, adds intercept if not all ready in the data\n\n\narguments\nNone\nNone\n[‘str’, ‘dict’, ‘list’, ‘ndarray’]\nInitial arguments: A dict or string defining a dictionary in python syntax containing the initial arguments.An example can be obtained by printing ll.args.args_d\n\n\nconstraints_engine\nTrue\n[True, False]\nbool\nUses constraints engine: Determines whether to use the constraints engine\n\n\ncustom_model\nNone\nNone\ntype\nCustom model class: Custom model class. Must be a class with porperties and methods as definedin the documentation.\n\n\nfixed_random_group_eff\n0\n[0, 1, 2]\nint\nGroup fixed random effect: No, fixed or random group effects\n\n\nfixed_random_time_eff\n0\n[0, 1, 2]\nint\nTime fixed random effect: No, fixed or random time effects\n\n\nfixed_random_variance_eff\n0\n[0, 1, 2]\nint\nVariance fixed random effects: No, fixed or random group effects for variance\n\n\ninclude_initvar\nFalse\n[True, False]\nbool\nInclude initial variance: If True, includes an initaial variance term\n\n\ninitial_arima_garch_params\n0.1\n%s&gt;=0\nfloat\ninitial size of arima-garch parameters: The initial size of arima-garch parameters (all directions will be attempted\n\n\nkurtosis_adj\n0\n%s&gt;=0\nfloat\nAmount of kurtosis adjustment: Amount of kurtosis adjustment\n\n\nmax_iterations\n150\n%s&gt;0\nint\nMaximum number of iterations: Maximum number of iterations\n\n\nmin_group_df\n1\n%s&gt;0\nint\nMinimum degrees of freedom: The smallest permissible number of observations in each group. Must be at least 1\n\n\nmulticoll_threshold_max\n200\n%s&gt;0\nfloat\nMulticollinearity threshold: Threshold for imposing constraints on collineary variables\n\n\nmulticoll_threshold_report\n30\n%s&gt;0\nfloat\nMulticollinearity threshold: Threshold for reporting multicoll problems\n\n\npqdkm\n[1, 1, 0, 1, 1]\n%s&gt;=0\nint\nARIMA-GARCH orders: ARIMA-GARCH parameters:\n\n\nrobustcov_lags_statistics\n[100, 30]\n%s&gt;1\nint\nRobust covariance lags (time): Numer of lags used in calculation of the robust covariance matrix for the time dimension\n\n\nsubtract_means\nFalse\n[True, False]\nbool\nSubtract means: If True, subtracts the mean of all variables. This may be a remedy for multicollinearity if the mean is not of interest.\n\n\nsupress_output\nTrue\n[True, False]\nbool\nSupress output: If True, no output is printed.\n\n\ntobit_limits\n[None, None]\n[‘%s&gt;0’, None]\n[‘float’, ‘NoneType’]\nTobit-model limits: Determines the limits in a tobit regression. Element 0 is lower limit and element1 is upper limit. If None, the limit is not active\n\n\ntolerance\n0.0001\n%s&gt;0\nfloat\nTolerance: Tolerance. When the maximum absolute value of the gradient divided by the hessian diagonalis smaller than the tolerance, the procedure is Tolerance in maximum likelihood\n\n\nuse_analytical\n1\n[0, 1, 2]\nint\nAnalytical Hessian: Use analytical Hessian\n\n\nuser_constraints\nNone\nNone\n[‘str’, ‘dict’]\nUser constraints: Constraints on the regression coefficient estimates. Must be a dict with groups of coefficients where each element can either be None (no constraint), a tuple with a range (min, max) or a single lenght list as a float representing a fixed constraint. Se example in README.md. You can extract the arguments dict from result.args, and substitute the elements with range restrictions or None, or remove groups.If you for example put in the dict in result.args as it is, you will restrict all parameters to be equal to the result.\n\n\nvariance_RE_norm\n5e-06\n%s&gt;0\nfloat\nVariance RE/FE normalization point in log function: This parameter determines at which point the log function involved in the variance RE/FE calculations, will be extrapolate by a linear function for smaller values"
   },
   {
     "objectID": "options.html#optionsobj-attributes",
     "href": "options.html#optionsobj-attributes",
     "title": "Setting options",
     "section": "",
-    "text": "Attribute name\nDefaultvalue\nPermissiblevalues*\nDatatype\nDescription\n\n\n\n\nARMA_constraint\n3\n%s&gt;0\nfloat\nARMA coefficient constraint: Maximum absolute value of ARMA coefficients\n\n\nARMA_round\n14\n%s&gt;0\nint\n# of signficant digits: Number og digits to round elements in the ARMA matrices by. Small differences in these values can change the optimization path and makes the estimate less robustNumber of significant digits in ARMA\n\n\nEGARCH\nFalse\n[True, False]\nbool\nEstimate GARCH directly: Normal GARCH, as opposed to EGARCH if True\n\n\nGARCH_assist\n0\n%s&gt;=0\nfloat\nGARCH assist: Amount of weight put on assisting GARCH variance to be close to squared residuals\n\n\nGARCH_min\n0\n%s&gt;0\nfloat\nGARCH coefficient constraint: Minimum absolute value of GARCH coefficients\n\n\naccuracy\n0\n%s&gt;0\nint\nAccuracy: Accuracy of the optimization algorithm. 0 = fast and inaccurate, 3=slow and maximum accuracy\n\n\nadd_intercept\nTrue\n[True, False]\nbool\nAdd intercept: If True, adds intercept if not all ready in the data\n\n\narguments\nNone\nNone\n[‘str’, ‘dict’, ‘list’, ‘ndarray’]\nInitial arguments: A dict or string defining a dictionary in python syntax containing the initial arguments.An example can be obtained by printing ll.args.args_d\n\n\nconstraints_engine\nTrue\n[True, False]\nbool\nUses constraints engine: Determines whether to use the constraints engine\n\n\ncustom_model\nNone\nNone\ntype\nCustom model class: Custom model class. Must be a class with porperties and methods as definedin the documentation.\n\n\nfixed_random_group_eff\n0\n[0, 1, 2]\nint\nGroup fixed random effect: No, fixed or random group effects\n\n\nfixed_random_time_eff\n0\n[0, 1, 2]\nint\nTime fixed random effect: No, fixed or random time effects\n\n\nfixed_random_variance_eff\n0\n[0, 1, 2]\nint\nVariance fixed random effects: No, fixed or random group effects for variance\n\n\ninclude_initvar\nFalse\n[True, False]\nbool\nInclude initial variance: If True, includes an initaial variance term\n\n\ninitial_arima_garch_params\n0.1\n%s&gt;=0\nfloat\ninitial size of arima-garch parameters: The initial size of arima-garch parameters (all directions will be attempted\n\n\nkurtosis_adj\n0\n%s&gt;=0\nfloat\nAmount of kurtosis adjustment: Amount of kurtosis adjustment\n\n\nmax_iterations\n150\n%s&gt;0\nint\nMaximum number of iterations: Maximum number of iterations\n\n\nmin_group_df\n1\n%s&gt;0\nint\nMinimum degrees of freedom: The smallest permissible number of observations in each group. Must be at least 1\n\n\nmulticoll_threshold_max\n200\n%s&gt;0\nfloat\nMulticollinearity threshold: Threshold for imposing constraints on collineary variables\n\n\nmulticoll_threshold_report\n30\n%s&gt;0\nfloat\nMulticollinearity threshold: Threshold for reporting multicoll problems\n\n\npqdkm\n[1, 1, 0, 1, 1]\n%s&gt;=0\nint\nARIMA-GARCH orders: ARIMA-GARCH parameters:\n\n\nrobustcov_lags_statistics\n[100, 30]\n%s&gt;1\nint\nRobust covariance lags (time): Numer of lags used in calculation of the robust covariance matrix for the time dimension\n\n\nsubtract_means\nFalse\n[True, False]\nbool\nSubtract means: If True, subtracts the mean of all variables. This may be a remedy for multicollinearity if the mean is not of interest.\n\n\nsupress_output\nTrue\n[True, False]\nbool\nSupress output: If True, no output is printed.\n\n\ntobit_limits\n[None, None]\n[‘%s&gt;0’, None]\n[‘float’, ‘NoneType’]\nTobit-model limits: Determines the limits in a tobit regression. Element 0 is lower limit and element1 is upper limit. If None, the limit is not active\n\n\ntolerance\n0.0001\n%s&gt;0\nfloat\nTolerance: Tolerance. When the maximum absolute value of the gradient divided by the hessian diagonalis smaller than the tolerance, the procedure is Tolerance in maximum likelihood\n\n\nuse_analytical\n1\n[0, 1, 2]\nint\nAnalytical Hessian: Use analytical Hessian\n\n\nuser_constraints\nNone\nNone\n[‘str’, ‘dict’]\nUser constraints: Constraints on the regression coefficient estimates. Must be a dict with groups of coefficients where each element can either be None (no constraint), a tuple with a range (min, max) or a single lenght list as a float representing a fixed constraint. Se example in README.md. You can extract the arguments dict from result.args, and substitute the elements with range restrictions or None, or remove groups.If you for example put in the dict in result.args as it is, you will restrict all parameters to be equal to the result.\n\n\nvariance_RE_norm\n5e-06\n%s&gt;0\nfloat\nVariance RE/FE normalization point in log function: This parameter determines at which point the log function involved in the variance RE/FE calculations, will be extrapolate by a linear function for smaller values",
-    "crumbs": [
-      "Setting options"
-    ]
-  },
-  {
-    "objectID": "hfunc.html",
-    "href": "hfunc.html",
-    "title": "C++ heteroskedasticity function syntax guide",
-    "section": "",
-    "text": "If you define a custom model, you must implement the heteroskedasticity function h(e, z) in both Python and C++.\nIn C++, define the function by assigning a valid string to self.h_val_cpp within your custom model class. For example, in the provided model class example, this is accomplished by the assignment:\nself.h_val_cpp = 'log(e)'\nMost of the paneltime package is implemented in pure Python, leveraging NumPy’s efficient linear algebra routines. However, the iterative computation of ARIMA and GARCH matrices must be executed in C++ to achieve acceptable performance. This includes the evaluation of the heteroskedasticity function.\nThe C++ expression assigned to self.h_val_cpp is parsed and evaluated using the ExprTk library. Your expressions must conform to ExprTk syntax, with some adaptations described below.\n\nExprTk Syntax Adaptations\nYou may use the following variables:\n\ne: The residuals.\nz: Shape parameter (optional). Is set to maximize the LL if used.\ntemporary variables that can be used: x0, x1, x2, x3, and x4.\n\nAdditional rules:\n\nPython’s exponent operator ** is automatically translated to the C++ equivalent ^. Other common operators are iden tical in C++ and Python.\nThe following functions are supported:\n\n\n\n\nFunction\nDescription\n\n\n\n\nabs(x)\nAbsolute value\n\n\nsqrt(x)\nSquare root\n\n\nlog(x)\nNatural logarithm\n\n\nexp(x)\nExponential\n\n\nsin(x), cos(x), tan(x)\nTrigonometric functions\n\n\nfloor(x), ceil(x)\nRounding operations\n\n\nmin(x, y), max(x, y)\nMinimum / Maximum\n\n\nsign(x)\nReturns -1, 0, or +1\n\n\n\nIf your function does not depend on z, you may omit it and provide empty strings ('') for the corresponding derivatives.\n\n\nTemporary Variables and Scripting\nYou can include multiple statements using ; to separate them. Only the result of the last statement is returned.\nTo maintain consistency with Python syntax, the following automatic substitutions are made before parsing the expression with ExprTk:\n\n= is interpreted as assignment, and rewritten to :=, the correct ExprTk assignment operator.\n== is interpreted as relaxed equality (tolerant of small floating-point differences) and rewritten to =.\n\nFor example, the following code forces the exponent of (e + z) to be 4 when its value is ≤ 1, and 2 otherwise:\nx0 = (e + z)^2; (x0 &lt;= 1) * x0^2 + (x0 &gt; 1) * x0\nLogical operations (e.g. and, or, not) are not supported. To emulate conditionals, use arithmetic expressions:\nx0 * (x0 &gt; 0) + (x0 &lt;= 0) * 1e-18\n\n\nReference\nExprTk is a fast C++ mathematical expression parser.\n\nGitHub: https://github.com/ArashPartow/exprtk\nDocumentation: https://www.partow.net/programming/exprtk/",
-    "crumbs": [
-      "C++ heteroskedasticity function syntax guide"
-    ]
-  },
-  {
-    "objectID": "attributes.html",
-    "href": "attributes.html",
-    "title": "Output",
-    "section": "",
-    "text": "paneltime.execute() returns a Summary-object. In addition, printing the Summary object, prints out the regression table and related information.\nThis object has the following attributes:",
-    "crumbs": [
-      "Output"
-    ]
-  },
-  {
-    "objectID": "attributes.html#attributes-available-in-the-summary-object",
-    "href": "attributes.html#attributes-available-in-the-summary-object",
-    "title": "Output",
-    "section": "Attributes available in the Summary object",
-    "text": "Attributes available in the Summary object\n\n\n\n\n\n\n\n\n\nAttribute\nSub attributes\nData Type\nExplanation\n\n\n\n\ncount\n\nCounting instance\nContains counts of the sample\n\n\n\ncount_dates\nfloat\nThe number of time observations in the sample after filtering\n\n\n\ncount_deg_freedom\nfloat\nDegrees of freedom\n\n\n\ncount_groups\nfloat\nThe number of groups in the sample after filtering\n\n\n\ncount_samp_size_after_filter\nfloat\nThe number of observations after filtering\n\n\n\ncount_samp_size_orig\nfloat\nThe number of original observations\n\n\ngeneral\n\nGeneral instance\nContains various information of interest\n\n\n\nci\nfloat\nThe condition index\n\n\n\nci_n\nint\nThe number of variables being dependent (more than 50% of variance) of a high ci&gt;30 factor\n\n\n\nconverged\nfloat\nIndicates whether the maximization procedure converged (True) or not (False)\n\n\n\ndx_norm\nfloat\nThe normalized direction for the next iteration. Should be close to 0 for all variables.\n\n\n\ngradient_matrix\nfloat\nThe gradient matrix of vectors for each observation, calculated analytically at the final regression coefficients point.\n\n\n\ngradient_vector\nfloat\nThe gradient vector, calculated analytically at the final regression coefficients point.\n\n\n\nhessian\nfloat\nThe Hessian matrix, calculated analytically at the point of the final regression coefficients point.\n\n\n\nits\nint\nNumber of iterations used before the maximum was identified\n\n\n\nlog_likelihood\nfloat\nThe log-likelihood of the regression\n\n\n\nlog_likelihood_object\nLL instance\nAn object containing the log-likelihood function and data needed to calculate the gradient and Hessian\n\n\n\nmsg\nfloat\nMessage from the maximization procedure\n\n\n\npanel\nfloat\nAn object containing the data and information about the panel\n\n\n\nt0\nfloat\nStart time for the maximization\n\n\n\nt1\nfloat\nEnd time for the maximization\n\n\n\ntime\nfloat\nThe time the regression took\n\n\nnames\n\nNames instance\nContains names of variables in various formats\n\n\n\ncaptions\nlist\nList containing captions for each variable, as displayed in the output table\n\n\n\ngroups\nlist\nList containing the names of each variable group. For example, ‘beta’ is the regression coefficient group and ‘lambda’ is the MA-coefficients group\n\n\n\nvarnames\nlist\nList containing the internal variable names used in the code\n\n\noutput\n\nOutput instance\nFor internal use\n\n\nrandom_effects\n\nRandomEffects instance\nEstimated random/fixed effects\n\n\n\nresiduals_i\nnumpy.ndarray\nEstimated random/fixed effects for the group dimensions\n\n\n\nresiduals_t\nnumpy.ndarray\nEstimated random/fixed effects for the time dimensions\n\n\n\nstd_i\nnumpy.ndarray\nEstimated volatilities for the group dimensions\n\n\n\nstd_t\nnumpy.ndarray\nEstimated volatilities for the time dimensions\n\n\nresults\n\nResults instance\nContains regression statistics seen in the regression output table\n\n\n\nargs\ndict\nDictionary with the variable groups in results.names.groups as keys, containing nx1 matrices of parameter estimates\n\n\n\ncodes\nfloat\nSignificance codes as displayed in the table\n\n\n\nconf_025\nfloat\nLower 5% confidence interval\n\n\n\nconf_0975\nfloat\nUpper 5% confidence interval\n\n\n\nparams\nfloat\nList of regression parameter estimates in the same order as results.names.captions\n\n\n\nse\nfloat\nStandard errors\n\n\n\ntstat\nfloat\nT-statistics\n\n\n\ntsign\nfloat\nT-test significance levels\n\n\ntable\n\nRegTableObj instance\nAn object that generates tables. Mostly for internal use.",
-    "crumbs": [
-      "Output"
-    ]
-  },
-  {
-    "objectID": "custom_model.html",
-    "href": "custom_model.html",
-    "title": "Custom Model",
-    "section": "",
-    "text": "You can define your own custom model likelihood model for use in paneltime by creating a Python class with specific properties and methods. Once defined, assign the class itself (not an instance) to:\nWith the custom class, you can change the following: * The likelihood function, which is by defalut either",
-    "crumbs": [
-      "Custom Model"
-    ]
-  },
-  {
-    "objectID": "custom_model.html#required-structure",
-    "href": "custom_model.html#required-structure",
-    "title": "Custom Model",
-    "section": "Required Structure",
-    "text": "Required Structure\nYour custom model class must define the following methods: * __init__(self, e, init_var, a, k, z): Initializes the model and stores all necessary variables. * ll(self): Computes the log-likelihood. * dll(self): Computes first derivatives of the log-likelihood. * ddll(self): Computes second derivatives of the log-likelihood.\nAdditionally, important variables must be initialized using the following functions: * variance_bounds(self, init_var): Sets bounds for the variance parameter. * variance_definitions(self): Defines the internal variance variables. * set_h_function(self): Defines the heteroskedasticity function and its derivatives.\nThese functions may be renamed or their logic reorganized. However, they must assign the attributes self.var and self.e, and if used in core methods (ll, dll, ddll), also self.z, self.v, and self.v_inv.",
-    "crumbs": [
-      "Custom Model"
-    ]
-  },
-  {
-    "objectID": "custom_model.html#initialization",
-    "href": "custom_model.html#initialization",
-    "title": "Custom Model",
-    "section": "Initialization",
-    "text": "Initialization\nIn __init__, store inputs and call initialization methods:\nself.k, self.a, self.z, self.e = k, a, z, e\nself.variance_bounds(init_var)\nself.variance_definitions()\nself.set_h_function(init_var)",
-    "crumbs": [
-      "Custom Model"
-    ]
-  },
-  {
-    "objectID": "custom_model.html#variance_boundsself-init_var",
-    "href": "custom_model.html#variance_boundsself-init_var",
-    "title": "Custom Model",
-    "section": "variance_bounds(self, init_var)",
-    "text": "variance_bounds(self, init_var)\nSet bounds for the variance parameter. For example:\nself.minvar = -500\nself.maxvar = 500\nThen apply bounds to the variance mask:\nself.var_pos = (init_var &lt; self.maxvar) * (init_var &gt; self.minvar)\nself.var is the variance passed to the optimizer. You may define additional internal variables (e.g., self.v, self.v_inv) but ensure all derivatives relate back to self.var. Multiply all derivatives by self.var_pos before returning.",
-    "crumbs": [
-      "Custom Model"
-    ]
-  },
-  {
-    "objectID": "custom_model.html#variance_definitionsself",
-    "href": "custom_model.html#variance_definitionsself",
-    "title": "Custom Model",
-    "section": "variance_definitions(self)",
-    "text": "variance_definitions(self)\nDefine internal representations of variance:\nself.v = np.exp(var)\nself.v_inv = np.exp(-var)\nself.e2 = e**2 + 1e-8  # Variance innovation, typically unmodified",
-    "crumbs": [
-      "Custom Model"
-    ]
-  },
-  {
-    "objectID": "custom_model.html#set_h_functionself",
-    "href": "custom_model.html#set_h_functionself",
-    "title": "Custom Model",
-    "section": "set_h_function(self)",
-    "text": "set_h_function(self)\nThis method defines the heteroskedasticity function and its derivatives.\n\nself.h_val: Heteroskedasticity function, usually a transformation of squared residuals.\nself.h_val_cpp: A C++-compliant string version of self.h_val used in a C++ extension (See how to write c++ compliant functions here).\nself.h_e_val: First derivative with respect to e.\nself.h_2e_val: Second derivative with respect to e.\nself.h_z_val, self.h_2z_val, self.h_ez_val: Optional derivatives with respect to z.\n\nExample:\nself.h_val = np.log(self.e2)\nself.h_val_cpp = 'log(e2)'\nself.h_e_val = 2 * e / self.e2\nself.h_2e_val = (2 / self.e2) - (4 * e**2 / self.e2**2)\nself.h_z_val = None\nself.h_2z_val = None\nself.h_ez_val = None\nSee GARCH Heteroskedasticity Function Syntax Guide for more about the C++ version of the function value, self.h_val_cpp.",
-    "crumbs": [
-      "Custom Model"
-    ]
-  },
-  {
-    "objectID": "custom_model.html#log-likelihood-and-derivatives",
-    "href": "custom_model.html#log-likelihood-and-derivatives",
-    "title": "Custom Model",
-    "section": "Log-Likelihood and Derivatives",
-    "text": "Log-Likelihood and Derivatives\n\nll(self)\nReturns log-likelihood per observation:\nll = -0.5 * np.log(2 * np.pi) - 0.5 * (self.var + self.e2 * self.v_inv)\nreturn ll\n\n\ndll(self)\nReturns a tuple of first derivatives:\ndll_e = -e * self.v_inv\ndll_var = -0.5 * (1 - self.e2 * self.v_inv)\ndll_var *= self.var_pos\nreturn dll_var, dll_e\n\n\nddll(self)\nReturns a tuple of second derivatives:\nd2ll_de2 = -self.v_inv\nd2ll_dvar_de = e * self.v_inv * self.var_pos\nd2ll_dvar2 = -0.5 * self.e2 * self.v_inv * self.var_pos\nreturn d2ll_de2, d2ll_dvar_de, d2ll_dvar2",
-    "crumbs": [
-      "Custom Model"
-    ]
-  },
-  {
-    "objectID": "custom_model.html#derivative-responsibility",
-    "href": "custom_model.html#derivative-responsibility",
-    "title": "Custom Model",
-    "section": "Derivative Responsibility",
-    "text": "Derivative Responsibility\nYou are responsible for ensuring that:\n\nll\ndll\nddll\nAll derivatives in set_h_function\n\nare mathematically consistent. Inconsistencies can cause biased results, convergence issues, or crashes.",
-    "crumbs": [
-      "Custom Model"
-    ]
-  },
-  {
-    "objectID": "custom_model.html#world-bank-example",
-    "href": "custom_model.html#world-bank-example",
-    "title": "Custom Model",
-    "section": "World Bank Example",
-    "text": "World Bank Example\nThis example demonstrates how to implement EGARCH as a custom model class. It replicates the internal EGARCH specification used by paneltime, and is provided as a starting point for users who wish to modify or extend the model to define their own custom likelihood functions.\n\nimport paneltime as pt\nimport loadwb\nimport numpy as np\n\n\n\n# loading data\ndf = loadwb.load_worldbank_data()\n\n#avoiding extreme interest rates\ndf = df[abs(df['Inflation'])&lt;30]\n\n# define ARIMA-GARCH lag structure:\npt.options.pqdkm = (2, 2, 1, 2, 2)\npt.options.EGARCH = False\n# Define a custom model class:\nclass MyModel:\n    def __init__(self, e, init_var, a, k, z):\n\n        # Do not change any variable names here, as they are used elsewhere\n        self.k, self.a, self.z, self.e = k, a, z, e\n\n        self.variance_bounds(init_var)\n        self.variance_definitions()\n        self.set_h_function()\n\n    def variance_bounds(self, init_var):\n        # Allways define a range for the variance. For an expnential model, minvar may be negative.\n        self.minvar = -500\n        self.maxvar = 500\n\n        # self.var is the variance measure exposed to the optimization algorithm.\n        # you can define other measures in internal calculations. In this expample self.v and self.v_inv are used internally.\n        # Make sure this is reflected in the derivatives with respect to the exposed variance measure.\n\n        self.var = np.maximum(np.minimum(init_var, self.maxvar), self.minvar)\n\n        # var_pos defines when the variance boundaries are active, in which case the derivatives are zero.\n        # You need to muptiply the variance derivatives with this variable in the dll and ddll functions to get \n        # correct derivatives.\n        self.var_pos=(init_var &lt; self.maxvar) * (init_var &gt; self.minvar)\n\n    def variance_definitions(self):\n        (var, e, z) = (self.var, self.e, self.z)\n\n        # variance and its inverse:\n        self.v = np.exp(var)\n        self.v_inv = np.exp(-var)\n        \n        # variance innovation   :\n        self.e2 = e**2 + 1e-8\n\n    def set_h_function(self):\n        \"Defines the heteroskedasticity function and its derivatives\"\n        (e, e2, v, z) = (self.e, self.e2, self.v, self.z)\n\n        # === Main function definition ===\n        # Define the h function definition:\n        self.h = lambda e, e2, v: np.log(e2)\n\n        # Define the h funciton value (do not change):\n        self.h_val = self.h(e, e2, v)\n\n        # The insert the c++ equivalent of self.h_val below.\n        self.h_val_cpp = 'log(e2)'\n\n        # === Derivatives of the h function ===\n        self.h_e_val = 2*e/(e2)\n        self.h_2e_val = (2/(e2) - 4*e**2/(e2**2))\n        self.h_z_val, self.h_2z_val,  self.h_ez_val = None,None,None\n\n\n    def ll(self):\n        \"Calculates the log-likelihood value for the model.\"\n        (e, e2, v, var, v_inv, a, k, var_pos, z) = (\n            self.e, self.e2, self.v, self.var, self.v_inv, self.a, self.k, self.var_pos, self.z)\n\n        LL_CONST =-0.5*np.log(2*np.pi)\n        ll = LL_CONST-0.5*(var + e2*v_inv)\n        \n        return ll\n\n    def dll(self):\n        \"Calculates the first derivatives of the log-likelihood function.\"\n        (e, e2, v, v_inv, a, k, var_pos, z) = (\n            self.e, self.e2, self.v, self.v_inv, self.a, self.k, self.var_pos, self.z)\n\n        dll_e = -(e*v_inv)\n        dll_var = -0.5*(1-(e2*v_inv))\n\n        dll_var *= var_pos\n\n        return dll_var, dll_e\n    \n    def ddll(self):\n        \"Calculates the second derivatives of the log-likelihood function.\"\n        (e, e2, v, v_inv, a, k, var_pos, z) = (\n            self.e, self.e2, self.v, self.v_inv, self.a, self.k, self.var_pos, self.z)\n\n        d2ll_de2 = -v_inv\n        d2ll_dvar_de = e*v_inv\n        d2ll_dvar2 = -0.5*((e2*v_inv))\n\n        d2ll_dvar_de*=var_pos\n        d2ll_dvar2*=var_pos\n\n        return d2ll_de2, d2ll_dvar_de, d2ll_dvar2\n\n# Assign the custom model to the relevant option in paneltime:\npt.options.custom_model = MyModel\n\n\nm = pt.execute('Inflation~L(Gross_Savings)+L(Inflation)+L(Interest_rate)+D(L(Gov_Consumption))'\n                     , df, timevar = 'date',idvar='country' )\n\n\nprint(m)\nDownload working example ZIP",
-    "crumbs": [
-      "Custom Model"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "About",
-    "section": "",
-    "text": "Paneltime is a statistical tool for estimating regressions on datasets that:\nUnlike any other statistical tool currently available, Paneltime simultaneously handles common timeseries problems (ARIMA/GARCH) and panel data sets consisting of several groups/individuals (random/fixed effects).\nThe package can also be used on pure panel data sets without ARIMA/GARCH or single time series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.2.72",
-    "crumbs": [
-      "About"
-    ]
-  },
-  {
-    "objectID": "index.html#the-model-string",
-    "href": "index.html#the-model-string",
-    "title": "About",
-    "section": "The model string",
-    "text": "The model string\nThe model string can contain operations supported by the numpy package, using np as alias for numpy. For example np.abs(x) will result in a variable that is the absolute value of x.",
-    "crumbs": [
-      "About"
-    ]
+    "text": "Attribute name\nDefaultvalue\nPermissiblevalues*\nDatatype\nDescription\n\n\n\n\nARMA_constraint\n3\n%s&gt;0\nfloat\nARMA coefficient constraint: Maximum absolute value of ARMA coefficients\n\n\nARMA_round\n14\n%s&gt;0\nint\n# of signficant digits: Number og digits to round elements in the ARMA matrices by. Small differences in these values can change the optimization path and makes the estimate less robustNumber of significant digits in ARMA\n\n\nEGARCH\nFalse\n[True, False]\nbool\nEstimate GARCH directly: Normal GARCH, as opposed to EGARCH if True\n\n\nGARCH_assist\n0\n%s&gt;=0\nfloat\nGARCH assist: Amount of weight put on assisting GARCH variance to be close to squared residuals\n\n\nGARCH_min\n0\n%s&gt;0\nfloat\nGARCH coefficient constraint: Minimum absolute value of GARCH coefficients\n\n\naccuracy\n0\n%s&gt;0\nint\nAccuracy: Accuracy of the optimization algorithm. 0 = fast and inaccurate, 3=slow and maximum accuracy\n\n\nadd_intercept\nTrue\n[True, False]\nbool\nAdd intercept: If True, adds intercept if not all ready in the data\n\n\narguments\nNone\nNone\n[‘str’, ‘dict’, ‘list’, ‘ndarray’]\nInitial arguments: A dict or string defining a dictionary in python syntax containing the initial arguments.An example can be obtained by printing ll.args.args_d\n\n\nconstraints_engine\nTrue\n[True, False]\nbool\nUses constraints engine: Determines whether to use the constraints engine\n\n\ncustom_model\nNone\nNone\ntype\nCustom model class: Custom model class. Must be a class with porperties and methods as definedin the documentation.\n\n\nfixed_random_group_eff\n0\n[0, 1, 2]\nint\nGroup fixed random effect: No, fixed or random group effects\n\n\nfixed_random_time_eff\n0\n[0, 1, 2]\nint\nTime fixed random effect: No, fixed or random time effects\n\n\nfixed_random_variance_eff\n0\n[0, 1, 2]\nint\nVariance fixed random effects: No, fixed or random group effects for variance\n\n\ninclude_initvar\nFalse\n[True, False]\nbool\nInclude initial variance: If True, includes an initaial variance term\n\n\ninitial_arima_garch_params\n0.1\n%s&gt;=0\nfloat\ninitial size of arima-garch parameters: The initial size of arima-garch parameters (all directions will be attempted\n\n\nkurtosis_adj\n0\n%s&gt;=0\nfloat\nAmount of kurtosis adjustment: Amount of kurtosis adjustment\n\n\nmax_iterations\n150\n%s&gt;0\nint\nMaximum number of iterations: Maximum number of iterations\n\n\nmin_group_df\n1\n%s&gt;0\nint\nMinimum degrees of freedom: The smallest permissible number of observations in each group. Must be at least 1\n\n\nmulticoll_threshold_max\n200\n%s&gt;0\nfloat\nMulticollinearity threshold: Threshold for imposing constraints on collineary variables\n\n\nmulticoll_threshold_report\n30\n%s&gt;0\nfloat\nMulticollinearity threshold: Threshold for reporting multicoll problems\n\n\npqdkm\n[1, 1, 0, 1, 1]\n%s&gt;=0\nint\nARIMA-GARCH orders: ARIMA-GARCH parameters:\n\n\nrobustcov_lags_statistics\n[100, 30]\n%s&gt;1\nint\nRobust covariance lags (time): Numer of lags used in calculation of the robust covariance matrix for the time dimension\n\n\nsubtract_means\nFalse\n[True, False]\nbool\nSubtract means: If True, subtracts the mean of all variables. This may be a remedy for multicollinearity if the mean is not of interest.\n\n\nsupress_output\nTrue\n[True, False]\nbool\nSupress output: If True, no output is printed.\n\n\ntobit_limits\n[None, None]\n[‘%s&gt;0’, None]\n[‘float’, ‘NoneType’]\nTobit-model limits: Determines the limits in a tobit regression. Element 0 is lower limit and element1 is upper limit. If None, the limit is not active\n\n\ntolerance\n0.0001\n%s&gt;0\nfloat\nTolerance: Tolerance. When the maximum absolute value of the gradient divided by the hessian diagonalis smaller than the tolerance, the procedure is Tolerance in maximum likelihood\n\n\nuse_analytical\n1\n[0, 1, 2]\nint\nAnalytical Hessian: Use analytical Hessian\n\n\nuser_constraints\nNone\nNone\n[‘str’, ‘dict’]\nUser constraints: Constraints on the regression coefficient estimates. Must be a dict with groups of coefficients where each element can either be None (no constraint), a tuple with a range (min, max) or a single lenght list as a float representing a fixed constraint. Se example in README.md. You can extract the arguments dict from result.args, and substitute the elements with range restrictions or None, or remove groups.If you for example put in the dict in result.args as it is, you will restrict all parameters to be equal to the result.\n\n\nvariance_RE_norm\n5e-06\n%s&gt;0\nfloat\nVariance RE/FE normalization point in log function: This parameter determines at which point the log function involved in the variance RE/FE calculations, will be extrapolate by a linear function for smaller values"
   }
 ]

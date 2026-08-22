@@ -313,31 +313,31 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "About paneltime",
+    "title": "paneltime",
     "section": "",
-    "text": "Paneltime estimates regressions on datasets that:\nPaneltime jointly handles common time-series problems (ARIMA/GARCH) and panel data with group and time effects. To the best of our knowledge, no other package combines all three in one model.\nThe package can also be used on pure panel datasets without ARIMA/GARCH or single time-series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.3.3",
+    "text": "Paneltime estimates regressions on datasets that:\nPaneltime jointly handles common time-series problems (ARIMA/GARCH) and panel data with group and time effects. To the best of our knowledge, no other package combines all three in one model.\nThe package can also be used on pure panel datasets without ARIMA/GARCH or single time-series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.3.4",
     "crumbs": [
-      "About paneltime"
+      "`paneltime`"
     ]
   },
   {
     "objectID": "index.html#installation",
     "href": "index.html#installation",
-    "title": "About paneltime",
+    "title": "paneltime",
     "section": "Installation",
     "text": "Installation\nInstall the package with:\n\n%pip install paneltime",
     "crumbs": [
-      "About paneltime"
+      "`paneltime`"
     ]
   },
   {
     "objectID": "index.html#formula-syntax",
     "href": "index.html#formula-syntax",
-    "title": "About paneltime",
+    "title": "paneltime",
     "section": "Formula syntax",
     "text": "Formula syntax\nModel formulas use the form Y ~ X1 + X2. Expressions supported by NumPy can be used with np as the alias, for example np.abs(x).\nSee the Quickstart for a complete model example.",
     "crumbs": [
-      "About paneltime"
+      "`paneltime`"
     ]
   },
   {

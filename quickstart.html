@@ -183,7 +183,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">About paneltime</span></a>
+ <span class="menu-text"><code>paneltime</code></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -314,14 +314,14 @@ window.Quarto = {
 <p>Paneltime jointly estimates panel, ARIMA, and GARCH structure. This is useful when observations have group and time dimensions and both the conditional mean and conditional variance are dynamic.</p>
 <section id="install" class="level2">
 <h2 class="anchored" data-anchor-id="install">Install</h2>
-<div id="f66644ad" class="cell" data-execution_count="1">
+<div id="0926e8ad" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install paneltime pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="fit-a-model" class="level2">
 <h2 class="anchored" data-anchor-id="fit-a-model">Fit a model</h2>
 <p>The v2 API follows the familiar model/results pattern used by <code>statsmodels</code> and <code>arch</code>.</p>
-<div id="8350e7ea" class="cell" data-execution_count="2">
+<div id="c411bdb6" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> paneltime <span class="im">as</span> pt</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> pt.Model(</span>
@@ -341,7 +341,7 @@ window.Quarto = {
 </section>
 <section id="inspect-results" class="level2">
 <h2 class="anchored" data-anchor-id="inspect-results">Inspect results</h2>
-<div id="d38b6751" class="cell" data-execution_count="3">
+<div id="b1a11a20" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.params)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.conf_int())</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>forecast <span class="op">=</span> results.forecast(steps<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

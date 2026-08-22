@@ -26,7 +26,7 @@
     "href": "quickstart.html#fit-a-model",
     "title": "Quickstart",
     "section": "Fit a model",
-    "text": "Fit a model\nThe v2 API follows the familiar model/results pattern used by statsmodels and arch.\n\nimport paneltime as pt\n\nmodel = pt.PanelARIMAGARCH(\n    \"Inflation ~ Gross_Savings + Interest_rate\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(\n    order=(2, 2, 1),\n    garch_order=(2, 2),\n    vol=\"EGARCH\",\n)\nprint(results.summary())\n\ndata may be a flat DataFrame with entity and time columns, or a DataFrame indexed by (entity, time).",
+    "text": "Fit a model\nThe v2 API follows the familiar model/results pattern used by statsmodels and arch.\n\nimport paneltime as pt\n\nmodel = pt.Model(\n    \"Inflation ~ Gross_Savings + Interest_rate\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(\n    order=(2, 2, 1),\n    garch_order=(2, 2),\n    vol=\"EGARCH\",\n)\nprint(results.summary())\n\ndata may be a flat DataFrame with entity and time columns, or a DataFrame indexed by (entity, time).",
     "crumbs": [
       "Quickstart",
       "Quickstart"
@@ -48,7 +48,7 @@
     "href": "migration.html",
     "title": "Migrating from options/execute (v1 to v2)",
     "section": "",
-    "text": "Replace global options and execute() with a model constructor followed by a fit call:\n\n# v1: pt.options.pqdkm = (2, 2, 1, 2, 2); pt.execute(formula, data, ...)\nmodel = pt.PanelARIMAGARCH(formula, data, entity=\"country\", time=\"date\")\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2))\n\nThe constructor accepts a (entity, time) MultiIndex or flat columns named with entity= and time=. Public result statistics are available directly from Results, including params, bse, conf_int(), and summary().",
+    "text": "Replace global options and execute() with a model constructor followed by a fit call:\n\n# v1: pt.options.pqdkm = (2, 2, 1, 2, 2); pt.execute(formula, data, ...)\nmodel = pt.Model(formula, data, entity=\"country\", time=\"date\")\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2))\n\nThe constructor accepts a (entity, time) MultiIndex or flat columns named with entity= and time=. Public result statistics are available directly from Results, including params, bse, conf_int(), and summary().",
     "crumbs": [
       "Migrating from options/execute (v1 to v2)"
     ]
@@ -58,7 +58,7 @@
     "href": "migration.html#the-modelresults-split",
     "title": "Migrating from options/execute (v1 to v2)",
     "section": "",
-    "text": "Replace global options and execute() with a model constructor followed by a fit call:\n\n# v1: pt.options.pqdkm = (2, 2, 1, 2, 2); pt.execute(formula, data, ...)\nmodel = pt.PanelARIMAGARCH(formula, data, entity=\"country\", time=\"date\")\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2))\n\nThe constructor accepts a (entity, time) MultiIndex or flat columns named with entity= and time=. Public result statistics are available directly from Results, including params, bse, conf_int(), and summary().",
+    "text": "Replace global options and execute() with a model constructor followed by a fit call:\n\n# v1: pt.options.pqdkm = (2, 2, 1, 2, 2); pt.execute(formula, data, ...)\nmodel = pt.Model(formula, data, entity=\"country\", time=\"date\")\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2))\n\nThe constructor accepts a (entity, time) MultiIndex or flat columns named with entity= and time=. Public result statistics are available directly from Results, including params, bse, conf_int(), and summary().",
     "crumbs": [
       "Migrating from options/execute (v1 to v2)"
     ]
@@ -74,110 +74,91 @@
     ]
   },
   {
-    "objectID": "guide/custom-likelihood-models.html",
-    "href": "guide/custom-likelihood-models.html",
-    "title": "Custom likelihood models",
+    "objectID": "guide/heteroskedasticity-functions.html",
+    "href": "guide/heteroskedasticity-functions.html",
+    "title": "Heteroskedasticity functions",
     "section": "",
-    "text": "Subclass LikelihoodModel, instantiate it, and pass that instance to model.fit(likelihood=...).\nimport numpy as np\nimport paneltime as pt\n\nclass GaussianLikelihood(pt.LikelihoodModel):\n    def loglike(self):\n        return -0.5 * (np.log(2 * np.pi) + self.var + self.e**2 * self.v_inv)\n\n    def variance_bounds(self, init_var):\n        self.var_pos = (init_var &gt; -500) & (init_var &lt; 500)\n        self.var = np.clip(init_var, -500, 500)\n\n    def variance_definitions(self):\n        self.v = np.exp(self.var)\n        self.v_inv = np.exp(-self.var)\n\nlikelihood = GaussianLikelihood()\nresults = model.fit(likelihood=likelihood)\nRequired lifecycle methods are variance_bounds(init_var), variance_definitions(), set_h_function(), and loglike(). Override score() and hessian() when analytical derivatives are available.",
+    "text": "Define a function in terms of e (the residual) and z (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.\n\nimport sympy as sp\n\ne, z = sp.symbols(\"e z\")\nh_function = sp.log(e**2 + 1e-8)\nresults = model.fit(h_function=h_function)\n\nAt fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.",
     "crumbs": [
       "User Guide",
-      "Custom likelihood models"
+      "Heteroskedasticity functions"
     ]
   },
   {
-    "objectID": "guide/custom-likelihood-models.html#skipping-analytical-derivatives",
-    "href": "guide/custom-likelihood-models.html#skipping-analytical-derivatives",
-    "title": "Custom likelihood models",
-    "section": "Skipping analytical derivatives",
-    "text": "Skipping analytical derivatives\nscore() and hessian() are optional. The base class computes finite differences of loglike() when they are not overridden, which is convenient for prototyping and custom distributions.\nThe constructor validates required state such as var, e, z, v, v_inv, and var_pos before optimization begins.",
+    "objectID": "guide/heteroskedasticity-functions.html#recommended-one-sympy-expression",
+    "href": "guide/heteroskedasticity-functions.html#recommended-one-sympy-expression",
+    "title": "Heteroskedasticity functions",
+    "section": "",
+    "text": "Define a function in terms of e (the residual) and z (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.\n\nimport sympy as sp\n\ne, z = sp.symbols(\"e z\")\nh_function = sp.log(e**2 + 1e-8)\nresults = model.fit(h_function=h_function)\n\nAt fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.",
     "crumbs": [
       "User Guide",
-      "Custom likelihood models"
+      "Heteroskedasticity functions"
     ]
   },
   {
-    "objectID": "guide/custom-likelihood-models.html#egarch-and-symbolic-h-functions",
-    "href": "guide/custom-likelihood-models.html#egarch-and-symbolic-h-functions",
-    "title": "Custom likelihood models",
-    "section": "EGARCH and symbolic h-functions",
-    "text": "EGARCH and symbolic h-functions\nUse the built-in EGARCH model as a reference, or provide a SymPy expression through h_function=. The heteroskedasticity guide shows the recommended expression workflow.",
+    "objectID": "guide/heteroskedasticity-functions.html#advanced-hand-writing-the-c-expression-directly",
+    "href": "guide/heteroskedasticity-functions.html#advanced-hand-writing-the-c-expression-directly",
+    "title": "Heteroskedasticity functions",
+    "section": "Advanced: hand-writing the C++ expression directly",
+    "text": "Advanced: hand-writing the C++ expression directly\nCustom likelihoods may still provide h_val_cpp and its Python counterpart. The expression is parsed by ExprTk. Use e, z, and temporary variables x0 through x4. Python ** becomes ExprTk ^.\nMultiple statements use ;; the final expression is returned. ExprTk uses := for assignment. Logical and/or are unsupported, so arithmetic masks must express conditions.\n\n\n\nFunction\nMeaning\n\n\n\n\nabs(x)\nAbsolute value\n\n\nsqrt(x)\nSquare root\n\n\nlog(x)\nNatural logarithm\n\n\nexp(x)\nExponential\n\n\nsin(x), cos(x), tan(x)\nTrigonometric functions\n\n\nfloor(x), ceil(x)\nRounding\n\n\nmin(x, y), max(x, y)\nBounds\n\n\nsign(x)\nSign of a value\n\n\n\nx0 := (e + z)^2; (x0 &lt;= 1) * x0^2 + (x0 &gt; 1) * x0\nSee the ExprTk documentation for parser details.",
     "crumbs": [
       "User Guide",
-      "Custom likelihood models"
+      "Heteroskedasticity functions"
     ]
   },
   {
-    "objectID": "changelog.html",
-    "href": "changelog.html",
-    "title": "Changelog",
+    "objectID": "examples.html",
+    "href": "examples.html",
+    "title": "Examples",
     "section": "",
-    "text": "Release history is maintained in the GitHub releases.",
+    "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.Model(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
     "crumbs": [
-      "Changelog"
+      "Examples",
+      "Examples"
     ]
   },
   {
-    "objectID": "changelog.html#x",
-    "href": "changelog.html#x",
-    "title": "Changelog",
-    "section": "1.2.x",
-    "text": "1.2.x\nThe 1.2 series includes releases from 1.2.0 through 1.2.73. Consult the release history for the exact patch-level notes.",
-    "crumbs": [
-      "Changelog"
-    ]
-  },
-  {
-    "objectID": "changelog.html#v2-in-development",
-    "href": "changelog.html#v2-in-development",
-    "title": "Changelog",
-    "section": "v2 (in development)",
-    "text": "v2 (in development)\n\nIntroduces the constructor plus .fit() API.\nReplaces Summary with the public Results object.\nGroups fit configuration into explicit per-call options.\nAdds symbolic SymPy heteroskedasticity functions and checked ExprTk codegen.\nAdds an instantiable LikelihoodModel extension point with numerical derivative fallback.",
-    "crumbs": [
-      "Changelog"
-    ]
-  },
-  {
-    "objectID": "api/index.html",
-    "href": "api/index.html",
-    "title": "API reference",
+    "objectID": "examples.html#world-bank-data",
+    "href": "examples.html#world-bank-data",
+    "title": "Examples",
     "section": "",
-    "text": "The v2 public API is organized around a model, a fit configuration, and a results object.\n\n\n\nObject\nDescription\n\n\n\n\nPanelARIMAGARCH\nConstructs a panel ARIMA/GARCH model.\n\n\nResults\nStores estimates, diagnostics, and forecasts.\n\n\nLikelihoodModel\nBase class for custom likelihoods.\n\n\nEffects\nGroups fixed and random group, time, and variance effects.\n\n\nOptimizerOptions\nGroups optimizer tolerances and numerical settings.\n\n\n\nStart with the Quickstart, then use the fit options reference for configuration details.",
+    "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.Model(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
+    "crumbs": [
+      "Examples",
+      "Examples"
+    ]
+  },
+  {
+    "objectID": "api/results.html",
+    "href": "api/results.html",
+    "title": "Results object",
+    "section": "",
+    "text": "model.fit() returns a Results object. Its everyday attributes are direct, named pandas.Series or scalar values; optimizer implementation details are kept under optim_result.",
     "crumbs": [
       "API Reference",
-      "API reference"
+      "Results object"
     ]
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About paneltime",
-    "section": "",
-    "text": "Paneltime estimates regressions on datasets that:\nPaneltime jointly handles common time-series problems (ARIMA/GARCH) and panel data with group and time effects. To the best of our knowledge, no other package combines all three in one model.\nThe package can also be used on pure panel datasets without ARIMA/GARCH or single time-series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.2.73",
+    "objectID": "api/results.html#results-everyday-use",
+    "href": "api/results.html#results-everyday-use",
+    "title": "Results object",
+    "section": "Results: everyday use",
+    "text": "Results: everyday use\n\n\n\n\n\n\n\nAttribute\nDescription\n\n\n\n\nparams\nEstimated coefficients indexed by variable name.\n\n\nbse\nStandard errors indexed like params.\n\n\ntvalues\nTest statistics indexed like params.\n\n\npvalues\nTwo-sided p-values indexed like params.\n\n\nconf_int()\nConfidence intervals for the coefficients.\n\n\nnobs\nNumber of observations used in the fit.\n\n\ndf_resid\nResidual degrees of freedom.\n\n\nllf\nMaximized log-likelihood.\n\n\naic, bic\nInformation criteria.\n\n\nconverged\nWhether optimization converged.\n\n\nrandom_effects\nObject exposing .group and .time residual effects and standard deviations.\n\n\nresid\nRegression residuals.\n\n\nfittedvalues\nFitted dependent-variable values.\n\n\nsummary()\nFormats a human-readable regression summary.\n\n\n\n\nresults.params\nresults.bse\nresults.summary()",
     "crumbs": [
-      "User Guide",
-      "About paneltime"
+      "API Reference",
+      "Results object"
     ]
   },
   {
-    "objectID": "about.html#installation",
-    "href": "about.html#installation",
-    "title": "About paneltime",
-    "section": "Installation",
-    "text": "Installation\nInstall the package with:\n\n%pip install paneltime",
+    "objectID": "api/results.html#optimizer-internals-advanced",
+    "href": "api/results.html#optimizer-internals-advanced",
+    "title": "Results object",
+    "section": "Optimizer internals (advanced)",
+    "text": "Optimizer internals (advanced)\nAdvanced diagnostics are available from results.optim_result, including hessian, gradient_matrix, gradient_vector, dx_norm, its, msg, t0, t1, and log_likelihood_object.\nThe former output and table objects are implementation details and are private as results._output and results._table.",
     "crumbs": [
-      "User Guide",
-      "About paneltime"
-    ]
-  },
-  {
-    "objectID": "about.html#formula-syntax",
-    "href": "about.html#formula-syntax",
-    "title": "About paneltime",
-    "section": "Formula syntax",
-    "text": "Formula syntax\nModel formulas use the form Y ~ X1 + X2. Expressions supported by NumPy can be used with np as the alias, for example np.abs(x).\nSee the Quickstart for a complete model example.",
-    "crumbs": [
-      "User Guide",
-      "About paneltime"
+      "API Reference",
+      "Results object"
     ]
   },
   {
@@ -258,91 +239,110 @@
     ]
   },
   {
-    "objectID": "api/results.html",
-    "href": "api/results.html",
-    "title": "Results object",
+    "objectID": "api/index.html",
+    "href": "api/index.html",
+    "title": "API reference",
     "section": "",
-    "text": "model.fit() returns a Results object. Its everyday attributes are direct, named pandas.Series or scalar values; optimizer implementation details are kept under optim_result.",
+    "text": "The v2 public API is organized around a model, a fit configuration, and a results object.\n\n\n\nObject\nDescription\n\n\n\n\nModel\nConstructs a panel ARIMA/GARCH model.\n\n\nResults\nStores estimates, diagnostics, and forecasts.\n\n\nLikelihoodModel\nBase class for custom likelihoods.\n\n\nEffects\nGroups fixed and random group, time, and variance effects.\n\n\nOptimizerOptions\nGroups optimizer tolerances and numerical settings.\n\n\n\nStart with the Quickstart, then use the fit options reference for configuration details.",
     "crumbs": [
       "API Reference",
-      "Results object"
+      "API reference"
     ]
   },
   {
-    "objectID": "api/results.html#results-everyday-use",
-    "href": "api/results.html#results-everyday-use",
-    "title": "Results object",
-    "section": "Results: everyday use",
-    "text": "Results: everyday use\n\n\n\n\n\n\n\nAttribute\nDescription\n\n\n\n\nparams\nEstimated coefficients indexed by variable name.\n\n\nbse\nStandard errors indexed like params.\n\n\ntvalues\nTest statistics indexed like params.\n\n\npvalues\nTwo-sided p-values indexed like params.\n\n\nconf_int()\nConfidence intervals for the coefficients.\n\n\nnobs\nNumber of observations used in the fit.\n\n\ndf_resid\nResidual degrees of freedom.\n\n\nllf\nMaximized log-likelihood.\n\n\naic, bic\nInformation criteria.\n\n\nconverged\nWhether optimization converged.\n\n\nrandom_effects\nObject exposing .group and .time residual effects and standard deviations.\n\n\nresid\nRegression residuals.\n\n\nfittedvalues\nFitted dependent-variable values.\n\n\nsummary()\nFormats a human-readable regression summary.\n\n\n\n\nresults.params\nresults.bse\nresults.summary()",
-    "crumbs": [
-      "API Reference",
-      "Results object"
-    ]
-  },
-  {
-    "objectID": "api/results.html#optimizer-internals-advanced",
-    "href": "api/results.html#optimizer-internals-advanced",
-    "title": "Results object",
-    "section": "Optimizer internals (advanced)",
-    "text": "Optimizer internals (advanced)\nAdvanced diagnostics are available from results.optim_result, including hessian, gradient_matrix, gradient_vector, dx_norm, its, msg, t0, t1, and log_likelihood_object.\nThe former output and table objects are implementation details and are private as results._output and results._table.",
-    "crumbs": [
-      "API Reference",
-      "Results object"
-    ]
-  },
-  {
-    "objectID": "examples.html",
-    "href": "examples.html",
-    "title": "Examples",
+    "objectID": "changelog.html",
+    "href": "changelog.html",
+    "title": "Changelog",
     "section": "",
-    "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.PanelARIMAGARCH(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
+    "text": "Release history is maintained in the GitHub releases.",
     "crumbs": [
-      "Examples",
-      "Examples"
+      "Changelog"
     ]
   },
   {
-    "objectID": "examples.html#world-bank-data",
-    "href": "examples.html#world-bank-data",
-    "title": "Examples",
-    "section": "",
-    "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.PanelARIMAGARCH(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
+    "objectID": "changelog.html#x",
+    "href": "changelog.html#x",
+    "title": "Changelog",
+    "section": "1.2.x",
+    "text": "1.2.x\nThe 1.2 series includes releases from 1.2.0 through 1.2.73. Consult the release history for the exact patch-level notes.",
     "crumbs": [
-      "Examples",
-      "Examples"
+      "Changelog"
     ]
   },
   {
-    "objectID": "guide/heteroskedasticity-functions.html",
-    "href": "guide/heteroskedasticity-functions.html",
-    "title": "Heteroskedasticity functions",
+    "objectID": "changelog.html#v2-in-development",
+    "href": "changelog.html#v2-in-development",
+    "title": "Changelog",
+    "section": "v2 (in development)",
+    "text": "v2 (in development)\n\nIntroduces the constructor plus .fit() API.\nReplaces Summary with the public Results object.\nGroups fit configuration into explicit per-call options.\nAdds symbolic SymPy heteroskedasticity functions and checked ExprTk codegen.\nAdds an instantiable LikelihoodModel extension point with numerical derivative fallback.",
+    "crumbs": [
+      "Changelog"
+    ]
+  },
+  {
+    "objectID": "guide/custom-likelihood-models.html",
+    "href": "guide/custom-likelihood-models.html",
+    "title": "Custom likelihood models",
     "section": "",
-    "text": "Define a function in terms of e (the residual) and z (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.\n\nimport sympy as sp\n\ne, z = sp.symbols(\"e z\")\nh_function = sp.log(e**2 + 1e-8)\nresults = model.fit(h_function=h_function)\n\nAt fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.",
+    "text": "Subclass LikelihoodModel, instantiate it, and pass that instance to model.fit(likelihood=...).\nimport numpy as np\nimport paneltime as pt\n\nclass GaussianLikelihood(pt.LikelihoodModel):\n    def loglike(self):\n        return -0.5 * (np.log(2 * np.pi) + self.var + self.e**2 * self.v_inv)\n\n    def variance_bounds(self, init_var):\n        self.var_pos = (init_var &gt; -500) & (init_var &lt; 500)\n        self.var = np.clip(init_var, -500, 500)\n\n    def variance_definitions(self):\n        self.v = np.exp(self.var)\n        self.v_inv = np.exp(-self.var)\n\nlikelihood = GaussianLikelihood()\nresults = model.fit(likelihood=likelihood)\nRequired lifecycle methods are variance_bounds(init_var), variance_definitions(), set_h_function(), and loglike(). Override score() and hessian() when analytical derivatives are available.",
     "crumbs": [
       "User Guide",
-      "Heteroskedasticity functions"
+      "Custom likelihood models"
     ]
   },
   {
-    "objectID": "guide/heteroskedasticity-functions.html#recommended-one-sympy-expression",
-    "href": "guide/heteroskedasticity-functions.html#recommended-one-sympy-expression",
-    "title": "Heteroskedasticity functions",
+    "objectID": "guide/custom-likelihood-models.html#skipping-analytical-derivatives",
+    "href": "guide/custom-likelihood-models.html#skipping-analytical-derivatives",
+    "title": "Custom likelihood models",
+    "section": "Skipping analytical derivatives",
+    "text": "Skipping analytical derivatives\nscore() and hessian() are optional. The base class computes finite differences of loglike() when they are not overridden, which is convenient for prototyping and custom distributions.\nThe constructor validates required state such as var, e, z, v, v_inv, and var_pos before optimization begins.",
+    "crumbs": [
+      "User Guide",
+      "Custom likelihood models"
+    ]
+  },
+  {
+    "objectID": "guide/custom-likelihood-models.html#egarch-and-symbolic-h-functions",
+    "href": "guide/custom-likelihood-models.html#egarch-and-symbolic-h-functions",
+    "title": "Custom likelihood models",
+    "section": "EGARCH and symbolic h-functions",
+    "text": "EGARCH and symbolic h-functions\nUse the built-in EGARCH model as a reference, or provide a SymPy expression through h_function=. The heteroskedasticity guide shows the recommended expression workflow.",
+    "crumbs": [
+      "User Guide",
+      "Custom likelihood models"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "About paneltime",
     "section": "",
-    "text": "Define a function in terms of e (the residual) and z (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.\n\nimport sympy as sp\n\ne, z = sp.symbols(\"e z\")\nh_function = sp.log(e**2 + 1e-8)\nresults = model.fit(h_function=h_function)\n\nAt fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.",
+    "text": "Paneltime estimates regressions on datasets that:\nPaneltime jointly handles common time-series problems (ARIMA/GARCH) and panel data with group and time effects. To the best of our knowledge, no other package combines all three in one model.\nThe package can also be used on pure panel datasets without ARIMA/GARCH or single time-series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.2.73",
     "crumbs": [
-      "User Guide",
-      "Heteroskedasticity functions"
+      "About",
+      "About paneltime"
     ]
   },
   {
-    "objectID": "guide/heteroskedasticity-functions.html#advanced-hand-writing-the-c-expression-directly",
-    "href": "guide/heteroskedasticity-functions.html#advanced-hand-writing-the-c-expression-directly",
-    "title": "Heteroskedasticity functions",
-    "section": "Advanced: hand-writing the C++ expression directly",
-    "text": "Advanced: hand-writing the C++ expression directly\nCustom likelihoods may still provide h_val_cpp and its Python counterpart. The expression is parsed by ExprTk. Use e, z, and temporary variables x0 through x4. Python ** becomes ExprTk ^.\nMultiple statements use ;; the final expression is returned. ExprTk uses := for assignment. Logical and/or are unsupported, so arithmetic masks must express conditions.\n\n\n\nFunction\nMeaning\n\n\n\n\nabs(x)\nAbsolute value\n\n\nsqrt(x)\nSquare root\n\n\nlog(x)\nNatural logarithm\n\n\nexp(x)\nExponential\n\n\nsin(x), cos(x), tan(x)\nTrigonometric functions\n\n\nfloor(x), ceil(x)\nRounding\n\n\nmin(x, y), max(x, y)\nBounds\n\n\nsign(x)\nSign of a value\n\n\n\nx0 := (e + z)^2; (x0 &lt;= 1) * x0^2 + (x0 &gt; 1) * x0\nSee the ExprTk documentation for parser details.",
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "About paneltime",
+    "section": "Installation",
+    "text": "Installation\nInstall the package with:\n\n%pip install paneltime",
     "crumbs": [
-      "User Guide",
-      "Heteroskedasticity functions"
+      "About",
+      "About paneltime"
+    ]
+  },
+  {
+    "objectID": "index.html#formula-syntax",
+    "href": "index.html#formula-syntax",
+    "title": "About paneltime",
+    "section": "Formula syntax",
+    "text": "Formula syntax\nModel formulas use the form Y ~ X1 + X2. Expressions supported by NumPy can be used with np as the alias, for example np.abs(x).\nSee the Quickstart for a complete model example.",
+    "crumbs": [
+      "About",
+      "About paneltime"
     ]
   },
   {

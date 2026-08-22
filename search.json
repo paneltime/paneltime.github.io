@@ -113,7 +113,6 @@
     "section": "",
     "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.Model(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
     "crumbs": [
-      "Examples",
       "Examples"
     ]
   },
@@ -124,7 +123,6 @@
     "section": "",
     "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.Model(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
     "crumbs": [
-      "Examples",
       "Examples"
     ]
   },
@@ -317,9 +315,8 @@
     "href": "index.html",
     "title": "About paneltime",
     "section": "",
-    "text": "Paneltime estimates regressions on datasets that:\nPaneltime jointly handles common time-series problems (ARIMA/GARCH) and panel data with group and time effects. To the best of our knowledge, no other package combines all three in one model.\nThe package can also be used on pure panel datasets without ARIMA/GARCH or single time-series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.3.2",
+    "text": "Paneltime estimates regressions on datasets that:\nPaneltime jointly handles common time-series problems (ARIMA/GARCH) and panel data with group and time effects. To the best of our knowledge, no other package combines all three in one model.\nThe package can also be used on pure panel datasets without ARIMA/GARCH or single time-series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.3.3",
     "crumbs": [
-      "About",
       "About paneltime"
     ]
   },
@@ -330,7 +327,6 @@
     "section": "Installation",
     "text": "Installation\nInstall the package with:\n\n%pip install paneltime",
     "crumbs": [
-      "About",
       "About paneltime"
     ]
   },
@@ -341,7 +337,6 @@
     "section": "Formula syntax",
     "text": "Formula syntax\nModel formulas use the form Y ~ X1 + X2. Expressions supported by NumPy can be used with np as the alias, for example np.abs(x).\nSee the Quickstart for a complete model example.",
     "crumbs": [
-      "About",
       "About paneltime"
     ]
   },

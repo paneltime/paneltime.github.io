@@ -321,14 +321,14 @@ window.Quarto = {
 <p>Paneltime jointly estimates panel, ARIMA, and GARCH structure. This is useful when observations have group and time dimensions and both the conditional mean and conditional variance are dynamic.</p>
 <section id="install" class="level2">
 <h2 class="anchored" data-anchor-id="install">Install</h2>
-<div id="028e9e3f" class="cell" data-execution_count="1">
+<div id="f9904144" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install paneltime pandas</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="fit-a-model" class="level2">
 <h2 class="anchored" data-anchor-id="fit-a-model">Fit a model</h2>
 <p>The v2 API follows the familiar model/results pattern used by <code>statsmodels</code> and <code>arch</code>.</p>
-<div id="e6c048ac" class="cell" data-execution_count="2">
+<div id="15dcfb79" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> paneltime <span class="im">as</span> pt</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> pt.Model(</span>
@@ -348,7 +348,7 @@ window.Quarto = {
 </section>
 <section id="inspect-results" class="level2">
 <h2 class="anchored" data-anchor-id="inspect-results">Inspect results</h2>
-<div id="a28f13e1" class="cell" data-execution_count="3">
+<div id="da17061d" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.params)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.conf_int())</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>forecast <span class="op">=</span> results.forecast(steps<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

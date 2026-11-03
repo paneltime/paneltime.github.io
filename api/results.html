@@ -406,7 +406,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="521fcbe4" class="cell" data-execution_count="1">
+<div id="c26541ea" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>results.params</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>results.bse</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>results.robust_bse</span>
@@ -414,7 +414,7 @@ window.Quarto = {
 </div>
 <p><code>bse_at()</code> accepts a complete <code>dict</code> or <code>pandas.Series</code> keyed by the same parameter names as <code>results.params</code>. It evaluates the likelihood, gradient, and Hessian at those values without re-estimating the model. By default, <code>robust=False</code> returns standard errors without HAC or cluster adjustments. Set <code>robust=True</code> to use paneltime’s configured robust covariance, including its default Newey-West lag and panel-cluster adjustments. Built-in likelihoods use analytic derivatives; custom likelihoods may use the finite-difference fallback. This is useful in simulations where the true coefficients are known. The returned standard errors remain sample-specific; they are not theoretical or Monte Carlo standard errors.</p>
 <p>For example, start with a complete fitted-parameter vector and replace values whose simulation truths are known:</p>
-<div id="e79c42d7" class="cell" data-execution_count="2">
+<div id="03500d18" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>true_params <span class="op">=</span> results.params.copy()</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>true_params[<span class="st">"X0"</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>true_params[<span class="st">"X1"</span>] <span class="op">=</span> <span class="fl">1.0</span></span>

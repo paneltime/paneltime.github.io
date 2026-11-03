@@ -2,23 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Fit options – paneltime</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -73,14 +67,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4e663f3a4ff1a491e18bd6a28adf0390.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b337f537912f5ab074b938eebad4c5d7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -110,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -148,6 +143,8 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">paneltime</span>
     </a>
@@ -184,6 +181,10 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -250,7 +251,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../api/results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Results object</span></a>
+ <span class="menu-text">Summary (results object)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -269,14 +270,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../migration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Migrating from options/execute (v1 to v2)</span></a>
+  <a href="../changelog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Changelog</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../changelog.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Changelog</span></a>
+  <a href="../paneltime_documentation.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model documentation (PDF)</span></a>
   </div>
 </li>
     </ul>
@@ -290,8 +291,15 @@ window.Quarto = {
    
   <ul>
   <li><a href="#arimagarch-order" id="toc-arimagarch-order" class="nav-link active" data-scroll-target="#arimagarch-order">ARIMA/GARCH order</a></li>
+  <li><a href="#fractional-differencing-arfima" id="toc-fractional-differencing-arfima" class="nav-link" data-scroll-target="#fractional-differencing-arfima">Fractional differencing (ARFIMA)</a></li>
   <li><a href="#effects" id="toc-effects" class="nav-link" data-scroll-target="#effects">Effects</a></li>
-  <li><a href="#optimizer-and-covariance" id="toc-optimizer-and-covariance" class="nav-link" data-scroll-target="#optimizer-and-covariance">Optimizer and covariance</a></li>
+  <li><a href="#optimizer-and-covariance" id="toc-optimizer-and-covariance" class="nav-link" data-scroll-target="#optimizer-and-covariance">Optimizer and covariance</a>
+  <ul class="collapse">
+  <li><a href="#garch-ridge-reduction" id="toc-garch-ridge-reduction" class="nav-link" data-scroll-target="#garch-ridge-reduction">GARCH ridge reduction</a></li>
+  <li><a href="#automatic-starting-values" id="toc-automatic-starting-values" class="nav-link" data-scroll-target="#automatic-starting-values">Automatic starting values</a></li>
+  <li><a href="#local-single-start-execution" id="toc-local-single-start-execution" class="nav-link" data-scroll-target="#local-single-start-execution">Local single-start execution</a></li>
+  <li><a href="#gaussian-re-likelihood-audit" id="toc-gaussian-re-likelihood-audit" class="nav-link" data-scroll-target="#gaussian-re-likelihood-audit">Gaussian RE likelihood audit</a></li>
+  </ul></li>
   <li><a href="#constraints" id="toc-constraints" class="nav-link" data-scroll-target="#constraints">Constraints</a></li>
   <li><a href="#custom-model-and-h-function" id="toc-custom-model-and-h-function" class="nav-link" data-scroll-target="#custom-model-and-h-function">Custom model and h-function</a></li>
   <li><a href="#migrating-from-pt.options" id="toc-migrating-from-pt.options" class="nav-link" data-scroll-target="#migrating-from-pt.options">Migrating from <code>pt.options</code></a></li>
@@ -323,30 +331,112 @@ window.Quarto = {
 <p>All v2 configuration is passed to <code>fit()</code>, so separate model fits do not share mutable global state.</p>
 <section id="arimagarch-order" class="level2">
 <h2 class="anchored" data-anchor-id="arimagarch-order">ARIMA/GARCH order</h2>
-<p><code>order=(p, d, q)</code> controls the ARIMA mean process. <code>garch_order=(k, m)</code> controls the GARCH variance process. Set <code>vol="GARCH"</code> or <code>vol="EGARCH"</code>.</p>
-<div id="e2847c24" class="cell" data-execution_count="1">
+<p><code>order=(p, q, d)</code> controls the ARIMA mean process (AR, MA, integer differencing). <code>garch_order=(k, m)</code> controls the GARCH variance process. Set <code>vol="GARCH"</code> or <code>vol="EGARCH"</code>.</p>
+<div id="9acae8ba" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), garch_order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>), vol<span class="op">=</span><span class="st">"GARCH"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="fractional-differencing-arfima" class="level2">
+<h2 class="anchored" data-anchor-id="fractional-differencing-arfima">Fractional differencing (ARFIMA)</h2>
+<p>Use <code>fractional_d="estimate"</code> to estimate one common fractional parameter across entities, or pass a number strictly between <code>-0.5</code> and <code>0.5</code> to fix it. The default <code>None</code> leaves existing behavior unchanged; fixed <code>0.0</code> is equivalent to no fractional filtering.</p>
+<div id="4b832939" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ARFIMA(1, d, 1)-GARCH(1, 1): the integer-difference entry stays zero.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), garch_order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                    fractional_d<span class="op">=</span><span class="st">"estimate"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.fractional_d)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># A fixed fractional parameter is not counted as an estimated coefficient.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>fixed <span class="op">=</span> model.fit(order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), fractional_d<span class="op">=</span><span class="fl">0.25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Estimated <code>d</code> appears in the parameter and standard-error tables. Its numerical bounds are <code>-0.5 + 1e-8</code> and <code>0.5 - 1e-8</code>; constraints such as <code>constraints={"d": (-0.3, 0.4)}</code> can narrow these bounds or fix the parameter. <code>results.fractional_d</code> gives either the estimated or fixed value.</p>
+<p>The conditional model filters regression residuals, including the intercept: <code>(1-L)^d (Y-X beta)</code> is passed through the existing ARMA filter, effects adjustment, and GARCH recursion. Fractional filtering is independent of the innovation distribution, variance link, and custom h-function. Effects retain their existing innovation-scale interpretation.</p>
+<p>All available within-entity history is used, with residuals before each entity’s first observation set to zero. This is a conditional, finite-history likelihood, not the exact stationary ARFIMA likelihood. Histories never cross entity boundaries; unbalanced panels may have different history lengths. Each retained entity needs at least three regularly spaced numeric or datetime observations. Irregular observations/internal gaps and simultaneous integer differencing are rejected explicitly. The declared sampling frequency cannot be inferred when an entire regularly spaced series is subsampled.</p>
+<p>One-step forecasts invert fractional differencing using the entity’s full observed residual history; the existing forecast-horizon limits still apply. The fractional filter and its analytic derivatives currently cost quadratic time in the longest history length, so benchmark long series before large simulations. Standard errors at active bounds require the usual boundary-inference caution.</p>
 </section>
 <section id="effects" class="level2">
 <h2 class="anchored" data-anchor-id="effects">Effects</h2>
 <p>Pass an <code>Effects</code> instance with <code>group</code>, <code>time</code>, and <code>variance</code> set to <code>"none"</code>, <code>"fixed"</code>, or <code>"random"</code>.</p>
-<div id="e8c99ae5" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>effects <span class="op">=</span> pt.Effects(group<span class="op">=</span><span class="st">"random"</span>, time<span class="op">=</span><span class="st">"fixed"</span>, variance<span class="op">=</span><span class="st">"none"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(effects<span class="op">=</span>effects)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="4b979b02" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>effects <span class="op">=</span> pt.Effects(group<span class="op">=</span><span class="st">"random"</span>, time<span class="op">=</span><span class="st">"fixed"</span>, variance<span class="op">=</span><span class="st">"none"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(effects<span class="op">=</span>effects)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>Group and time effects are removed from the ARMA innovations, after the ARMA filter. This is exact when the effects enter the innovations of the ARMA process. When they are added directly to the serially correlated residuals, it is an approximation. In simulations the resulting error was small compared with ordinary finite-sample error.</p>
 </section>
 <section id="optimizer-and-covariance" class="level2">
 <h2 class="anchored" data-anchor-id="optimizer-and-covariance">Optimizer and covariance</h2>
-<p>Use <code>OptimizerOptions</code> for <code>tolerance</code>, <code>max_iterations</code>, <code>accuracy</code>, <code>use_analytical_hessian</code>, and the other optimizer controls. Select covariance behavior with <code>cov_type</code> and <code>robust_cov_lags</code>.</p>
-<div id="7ec7b89b" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> pt.OptimizerOptions(tolerance<span class="op">=</span><span class="fl">1e-5</span>, max_iterations<span class="op">=</span><span class="dv">150</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(optimizer<span class="op">=</span>optimizer, cov_type<span class="op">=</span><span class="st">"robust"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use <code>OptimizerOptions</code> for <code>tolerance</code>, <code>max_iterations</code>, <code>accuracy</code>, and other optimizer controls. Robust covariance lags are configured with <code>OptimizerOptions.robust_cov_lags</code>. Both conventional and robust standard errors are available on the returned results object as <code>bse</code> and <code>robust_bse</code>; <code>bse_at(params)</code> evaluates robust standard errors at supplied parameter values. The <code>cov_type</code> keyword is accepted by <code>Model.fit()</code> but does not currently select between these covariance results.</p>
+<div id="d72997e4" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> pt.OptimizerOptions(tolerance<span class="op">=</span><span class="fl">1e-5</span>, max_iterations<span class="op">=</span><span class="dv">150</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>optimizer.robust_cov_lags <span class="op">=</span> (<span class="dv">100</span>, <span class="dv">30</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(optimizer<span class="op">=</span>optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<section id="garch-ridge-reduction" class="level3">
+<h3 class="anchored" data-anchor-id="garch-ridge-reduction">GARCH ridge reduction</h3>
+<p>Automatic ARMA common-factor and GARCH ridge reductions require <strong>both</strong> their Wald criterion and matching condition-index evidence from the current Hessian on free parameters. A dimension must have CI &gt;= <code>OptimizerOptions.multicoll_threshold_report</code> (default 30), with variance-decomposition proportions &gt; 0.5 for at least one free AR and one free MA coefficient (ARMA), or at least two free gamma lags (GARCH), in that same dimension. CI from unrelated parameters is insufficient. Raising this option therefore affects reduction eligibility as well as reporting. CI uses absolute eigenvalues and does not by itself establish concavity.</p>
+<p><code>OptimizerOptions.garch_ridge_wald</code> defaults to <code>0.2</code> and accepts finite non-negative real numbers (not booleans). Set it to <code>0</code> to disable automatic GARCH ridge reduction:</p>
+<div id="17747c87" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> pt.OptimizerOptions(garch_ridge_wald<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(optimizer<span class="op">=</span>optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>For converged or stalled fits with at least two free gamma lags, the detector uses the squared Wald statistic <code>W = far**2 / variance</code>. Here <code>far</code> is the distance from the highest free gamma coefficient to the farther endpoint (zero or total free gamma persistence), and <code>variance</code> is that coefficient’s diagonal entry in the pseudoinverse of the negative Hessian. If the variance is nonzero and <code>abs(W) &lt; garch_ridge_wald</code>, the highest free gamma lag is fixed at zero and the model is refitted. The reduction is retained only if the refit converges and <code>2 * (original_loglik - reduced_loglik) &lt;= 3.841</code>, the 5% chi-square(1) critical value. Otherwise the previous fit and constraints are restored. Accepted reductions are listed in the optimizer message. With negative variance, the absolute ratio is used only as a ridge heuristic, not a valid Wald test or proof of a flat ridge. Zero variance is skipped.</p>
+<p>After accepting a reduction, the optimizer releases the newly fixed gamma lag and retries from the reduced solution once. This uses the remaining <code>max_iterations</code> budget; earlier automatic reductions and user constraints remain in force. The released fit is retained only if it converges, has a negative-definite Hessian on free parameters, has no detected gamma ridge, and has likelihood no lower than either the original or reduced fit. Otherwise the reduced fit and constraints are restored. An accepted release ends the reduction loop, and the optimizer message records the release. No restrictions are toggled during individual optimizer iterations.</p>
+<p>The threshold is not a number of standard errors or a continuous ridge penalty. Larger values make reduction attempts more likely, subject to the same likelihood-ratio check. Fixed coefficients change the fitted model; their standard errors should not be compared as if all requested lags were still freely estimated.</p>
+</section>
+<section id="automatic-starting-values" class="level3">
+<h3 class="anchored" data-anchor-id="automatic-starting-values">Automatic starting values</h3>
+<p>When AR or MA terms are requested, the default single start uses the full requested order. An OLS regression is followed by Hannan–Rissanen-style auxiliary regressions and a short conditional-sum-of-squares (CSS) refinement of the regression and ARMA coefficients. The preliminary fit ignores GARCH; its innovations supply the initial innovation variance and the existing GARCH moment starts. No additional dependency is required. CSS refinement is limited to 10 iterations and stops early at a scaled gradient of <code>1e-4</code> or a relative objective improvement of <code>1e-4</code>; it supplies a useful neighborhood, not a precise standalone ARMA estimate.</p>
+<p>Internally, <code>arma_start.fit_arma(panel)</code> coordinates the working regression, scaling, auxiliary-regression seed, CSS refinement, and conversion back to original units. Orders, observation masks, differencing boundaries, and preliminary effects settings come from the panel object. The numerical filtering and optimization steps are separate helpers; initialization does not modify the panel’s data or masks. Innovations and their derivative channels are filtered using the existing C ARMA recursion. Each contiguous observation run is packed as an independent series, preserving zero-presample resets at gaps and differencing boundaries. This reuses the shipped native library without a new compiled entry point.</p>
+<p>The CSS fit uses analytic first derivatives and reflection coordinates to keep its preliminary ARMA coefficients stationary and invertible. These safeguards do not change the final likelihood’s constraints or Hessian. Panel runs are filtered separately, with no lags crossing group boundaries. For effects models, this preliminary fit uses fixed, pre-transformed working data; the final likelihood still removes effects after ARMA filtering. An underidentified auxiliary regression, CSS iteration limit, or numerical stall produces an <code>ARMAInitializationWarning</code> rather than being presented as successful preliminary convergence. It does not abort the final likelihood fit: the best accepted preliminary coefficients remain usable. Other numerical warnings are still treated as errors. CSS damping adapts to the actual versus predicted objective reduction, not merely whether a step decreases the objective.</p>
+<p>Models without ARMA terms retain their existing OLS initialization. Explicit starting arguments supplied through the engine bypass the automatic CSS fit. Like any single-start initialization, this does not guarantee a global likelihood maximum.</p>
+</section>
+<section id="local-single-start-execution" class="level3">
+<h3 class="anchored" data-anchor-id="local-single-start-execution">Local single-start execution</h3>
+<p>Fitting runs locally. Legacy node dispatch and GUI/browser progress channels have been removed, as has the <code>Model(..., multiprocess=...)</code> argument. Final summaries, inference, diagnostics and predictions remain available.</p>
+<p><code>execute</code> prepares the panel once and passes its initial parameters directly to the shared likelihood optimizer. <code>processing/initreg.py</code> selects ordinary static FE/RE starts during panel initialization, in the same place as the ARMA/GARCH starts. Mixed fixed/random effects, explicit constraints (including <code>{}</code>), censoring, variance regressors/effects, instruments and custom likelihoods/functions retain their existing starts. Explicit engine starts are not replaced. Every fit uses <code>dfpmax</code> and the same inference, diagnostics and forecasts. A converged initial point returns without a line search (<code>optim_result.its == 0</code>); otherwise the optimizer refines the starting estimates. Iterations count completed optimizer steps. Automatic starting values, explicit engine starting arguments, and coefficient constraints are retained. The <code>multistart</code> optimizer option and <code>optim_result.multistart_results</code> have been removed. The fit reports its own convergence status; it does not search or select among alternative starts.</p>
+</section>
+<section id="gaussian-re-likelihood-audit" class="level3">
+<h3 class="anchored" data-anchor-id="gaussian-re-likelihood-audit">Gaussian RE likelihood audit</h3>
+<p>An analytical Hessian differentiates the implemented criterion; it does not establish that the criterion is the marginal likelihood of the stated model. The reproducible audit reference in <a href="../../tests/re_likelihood_reference.py"><code>tests/re_likelihood_reference.py</code></a> examines the simpler stationary Gaussian model</p>
+<p><span class="math display">\[
+y_{it}-x_{it}'\beta=a_i+c_t+u_{it},\qquad
+u_{it}=\rho u_{i,t-1}+\epsilon_{it},
+\]</span></p>
+<p>where the three innovation/effect families are independent, with variances <span class="math inline">\(\sigma^2,\tau_a^2,\tau_c^2\)</span>. For entity-major stacking,</p>
+<p><span class="math display">\[
+\Sigma =
+I_N\otimes\left\{\frac{\sigma^2}{1-\rho^2}
+    [\rho^{|s-t|}]_{s,t=1}^T\right\}
++\tau_a^2 I_N\otimes J_T+\tau_c^2 J_N\otimes I_T,
+\]</span></p>
+<p>where <span class="math inline">\(J_k\)</span> is the <span class="math inline">\(k\)</span>-by-<span class="math inline">\(k\)</span> all-ones matrix. Its exact marginal log-likelihood is</p>
+<p><span class="math display">\[
+\ell_{\rm exact}
+=-\tfrac12\{NT\log(2\pi)+\log|\Sigma|+r'\Sigma^{-1}r\}.
+\]</span></p>
+<p>The reference checks dense Cholesky evaluation against an independent AR-innovations/Woodbury evaluation integrating out both effects. For a true covariance <span class="math inline">\(\Sigma_0\)</span>, expectations require no simulated data:</p>
+<p><span class="math display">\[
+E_0[\ell_{\rm exact}(\Sigma)]
+=-\tfrac12\{NT\log(2\pi)+\log|\Sigma|
+                  +\operatorname{tr}(\Sigma^{-1}\Sigma_0)\}.
+\]</span></p>
+<p>The package instead applies the AR filter, quasi-demeans the filtered innovations, and sums univariate normal contributions. In this special case, with weights frozen, write <span class="math inline">\(A=I-\theta_a P_a-\theta_c P_c\)</span>, where <span class="math inline">\(P_a,P_c\)</span> project onto centered group and time means, <span class="math inline">\(B=I_N\otimes(I_T-\rho L_T)\)</span>, and let <span class="math inline">\(D\)</span> contain the variances used in those contributions. Then</p>
+<p><span class="math display">\[
+\ell_Q=-\tfrac12\{NT\log(2\pi)+\log|D|
+                         +r'B'A'D^{-1}AB r\},
+\]</span></p>
+<p>and its expectation replaces the last quadratic form by <span class="math inline">\(\operatorname{tr}(D^{-1}AB\Sigma_0B'A')\)</span>. The frozen weights use the moments of the filtered components: innovation variance <span class="math inline">\(\sigma^2\)</span>, filtered group effect <span class="math inline">\(a_i(1-\rho)\)</span> and filtered time effect <span class="math inline">\(c_t-\rho c_{t-1}\)</span>. The tests reproduce the package transformation, likelihood, and AR score on a deterministic panel, accounting for its <span class="math inline">\(10^{-8}\)</span> squared-residual stabilizer.</p>
+<p>Two separate qualifications matter:</p>
+<ul>
+<li>Even for a fixed invertible transformation, a density for the original residuals requires the transformation’s log determinant. With frozen weights that determinant is constant with respect to <span class="math inline">\(\rho\)</span>, so adding it alone cannot correct a nonzero expected AR score. With residual-adaptive weights, the transformation’s Jacobian also includes derivatives of those weights; it is not simply <span class="math inline">\(|A|\)</span>.</li>
+<li>Scalar quasi-demeaning generally does not give <span class="math inline">\(AB\Sigma_0B'A'=D\)</span> for serially correlated disturbances: the first period is not filtered, and the filtered time effect is serially correlated. The package preserves the grand mean; correcting that direction is sufficient for the iid benchmark with known variances, but still does not whiten the AR(1) cases.</li>
+</ul>
+<p>For <span class="math inline">\(N=4,T=8,\rho=0.5,\sigma^2=2,\tau_a^2=\tau_c^2=1\)</span>, with theoretical moment-based weights fixed and the first variance fixed at <span class="math inline">\(\sigma^2/(1-\rho^2)\)</span>, the expected scores in the coordinates <span class="math inline">\((\rho,\log\sigma^2)\)</span> are approximately <span class="math inline">\((1.6299,0.9500)\)</span> for <span class="math inline">\(\ell_Q\)</span> and <span class="math inline">\((0,0)\)</span> for the exact marginal likelihood. Without effects, the whitening and zero-score checks pass.</p>
+<p><strong>Scope:</strong> the package recomputes its weights from residuals, whereas this expectation calculation freezes theoretical weights. It is not the expected score of the complete residual-adaptive estimator, a proof of its asymptotic bias, or a GARCH likelihood replacement. It establishes a concrete mismatch with the exact Gaussian marginal benchmark and explains why a determinant-only patch is insufficient. The production RE likelihood is unchanged pending a validated treatment of the full dynamic/heteroskedastic model.</p>
+<p>From the package root, run <code>python tests\re_likelihood_reference.py</code> for the JSON audit report, or <code>python -m unittest discover -s tests -p "test*py" -v</code> for its regression checks and the package tests.</p>
+</section>
 </section>
 <section id="constraints" class="level2">
 <h2 class="anchored" data-anchor-id="constraints">Constraints</h2>
-<p>Use <code>constraints=</code> for coefficient restrictions and <code>add_intercept</code>, <code>subtract_means</code>, <code>include_initvar</code>, <code>tobit_limits</code>, and <code>suppress_output</code> for fit behavior.</p>
+<p>Use <code>constraints=</code> for coefficient restrictions and <code>add_intercept</code>, <code>subtract_means</code>, <code>tobit_limits</code>, and <code>suppress_output</code> for fit behavior.</p>
 </section>
 <section id="custom-model-and-h-function" class="level2">
 <h2 class="anchored" data-anchor-id="custom-model-and-h-function">Custom model and h-function</h2>
@@ -388,7 +478,7 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td><code>use_analytical</code></td>
-<td><code>optimizer.use_analytical_hessian</code></td>
+<td>No corresponding v2 option; the current implementation uses analytical derivatives.</td>
 </tr>
 <tr class="odd">
 <td><code>supress_output</code></td>

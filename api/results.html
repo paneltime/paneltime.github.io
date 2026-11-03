@@ -2,23 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Results object – paneltime</title>
+<title>Summary (results object) – paneltime</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -73,14 +67,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4e663f3a4ff1a491e18bd6a28adf0390.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b337f537912f5ab074b938eebad4c5d7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -110,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -148,6 +143,8 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">paneltime</span>
     </a>
@@ -174,7 +171,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/index.html">API Reference</a></li><li class="breadcrumb-item"><a href="../api/results.html">Results object</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/index.html">API Reference</a></li><li class="breadcrumb-item"><a href="../api/results.html">Summary (results object)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -184,6 +181,10 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -250,7 +251,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../api/results.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Results object</span></a>
+ <span class="menu-text">Summary (results object)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -269,14 +270,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../migration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Migrating from options/execute (v1 to v2)</span></a>
+  <a href="../changelog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Changelog</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../changelog.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Changelog</span></a>
+  <a href="../paneltime_documentation.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model documentation (PDF)</span></a>
   </div>
 </li>
     </ul>
@@ -289,7 +290,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#results-everyday-use" id="toc-results-everyday-use" class="nav-link active" data-scroll-target="#results-everyday-use">Results: everyday use</a></li>
+  <li><a href="#everyday-use" id="toc-everyday-use" class="nav-link active" data-scroll-target="#everyday-use">Everyday use</a></li>
   <li><a href="#optimizer-internals-advanced" id="toc-optimizer-internals-advanced" class="nav-link" data-scroll-target="#optimizer-internals-advanced">Optimizer internals (advanced)</a></li>
   </ul>
 </nav>
@@ -297,9 +298,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/index.html">API Reference</a></li><li class="breadcrumb-item"><a href="../api/results.html">Results object</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/index.html">API Reference</a></li><li class="breadcrumb-item"><a href="../api/results.html">Summary (results object)</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Results object</h1>
+<h1 class="title">Summary (results object)</h1>
 </div>
 
 
@@ -316,9 +317,9 @@ window.Quarto = {
 </header>
 
 
-<p><code>model.fit()</code> returns a <code>Results</code> object. Its everyday attributes are direct, named <code>pandas.Series</code> or scalar values; optimizer implementation details are kept under <code>optim_result</code>.</p>
-<section id="results-everyday-use" class="level2">
-<h2 class="anchored" data-anchor-id="results-everyday-use">Results: everyday use</h2>
+<p><code>model.fit()</code> returns a <code>Summary</code> object. In examples below it is assigned to <code>results</code>. Its everyday attributes are direct, named <code>pandas.Series</code> or scalar values; optimizer implementation details are kept under <code>optim_result</code>.</p>
+<section id="everyday-use" class="level2">
+<h2 class="anchored" data-anchor-id="everyday-use">Everyday use</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -337,51 +338,67 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td><code>bse</code></td>
-<td>Standard errors indexed like <code>params</code>.</td>
+<td>Conventional standard errors indexed like <code>params</code>.</td>
 </tr>
 <tr class="odd">
+<td><code>robust_bse</code></td>
+<td>Robust sandwich standard errors indexed like <code>params</code>.</td>
+</tr>
+<tr class="even">
+<td><code>bse_at(params, robust=False)</code></td>
+<td>Standard errors evaluated at supplied parameter values. <code>False</code> (default) omits robust adjustments; <code>True</code> uses the configured robust covariance. Does not optimize.</td>
+</tr>
+<tr class="odd">
+<td><code>bse_at_diagnostics(params)</code></td>
+<td>Both SE variants plus score, Hessian conditioning, weakest scaled-Hessian direction, and variance clipping diagnostics at supplied values.</td>
+</tr>
+<tr class="even">
 <td><code>tvalues</code></td>
-<td>Test statistics indexed like <code>params</code>.</td>
-</tr>
-<tr class="even">
-<td><code>pvalues</code></td>
-<td>Two-sided p-values indexed like <code>params</code>.</td>
+<td>Test statistics based on robust standard errors.</td>
 </tr>
 <tr class="odd">
-<td><code>conf_int()</code></td>
-<td>Confidence intervals for the coefficients.</td>
+<td><code>pvalues</code></td>
+<td>Two-sided p-values based on robust standard errors.</td>
 </tr>
 <tr class="even">
+<td><code>conf_int(alpha=0.05)</code></td>
+<td>Two-sided confidence intervals based on robust standard errors.</td>
+</tr>
+<tr class="odd">
 <td><code>nobs</code></td>
 <td>Number of observations used in the fit.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>df_resid</code></td>
 <td>Residual degrees of freedom.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>llf</code></td>
 <td>Maximized log-likelihood.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>aic</code>, <code>bic</code></td>
 <td>Information criteria.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>converged</code></td>
 <td>Whether optimization converged.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>random_effects</code></td>
 <td>Object exposing <code>.group</code> and <code>.time</code> residual effects and standard deviations.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>resid</code></td>
 <td>Regression residuals.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>fittedvalues</code></td>
 <td>Fitted dependent-variable values.</td>
+</tr>
+<tr class="odd">
+<td><code>forecast(steps=1)</code></td>
+<td>Future dependent-variable values for each panel unit.</td>
 </tr>
 <tr class="even">
 <td><code>summary()</code></td>
@@ -389,16 +406,27 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="f2a5a6a0" class="cell" data-execution_count="1">
+<div id="0d8cc2ed" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>results.params</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>results.bse</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>results.summary()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>results.robust_bse</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>results.summary()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p><code>bse_at()</code> accepts a complete <code>dict</code> or <code>pandas.Series</code> keyed by the same parameter names as <code>results.params</code>. It evaluates the likelihood, gradient, and Hessian at those values without re-estimating the model. By default, <code>robust=False</code> returns standard errors without HAC or cluster adjustments. Set <code>robust=True</code> to use paneltime’s configured robust covariance, including its default Newey-West lag and panel-cluster adjustments. Built-in likelihoods use analytic derivatives; custom likelihoods may use the finite-difference fallback. This is useful in simulations where the true coefficients are known. The returned standard errors remain sample-specific; they are not theoretical or Monte Carlo standard errors.</p>
+<p>For example, start with a complete fitted-parameter vector and replace values whose simulation truths are known:</p>
+<div id="da404190" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>true_params <span class="op">=</span> results.params.copy()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>true_params[<span class="st">"X0"</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>true_params[<span class="st">"X1"</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>se_at_truth <span class="op">=</span> results.bse_at(true_params)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The current initial variance and random-effect variance components are not free entries in <code>params</code>; they remain determined by the fitted model/data. <code>conf_int(alpha=...)</code> uses the requested significance level, where <code>alpha</code> must be between zero and one. Forecast requests must fit within the future prediction rows prepared by the model; unavailable horizons raise <code>ValueError</code> instead of returning a partial panel slice.</p>
+<p><code>bse_at_diagnostics()</code> accepts the same complete parameter mapping and returns both <code>bse</code> and <code>robust_bse</code>, the log-likelihood, total and per-observation scores, Hessian diagonal, raw Hessian condition number, scaled condition index, weakest direction of the diagonally scaled Hessian, and fraction of included conditional variances clipped at model bounds. The scaled condition index is the eigenvalue-ratio diagnostic used by paneltime’s multicollinearity report.</p>
 </section>
 <section id="optimizer-internals-advanced" class="level2">
 <h2 class="anchored" data-anchor-id="optimizer-internals-advanced">Optimizer internals (advanced)</h2>
 <p>Advanced diagnostics are available from <code>results.optim_result</code>, including <code>hessian</code>, <code>gradient_matrix</code>, <code>gradient_vector</code>, <code>dx_norm</code>, <code>its</code>, <code>msg</code>, <code>t0</code>, <code>t1</code>, and <code>log_likelihood_object</code>.</p>
-<p>The former <code>output</code> and <code>table</code> objects are implementation details and are private as <code>results._output</code> and <code>results._table</code>.</p>
+<p>For compatibility, <code>results.output</code> and <code>results.table</code> expose engine objects. Prefer the direct result attributes above for routine analysis; the engine objects are implementation details.</p>
 
 
 

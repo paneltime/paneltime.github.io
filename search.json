@@ -37,244 +37,70 @@
     "href": "quickstart.html#inspect-results",
     "title": "Quickstart",
     "section": "Inspect results",
-    "text": "Inspect results\n\nprint(results.params)\nprint(results.conf_int())\nforecast = results.forecast(steps=4)\n\nSee Results object for the complete public result surface.",
+    "text": "Inspect results\n\nprint(results.params)\nprint(results.conf_int())\nforecast = results.forecast(steps=1)\n\nSee Summary results for the complete public result surface.",
     "crumbs": [
       "Quickstart",
       "Quickstart"
     ]
   },
   {
-    "objectID": "migration.html",
-    "href": "migration.html",
-    "title": "Migrating from options/execute (v1 to v2)",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "paneltime",
     "section": "",
-    "text": "Replace global options and execute() with a model constructor followed by a fit call:\n\n# v1: pt.options.pqdkm = (2, 2, 1, 2, 2); pt.execute(formula, data, ...)\nmodel = pt.Model(formula, data, entity=\"country\", time=\"date\")\nresults = model.fit(order=(2, 1, 2), garch_order=(2, 2))\n\nThe constructor accepts a (entity, time) MultiIndex or flat columns named with entity= and time=. Public result statistics are available directly from Results, including params, bse, conf_int(), and summary().",
+    "text": "Paneltime estimates regressions on datasets that:\nPaneltime jointly handles common time-series problems (ARIMA/GARCH) and panel data with group and time effects. To the best of our knowledge, no other package combines all three in one model.\nThe package can also be used on pure panel datasets without ARIMA/GARCH or single time-series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.3.7",
     "crumbs": [
-      "Migrating from options/execute (v1 to v2)"
+      "`paneltime`"
     ]
   },
   {
-    "objectID": "migration.html#the-modelresults-split",
-    "href": "migration.html#the-modelresults-split",
-    "title": "Migrating from options/execute (v1 to v2)",
-    "section": "",
-    "text": "Replace global options and execute() with a model constructor followed by a fit call:\n\n# v1: pt.options.pqdkm = (2, 2, 1, 2, 2); pt.execute(formula, data, ...)\nmodel = pt.Model(formula, data, entity=\"country\", time=\"date\")\nresults = model.fit(order=(2, 1, 2), garch_order=(2, 2))\n\nThe constructor accepts a (entity, time) MultiIndex or flat columns named with entity= and time=. Public result statistics are available directly from Results, including params, bse, conf_int(), and summary().",
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "paneltime",
+    "section": "Installation",
+    "text": "Installation\nInstall the package with:\n\n%pip install paneltime",
     "crumbs": [
-      "Migrating from options/execute (v1 to v2)"
+      "`paneltime`"
     ]
   },
   {
-    "objectID": "migration.html#name-changes",
-    "href": "migration.html#name-changes",
-    "title": "Migrating from options/execute (v1 to v2)",
-    "section": "Name changes",
-    "text": "Name changes\n\n\n\nv1\nv2\n\n\n\n\nT, ID, HF\ntime, entity, het_factors\n\n\nSummary\nResults\n\n\nll, dll, ddll\nloglike, score, hessian\n\n\noutput, table\n_output, _table\n\n\nsupress_output\nsuppress_output\n\n\n\nThe deprecated pt.execute() and mutable pt.options interface have been removed. Update older call sites to construct a Model and pass configuration to fit() as shown above.",
+    "objectID": "index.html#formula-syntax",
+    "href": "index.html#formula-syntax",
+    "title": "paneltime",
+    "section": "Formula syntax",
+    "text": "Formula syntax\nModel formulas use the form Y ~ X1 + X2. Expressions supported by NumPy can be used with np as the alias, for example np.abs(x).\nSee the Quickstart for a complete model example.",
     "crumbs": [
-      "Migrating from options/execute (v1 to v2)"
+      "`paneltime`"
     ]
   },
   {
-    "objectID": "guide/heteroskedasticity-functions.html",
-    "href": "guide/heteroskedasticity-functions.html",
-    "title": "Heteroskedasticity functions",
-    "section": "",
-    "text": "Define a function in terms of e (the residual) and z (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.\n\nimport sympy as sp\n\ne, z = sp.symbols(\"e z\")\nh_function = sp.log(e**2 + 1e-8)\nresults = model.fit(h_function=h_function)\n\nAt fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.",
+    "objectID": "index.html#model-documentation",
+    "href": "index.html#model-documentation",
+    "title": "paneltime",
+    "section": "Model documentation",
+    "text": "Model documentation\nThe full model documentation is available as a PDF.",
     "crumbs": [
-      "User Guide",
-      "Heteroskedasticity functions"
+      "`paneltime`"
     ]
   },
   {
-    "objectID": "guide/heteroskedasticity-functions.html#recommended-one-sympy-expression",
-    "href": "guide/heteroskedasticity-functions.html#recommended-one-sympy-expression",
-    "title": "Heteroskedasticity functions",
-    "section": "",
-    "text": "Define a function in terms of e (the residual) and z (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.\n\nimport sympy as sp\n\ne, z = sp.symbols(\"e z\")\nh_function = sp.log(e**2 + 1e-8)\nresults = model.fit(h_function=h_function)\n\nAt fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.",
+    "objectID": "index.html#arfima",
+    "href": "index.html#arfima",
+    "title": "paneltime",
+    "section": "ARFIMA",
+    "text": "ARFIMA\nPass fractional_d=\"estimate\" to estimate a common stationary fractional parameter, or a fixed value such as fractional_d=0.25. Use order=(p, q, 0) (AR, MA, zero integer differencing). The conditional filter uses zero pre-sample residuals and requires regular observations without internal gaps. It works with the existing innovation likelihoods and GARCH models. See fit options for details.",
     "crumbs": [
-      "User Guide",
-      "Heteroskedasticity functions"
+      "`paneltime`"
     ]
   },
   {
-    "objectID": "guide/heteroskedasticity-functions.html#advanced-hand-writing-the-c-expression-directly",
-    "href": "guide/heteroskedasticity-functions.html#advanced-hand-writing-the-c-expression-directly",
-    "title": "Heteroskedasticity functions",
-    "section": "Advanced: hand-writing the C++ expression directly",
-    "text": "Advanced: hand-writing the C++ expression directly\nCustom likelihoods may still provide h_val_cpp and its Python counterpart. The expression is parsed by ExprTk. Use e, z, and temporary variables x0 through x4. Python ** becomes ExprTk ^.\nMultiple statements use ;; the final expression is returned. ExprTk uses := for assignment. Logical and/or are unsupported, so arithmetic masks must express conditions.\n\n\n\nFunction\nMeaning\n\n\n\n\nabs(x)\nAbsolute value\n\n\nsqrt(x)\nSquare root\n\n\nlog(x)\nNatural logarithm\n\n\nexp(x)\nExponential\n\n\nsin(x), cos(x), tan(x)\nTrigonometric functions\n\n\nfloor(x), ceil(x)\nRounding\n\n\nmin(x, y), max(x, y)\nBounds\n\n\nsign(x)\nSign of a value\n\n\n\nx0 := (e + z)^2; (x0 &lt;= 1) * x0^2 + (x0 &gt; 1) * x0\nSee the ExprTk documentation for parser details.",
+    "objectID": "index.html#garch-ridge-reduction",
+    "href": "index.html#garch-ridge-reduction",
+    "title": "paneltime",
+    "section": "GARCH ridge reduction",
+    "text": "GARCH ridge reduction\npt.OptimizerOptions(garch_ridge_wald=0.2) controls automatic reduction of weakly identified GARCH lag splits. The default 0.2 is a squared Wald threshold, not a continuous ridge penalty. Use 0 to disable reduction. Larger thresholds make reduction attempts more likely, but the refit must converge and pass a likelihood-ratio test before it is retained. See fit options for details.",
     "crumbs": [
-      "User Guide",
-      "Heteroskedasticity functions"
-    ]
-  },
-  {
-    "objectID": "examples.html",
-    "href": "examples.html",
-    "title": "Examples",
-    "section": "",
-    "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.Model(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
-    "crumbs": [
-      "Examples"
-    ]
-  },
-  {
-    "objectID": "examples.html#world-bank-data",
-    "href": "examples.html#world-bank-data",
-    "title": "Examples",
-    "section": "",
-    "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.Model(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
-    "crumbs": [
-      "Examples"
-    ]
-  },
-  {
-    "objectID": "api/results.html",
-    "href": "api/results.html",
-    "title": "Results object",
-    "section": "",
-    "text": "model.fit() returns a Results object. Its everyday attributes are direct, named pandas.Series or scalar values; optimizer implementation details are kept under optim_result.",
-    "crumbs": [
-      "API Reference",
-      "Results object"
-    ]
-  },
-  {
-    "objectID": "api/results.html#results-everyday-use",
-    "href": "api/results.html#results-everyday-use",
-    "title": "Results object",
-    "section": "Results: everyday use",
-    "text": "Results: everyday use\n\n\n\n\n\n\n\nAttribute\nDescription\n\n\n\n\nparams\nEstimated coefficients indexed by variable name.\n\n\nbse\nStandard errors indexed like params.\n\n\ntvalues\nTest statistics indexed like params.\n\n\npvalues\nTwo-sided p-values indexed like params.\n\n\nconf_int()\nConfidence intervals for the coefficients.\n\n\nnobs\nNumber of observations used in the fit.\n\n\ndf_resid\nResidual degrees of freedom.\n\n\nllf\nMaximized log-likelihood.\n\n\naic, bic\nInformation criteria.\n\n\nconverged\nWhether optimization converged.\n\n\nrandom_effects\nObject exposing .group and .time residual effects and standard deviations.\n\n\nresid\nRegression residuals.\n\n\nfittedvalues\nFitted dependent-variable values.\n\n\nsummary()\nFormats a human-readable regression summary.\n\n\n\n\nresults.params\nresults.bse\nresults.summary()",
-    "crumbs": [
-      "API Reference",
-      "Results object"
-    ]
-  },
-  {
-    "objectID": "api/results.html#optimizer-internals-advanced",
-    "href": "api/results.html#optimizer-internals-advanced",
-    "title": "Results object",
-    "section": "Optimizer internals (advanced)",
-    "text": "Optimizer internals (advanced)\nAdvanced diagnostics are available from results.optim_result, including hessian, gradient_matrix, gradient_vector, dx_norm, its, msg, t0, t1, and log_likelihood_object.\nThe former output and table objects are implementation details and are private as results._output and results._table.",
-    "crumbs": [
-      "API Reference",
-      "Results object"
-    ]
-  },
-  {
-    "objectID": "api/fit-options.html",
-    "href": "api/fit-options.html",
-    "title": "Fit options",
-    "section": "",
-    "text": "All v2 configuration is passed to fit(), so separate model fits do not share mutable global state.",
-    "crumbs": [
-      "API Reference",
-      "Fit options"
-    ]
-  },
-  {
-    "objectID": "api/fit-options.html#arimagarch-order",
-    "href": "api/fit-options.html#arimagarch-order",
-    "title": "Fit options",
-    "section": "ARIMA/GARCH order",
-    "text": "ARIMA/GARCH order\norder=(p, d, q) controls the ARIMA mean process. garch_order=(k, m) controls the GARCH variance process. Set vol=\"GARCH\" or vol=\"EGARCH\".\n\nresults = model.fit(order=(1, 0, 1), garch_order=(1, 1), vol=\"GARCH\")",
-    "crumbs": [
-      "API Reference",
-      "Fit options"
-    ]
-  },
-  {
-    "objectID": "api/fit-options.html#effects",
-    "href": "api/fit-options.html#effects",
-    "title": "Fit options",
-    "section": "Effects",
-    "text": "Effects\nPass an Effects instance with group, time, and variance set to \"none\", \"fixed\", or \"random\".\n\neffects = pt.Effects(group=\"random\", time=\"fixed\", variance=\"none\")\nresults = model.fit(effects=effects)",
-    "crumbs": [
-      "API Reference",
-      "Fit options"
-    ]
-  },
-  {
-    "objectID": "api/fit-options.html#optimizer-and-covariance",
-    "href": "api/fit-options.html#optimizer-and-covariance",
-    "title": "Fit options",
-    "section": "Optimizer and covariance",
-    "text": "Optimizer and covariance\nUse OptimizerOptions for tolerance, max_iterations, accuracy, use_analytical_hessian, and the other optimizer controls. Select covariance behavior with cov_type and robust_cov_lags.\n\noptimizer = pt.OptimizerOptions(tolerance=1e-5, max_iterations=150)\nresults = model.fit(optimizer=optimizer, cov_type=\"robust\")",
-    "crumbs": [
-      "API Reference",
-      "Fit options"
-    ]
-  },
-  {
-    "objectID": "api/fit-options.html#constraints",
-    "href": "api/fit-options.html#constraints",
-    "title": "Fit options",
-    "section": "Constraints",
-    "text": "Constraints\nUse constraints= for coefficient restrictions and add_intercept, subtract_means, include_initvar, tobit_limits, and suppress_output for fit behavior.",
-    "crumbs": [
-      "API Reference",
-      "Fit options"
-    ]
-  },
-  {
-    "objectID": "api/fit-options.html#custom-model-and-h-function",
-    "href": "api/fit-options.html#custom-model-and-h-function",
-    "title": "Fit options",
-    "section": "Custom model and h-function",
-    "text": "Custom model and h-function\nPass a likelihood instance with likelihood= or a SymPy expression with h_function=. See the custom likelihood guide and heteroskedasticity guide.",
-    "crumbs": [
-      "API Reference",
-      "Fit options"
-    ]
-  },
-  {
-    "objectID": "api/fit-options.html#migrating-from-pt.options",
-    "href": "api/fit-options.html#migrating-from-pt.options",
-    "title": "Fit options",
-    "section": "Migrating from pt.options",
-    "text": "Migrating from pt.options\n\n\n\n\n\n\n\nv1\nv2\n\n\n\n\npqdkm\norder= and garch_order=\n\n\nEGARCH\nvol=\"EGARCH\"\n\n\nfixed_random_group_eff, fixed_random_time_eff, fixed_random_variance_eff\neffects=pt.Effects(...)\n\n\ncustom_model\nlikelihood= (an instance)\n\n\nuser_constraints\nconstraints=\n\n\nuse_analytical\noptimizer.use_analytical_hessian\n\n\nsupress_output\nsuppress_output=",
-    "crumbs": [
-      "API Reference",
-      "Fit options"
-    ]
-  },
-  {
-    "objectID": "api/index.html",
-    "href": "api/index.html",
-    "title": "API reference",
-    "section": "",
-    "text": "The v2 public API is organized around a model, a fit configuration, and a results object.\n\n\n\nObject\nDescription\n\n\n\n\nModel\nConstructs a panel ARIMA/GARCH model.\n\n\nResults\nStores estimates, diagnostics, and forecasts.\n\n\nLikelihoodModel\nBase class for custom likelihoods.\n\n\nEffects\nGroups fixed and random group, time, and variance effects.\n\n\nOptimizerOptions\nGroups optimizer tolerances and numerical settings.\n\n\n\nStart with the Quickstart, then use the fit options reference for configuration details.",
-    "crumbs": [
-      "API Reference",
-      "API reference"
-    ]
-  },
-  {
-    "objectID": "changelog.html",
-    "href": "changelog.html",
-    "title": "Changelog",
-    "section": "",
-    "text": "Release history is maintained in the GitHub releases.",
-    "crumbs": [
-      "Changelog"
-    ]
-  },
-  {
-    "objectID": "changelog.html#x",
-    "href": "changelog.html#x",
-    "title": "Changelog",
-    "section": "1.2.x",
-    "text": "1.2.x\nThe 1.2 series includes releases from 1.2.0 through 1.2.73. Consult the release history for the exact patch-level notes.",
-    "crumbs": [
-      "Changelog"
-    ]
-  },
-  {
-    "objectID": "changelog.html#v2-in-development",
-    "href": "changelog.html#v2-in-development",
-    "title": "Changelog",
-    "section": "v2 (in development)",
-    "text": "v2 (in development)\n\nIntroduces the constructor plus .fit() API.\nReplaces Summary with the public Results object.\nGroups fit configuration into explicit per-call options.\nAdds symbolic SymPy heteroskedasticity functions and checked ExprTk codegen.\nAdds an instantiable LikelihoodModel extension point with numerical derivative fallback.",
-    "crumbs": [
-      "Changelog"
+      "`paneltime`"
     ]
   },
   {
@@ -311,33 +137,218 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "paneltime",
+    "objectID": "changelog.html",
+    "href": "changelog.html",
+    "title": "Changelog",
     "section": "",
-    "text": "Paneltime estimates regressions on datasets that:\nPaneltime jointly handles common time-series problems (ARIMA/GARCH) and panel data with group and time effects. To the best of our knowledge, no other package combines all three in one model.\nThe package can also be used on pure panel datasets without ARIMA/GARCH or single time-series data with ARIMA/GARCH problems.\nAuthor: Espen Sirnes\nCurrent version: 1.3.4",
+    "text": "Release history is maintained in the GitHub releases.",
     "crumbs": [
-      "`paneltime`"
+      "Changelog"
     ]
   },
   {
-    "objectID": "index.html#installation",
-    "href": "index.html#installation",
-    "title": "paneltime",
-    "section": "Installation",
-    "text": "Installation\nInstall the package with:\n\n%pip install paneltime",
+    "objectID": "changelog.html#x",
+    "href": "changelog.html#x",
+    "title": "Changelog",
+    "section": "1.2.x",
+    "text": "1.2.x\nThe 1.2 series includes releases from 1.2.0 through 1.2.73. Consult the release history for the exact patch-level notes.",
     "crumbs": [
-      "`paneltime`"
+      "Changelog"
     ]
   },
   {
-    "objectID": "index.html#formula-syntax",
-    "href": "index.html#formula-syntax",
-    "title": "paneltime",
-    "section": "Formula syntax",
-    "text": "Formula syntax\nModel formulas use the form Y ~ X1 + X2. Expressions supported by NumPy can be used with np as the alias, for example np.abs(x).\nSee the Quickstart for a complete model example.",
+    "objectID": "changelog.html#v2-in-development",
+    "href": "changelog.html#v2-in-development",
+    "title": "Changelog",
+    "section": "v2 (in development)",
+    "text": "v2 (in development)\n\nIntroduces the constructor plus .fit() API.\nReturns a public Summary results object from .fit().\nGroups fit configuration into explicit per-call options.\nAdds symbolic SymPy heteroskedasticity functions and checked ExprTk codegen.\nAdds an instantiable LikelihoodModel extension point with numerical derivative fallback.",
     "crumbs": [
-      "`paneltime`"
+      "Changelog"
+    ]
+  },
+  {
+    "objectID": "api/index.html",
+    "href": "api/index.html",
+    "title": "API reference",
+    "section": "",
+    "text": "The v2 public API is organized around a model, a fit configuration, and a results object.\n\n\n\nObject\nDescription\n\n\n\n\nModel\nConstructs a panel ARIMA/GARCH model.\n\n\nSummary\nStores estimates, diagnostics, and forecasts.\n\n\nLikelihoodModel\nBase class for custom likelihoods.\n\n\nEffects\nGroups fixed and random group, time, and variance effects.\n\n\nOptimizerOptions\nGroups optimizer tolerances and numerical settings.\n\n\n\nStart with the Quickstart, then use the fit options reference for configuration details.",
+    "crumbs": [
+      "API Reference",
+      "API reference"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html",
+    "href": "api/fit-options.html",
+    "title": "Fit options",
+    "section": "",
+    "text": "All v2 configuration is passed to fit(), so separate model fits do not share mutable global state.",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#arimagarch-order",
+    "href": "api/fit-options.html#arimagarch-order",
+    "title": "Fit options",
+    "section": "ARIMA/GARCH order",
+    "text": "ARIMA/GARCH order\norder=(p, q, d) controls the ARIMA mean process (AR, MA, integer differencing). garch_order=(k, m) controls the GARCH variance process. Set vol=\"GARCH\" or vol=\"EGARCH\".\n\nresults = model.fit(order=(1, 0, 1), garch_order=(1, 1), vol=\"GARCH\")",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#fractional-differencing-arfima",
+    "href": "api/fit-options.html#fractional-differencing-arfima",
+    "title": "Fit options",
+    "section": "Fractional differencing (ARFIMA)",
+    "text": "Fractional differencing (ARFIMA)\nUse fractional_d=\"estimate\" to estimate one common fractional parameter across entities, or pass a number strictly between -0.5 and 0.5 to fix it. The default None leaves existing behavior unchanged; fixed 0.0 is equivalent to no fractional filtering.\n\n# ARFIMA(1, d, 1)-GARCH(1, 1): the integer-difference entry stays zero.\nresults = model.fit(order=(1, 1, 0), garch_order=(1, 1),\n                    fractional_d=\"estimate\")\nprint(results.fractional_d)\n# A fixed fractional parameter is not counted as an estimated coefficient.\nfixed = model.fit(order=(1, 1, 0), fractional_d=0.25)\n\nEstimated d appears in the parameter and standard-error tables. Its numerical bounds are -0.5 + 1e-8 and 0.5 - 1e-8; constraints such as constraints={\"d\": (-0.3, 0.4)} can narrow these bounds or fix the parameter. results.fractional_d gives either the estimated or fixed value.\nThe conditional model filters regression residuals, including the intercept: (1-L)^d (Y-X beta) is passed through the existing ARMA filter, effects adjustment, and GARCH recursion. Fractional filtering is independent of the innovation distribution, variance link, and custom h-function. Effects retain their existing innovation-scale interpretation.\nAll available within-entity history is used, with residuals before each entity’s first observation set to zero. This is a conditional, finite-history likelihood, not the exact stationary ARFIMA likelihood. Histories never cross entity boundaries; unbalanced panels may have different history lengths. Each retained entity needs at least three regularly spaced numeric or datetime observations. Irregular observations/internal gaps and simultaneous integer differencing are rejected explicitly. The declared sampling frequency cannot be inferred when an entire regularly spaced series is subsampled.\nOne-step forecasts invert fractional differencing using the entity’s full observed residual history; the existing forecast-horizon limits still apply. The fractional filter and its analytic derivatives currently cost quadratic time in the longest history length, so benchmark long series before large simulations. Standard errors at active bounds require the usual boundary-inference caution.",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#effects",
+    "href": "api/fit-options.html#effects",
+    "title": "Fit options",
+    "section": "Effects",
+    "text": "Effects\nPass an Effects instance with group, time, and variance set to \"none\", \"fixed\", or \"random\".\n\neffects = pt.Effects(group=\"random\", time=\"fixed\", variance=\"none\")\nresults = model.fit(effects=effects)\n\nGroup and time effects are removed from the ARMA innovations, after the ARMA filter. This is exact when the effects enter the innovations of the ARMA process. When they are added directly to the serially correlated residuals, it is an approximation. In simulations the resulting error was small compared with ordinary finite-sample error.",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#optimizer-and-covariance",
+    "href": "api/fit-options.html#optimizer-and-covariance",
+    "title": "Fit options",
+    "section": "Optimizer and covariance",
+    "text": "Optimizer and covariance\nUse OptimizerOptions for tolerance, max_iterations, accuracy, and other optimizer controls. Robust covariance lags are configured with OptimizerOptions.robust_cov_lags. Both conventional and robust standard errors are available on the returned results object as bse and robust_bse; bse_at(params) evaluates robust standard errors at supplied parameter values. The cov_type keyword is accepted by Model.fit() but does not currently select between these covariance results.\n\noptimizer = pt.OptimizerOptions(tolerance=1e-5, max_iterations=150)\noptimizer.robust_cov_lags = (100, 30)\nresults = model.fit(optimizer=optimizer)\n\n\nGARCH ridge reduction\nAutomatic ARMA common-factor and GARCH ridge reductions require both their Wald criterion and matching condition-index evidence from the current Hessian on free parameters. A dimension must have CI &gt;= OptimizerOptions.multicoll_threshold_report (default 30), with variance-decomposition proportions &gt; 0.5 for at least one free AR and one free MA coefficient (ARMA), or at least two free gamma lags (GARCH), in that same dimension. CI from unrelated parameters is insufficient. Raising this option therefore affects reduction eligibility as well as reporting. CI uses absolute eigenvalues and does not by itself establish concavity.\nOptimizerOptions.garch_ridge_wald defaults to 0.2 and accepts finite non-negative real numbers (not booleans). Set it to 0 to disable automatic GARCH ridge reduction:\n\noptimizer = pt.OptimizerOptions(garch_ridge_wald=0)\nresults = model.fit(optimizer=optimizer)\n\nFor converged or stalled fits with at least two free gamma lags, the detector uses the squared Wald statistic W = far**2 / variance. Here far is the distance from the highest free gamma coefficient to the farther endpoint (zero or total free gamma persistence), and variance is that coefficient’s diagonal entry in the pseudoinverse of the negative Hessian. If the variance is nonzero and abs(W) &lt; garch_ridge_wald, the highest free gamma lag is fixed at zero and the model is refitted. The reduction is retained only if the refit converges and 2 * (original_loglik - reduced_loglik) &lt;= 3.841, the 5% chi-square(1) critical value. Otherwise the previous fit and constraints are restored. Accepted reductions are listed in the optimizer message. With negative variance, the absolute ratio is used only as a ridge heuristic, not a valid Wald test or proof of a flat ridge. Zero variance is skipped.\nAfter accepting a reduction, the optimizer releases the newly fixed gamma lag and retries from the reduced solution once. This uses the remaining max_iterations budget; earlier automatic reductions and user constraints remain in force. The released fit is retained only if it converges, has a negative-definite Hessian on free parameters, has no detected gamma ridge, and has likelihood no lower than either the original or reduced fit. Otherwise the reduced fit and constraints are restored. An accepted release ends the reduction loop, and the optimizer message records the release. No restrictions are toggled during individual optimizer iterations.\nThe threshold is not a number of standard errors or a continuous ridge penalty. Larger values make reduction attempts more likely, subject to the same likelihood-ratio check. Fixed coefficients change the fitted model; their standard errors should not be compared as if all requested lags were still freely estimated.\n\n\nAutomatic starting values\nWhen AR or MA terms are requested, the default single start uses the full requested order. An OLS regression is followed by Hannan–Rissanen-style auxiliary regressions and a short conditional-sum-of-squares (CSS) refinement of the regression and ARMA coefficients. The preliminary fit ignores GARCH; its innovations supply the initial innovation variance and the existing GARCH moment starts. No additional dependency is required. CSS refinement is limited to 10 iterations and stops early at a scaled gradient of 1e-4 or a relative objective improvement of 1e-4; it supplies a useful neighborhood, not a precise standalone ARMA estimate.\nInternally, arma_start.fit_arma(panel) coordinates the working regression, scaling, auxiliary-regression seed, CSS refinement, and conversion back to original units. Orders, observation masks, differencing boundaries, and preliminary effects settings come from the panel object. The numerical filtering and optimization steps are separate helpers; initialization does not modify the panel’s data or masks. Innovations and their derivative channels are filtered using the existing C ARMA recursion. Each contiguous observation run is packed as an independent series, preserving zero-presample resets at gaps and differencing boundaries. This reuses the shipped native library without a new compiled entry point.\nThe CSS fit uses analytic first derivatives and reflection coordinates to keep its preliminary ARMA coefficients stationary and invertible. These safeguards do not change the final likelihood’s constraints or Hessian. Panel runs are filtered separately, with no lags crossing group boundaries. For effects models, this preliminary fit uses fixed, pre-transformed working data; the final likelihood still removes effects after ARMA filtering. An underidentified auxiliary regression, CSS iteration limit, or numerical stall produces an ARMAInitializationWarning rather than being presented as successful preliminary convergence. It does not abort the final likelihood fit: the best accepted preliminary coefficients remain usable. Other numerical warnings are still treated as errors. CSS damping adapts to the actual versus predicted objective reduction, not merely whether a step decreases the objective.\nModels without ARMA terms retain their existing OLS initialization. Explicit starting arguments supplied through the engine bypass the automatic CSS fit. Like any single-start initialization, this does not guarantee a global likelihood maximum.\n\n\nLocal single-start execution\nFitting runs locally. Legacy node dispatch and GUI/browser progress channels have been removed, as has the Model(..., multiprocess=...) argument. Final summaries, inference, diagnostics and predictions remain available.\nexecute prepares the panel once and passes its initial parameters directly to the shared likelihood optimizer. processing/initreg.py selects ordinary static FE/RE starts during panel initialization, in the same place as the ARMA/GARCH starts. Mixed fixed/random effects, explicit constraints (including {}), censoring, variance regressors/effects, instruments and custom likelihoods/functions retain their existing starts. Explicit engine starts are not replaced. Every fit uses dfpmax and the same inference, diagnostics and forecasts. A converged initial point returns without a line search (optim_result.its == 0); otherwise the optimizer refines the starting estimates. Iterations count completed optimizer steps. Automatic starting values, explicit engine starting arguments, and coefficient constraints are retained. The multistart optimizer option and optim_result.multistart_results have been removed. The fit reports its own convergence status; it does not search or select among alternative starts.\n\n\nGaussian RE likelihood audit\nAn analytical Hessian differentiates the implemented criterion; it does not establish that the criterion is the marginal likelihood of the stated model. The reproducible audit reference in tests/re_likelihood_reference.py examines the simpler stationary Gaussian model\n\\[\ny_{it}-x_{it}'\\beta=a_i+c_t+u_{it},\\qquad\nu_{it}=\\rho u_{i,t-1}+\\epsilon_{it},\n\\]\nwhere the three innovation/effect families are independent, with variances \\(\\sigma^2,\\tau_a^2,\\tau_c^2\\). For entity-major stacking,\n\\[\n\\Sigma =\nI_N\\otimes\\left\\{\\frac{\\sigma^2}{1-\\rho^2}\n    [\\rho^{|s-t|}]_{s,t=1}^T\\right\\}\n+\\tau_a^2 I_N\\otimes J_T+\\tau_c^2 J_N\\otimes I_T,\n\\]\nwhere \\(J_k\\) is the \\(k\\)-by-\\(k\\) all-ones matrix. Its exact marginal log-likelihood is\n\\[\n\\ell_{\\rm exact}\n=-\\tfrac12\\{NT\\log(2\\pi)+\\log|\\Sigma|+r'\\Sigma^{-1}r\\}.\n\\]\nThe reference checks dense Cholesky evaluation against an independent AR-innovations/Woodbury evaluation integrating out both effects. For a true covariance \\(\\Sigma_0\\), expectations require no simulated data:\n\\[\nE_0[\\ell_{\\rm exact}(\\Sigma)]\n=-\\tfrac12\\{NT\\log(2\\pi)+\\log|\\Sigma|\n                  +\\operatorname{tr}(\\Sigma^{-1}\\Sigma_0)\\}.\n\\]\nThe package instead applies the AR filter, quasi-demeans the filtered innovations, and sums univariate normal contributions. In this special case, with weights frozen, write \\(A=I-\\theta_a P_a-\\theta_c P_c\\), where \\(P_a,P_c\\) project onto centered group and time means, \\(B=I_N\\otimes(I_T-\\rho L_T)\\), and let \\(D\\) contain the variances used in those contributions. Then\n\\[\n\\ell_Q=-\\tfrac12\\{NT\\log(2\\pi)+\\log|D|\n                         +r'B'A'D^{-1}AB r\\},\n\\]\nand its expectation replaces the last quadratic form by \\(\\operatorname{tr}(D^{-1}AB\\Sigma_0B'A')\\). The frozen weights use the moments of the filtered components: innovation variance \\(\\sigma^2\\), filtered group effect \\(a_i(1-\\rho)\\) and filtered time effect \\(c_t-\\rho c_{t-1}\\). The tests reproduce the package transformation, likelihood, and AR score on a deterministic panel, accounting for its \\(10^{-8}\\) squared-residual stabilizer.\nTwo separate qualifications matter:\n\nEven for a fixed invertible transformation, a density for the original residuals requires the transformation’s log determinant. With frozen weights that determinant is constant with respect to \\(\\rho\\), so adding it alone cannot correct a nonzero expected AR score. With residual-adaptive weights, the transformation’s Jacobian also includes derivatives of those weights; it is not simply \\(|A|\\).\nScalar quasi-demeaning generally does not give \\(AB\\Sigma_0B'A'=D\\) for serially correlated disturbances: the first period is not filtered, and the filtered time effect is serially correlated. The package preserves the grand mean; correcting that direction is sufficient for the iid benchmark with known variances, but still does not whiten the AR(1) cases.\n\nFor \\(N=4,T=8,\\rho=0.5,\\sigma^2=2,\\tau_a^2=\\tau_c^2=1\\), with theoretical moment-based weights fixed and the first variance fixed at \\(\\sigma^2/(1-\\rho^2)\\), the expected scores in the coordinates \\((\\rho,\\log\\sigma^2)\\) are approximately \\((1.6299,0.9500)\\) for \\(\\ell_Q\\) and \\((0,0)\\) for the exact marginal likelihood. Without effects, the whitening and zero-score checks pass.\nScope: the package recomputes its weights from residuals, whereas this expectation calculation freezes theoretical weights. It is not the expected score of the complete residual-adaptive estimator, a proof of its asymptotic bias, or a GARCH likelihood replacement. It establishes a concrete mismatch with the exact Gaussian marginal benchmark and explains why a determinant-only patch is insufficient. The production RE likelihood is unchanged pending a validated treatment of the full dynamic/heteroskedastic model.\nFrom the package root, run python tests\\re_likelihood_reference.py for the JSON audit report, or python -m unittest discover -s tests -p \"test*py\" -v for its regression checks and the package tests.",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#constraints",
+    "href": "api/fit-options.html#constraints",
+    "title": "Fit options",
+    "section": "Constraints",
+    "text": "Constraints\nUse constraints= for coefficient restrictions and add_intercept, subtract_means, tobit_limits, and suppress_output for fit behavior.",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#custom-model-and-h-function",
+    "href": "api/fit-options.html#custom-model-and-h-function",
+    "title": "Fit options",
+    "section": "Custom model and h-function",
+    "text": "Custom model and h-function\nPass a likelihood instance with likelihood= or a SymPy expression with h_function=. See the custom likelihood guide and heteroskedasticity guide.",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/fit-options.html#migrating-from-pt.options",
+    "href": "api/fit-options.html#migrating-from-pt.options",
+    "title": "Fit options",
+    "section": "Migrating from pt.options",
+    "text": "Migrating from pt.options\n\n\n\n\n\n\n\nv1\nv2\n\n\n\n\npqdkm\norder= and garch_order=\n\n\nEGARCH\nvol=\"EGARCH\"\n\n\nfixed_random_group_eff, fixed_random_time_eff, fixed_random_variance_eff\neffects=pt.Effects(...)\n\n\ncustom_model\nlikelihood= (an instance)\n\n\nuser_constraints\nconstraints=\n\n\nuse_analytical\nNo corresponding v2 option; the current implementation uses analytical derivatives.\n\n\nsupress_output\nsuppress_output=",
+    "crumbs": [
+      "API Reference",
+      "Fit options"
+    ]
+  },
+  {
+    "objectID": "api/results.html",
+    "href": "api/results.html",
+    "title": "Summary (results object)",
+    "section": "",
+    "text": "model.fit() returns a Summary object. In examples below it is assigned to results. Its everyday attributes are direct, named pandas.Series or scalar values; optimizer implementation details are kept under optim_result.",
+    "crumbs": [
+      "API Reference",
+      "Summary (results object)"
+    ]
+  },
+  {
+    "objectID": "api/results.html#everyday-use",
+    "href": "api/results.html#everyday-use",
+    "title": "Summary (results object)",
+    "section": "Everyday use",
+    "text": "Everyday use\n\n\n\n\n\n\n\nAttribute\nDescription\n\n\n\n\nparams\nEstimated coefficients indexed by variable name.\n\n\nbse\nConventional standard errors indexed like params.\n\n\nrobust_bse\nRobust sandwich standard errors indexed like params.\n\n\nbse_at(params, robust=False)\nStandard errors evaluated at supplied parameter values. False (default) omits robust adjustments; True uses the configured robust covariance. Does not optimize.\n\n\nbse_at_diagnostics(params)\nBoth SE variants plus score, Hessian conditioning, weakest scaled-Hessian direction, and variance clipping diagnostics at supplied values.\n\n\ntvalues\nTest statistics based on robust standard errors.\n\n\npvalues\nTwo-sided p-values based on robust standard errors.\n\n\nconf_int(alpha=0.05)\nTwo-sided confidence intervals based on robust standard errors.\n\n\nnobs\nNumber of observations used in the fit.\n\n\ndf_resid\nResidual degrees of freedom.\n\n\nllf\nMaximized log-likelihood.\n\n\naic, bic\nInformation criteria.\n\n\nconverged\nWhether optimization converged.\n\n\nrandom_effects\nObject exposing .group and .time residual effects and standard deviations.\n\n\nresid\nRegression residuals.\n\n\nfittedvalues\nFitted dependent-variable values.\n\n\nforecast(steps=1)\nFuture dependent-variable values for each panel unit.\n\n\nsummary()\nFormats a human-readable regression summary.\n\n\n\n\nresults.params\nresults.bse\nresults.robust_bse\nresults.summary()\n\nbse_at() accepts a complete dict or pandas.Series keyed by the same parameter names as results.params. It evaluates the likelihood, gradient, and Hessian at those values without re-estimating the model. By default, robust=False returns standard errors without HAC or cluster adjustments. Set robust=True to use paneltime’s configured robust covariance, including its default Newey-West lag and panel-cluster adjustments. Built-in likelihoods use analytic derivatives; custom likelihoods may use the finite-difference fallback. This is useful in simulations where the true coefficients are known. The returned standard errors remain sample-specific; they are not theoretical or Monte Carlo standard errors.\nFor example, start with a complete fitted-parameter vector and replace values whose simulation truths are known:\n\ntrue_params = results.params.copy()\ntrue_params[\"X0\"] = 1.0\ntrue_params[\"X1\"] = 1.0\nse_at_truth = results.bse_at(true_params)\n\nThe current initial variance and random-effect variance components are not free entries in params; they remain determined by the fitted model/data. conf_int(alpha=...) uses the requested significance level, where alpha must be between zero and one. Forecast requests must fit within the future prediction rows prepared by the model; unavailable horizons raise ValueError instead of returning a partial panel slice.\nbse_at_diagnostics() accepts the same complete parameter mapping and returns both bse and robust_bse, the log-likelihood, total and per-observation scores, Hessian diagonal, raw Hessian condition number, scaled condition index, weakest direction of the diagonally scaled Hessian, and fraction of included conditional variances clipped at model bounds. The scaled condition index is the eigenvalue-ratio diagnostic used by paneltime’s multicollinearity report.",
+    "crumbs": [
+      "API Reference",
+      "Summary (results object)"
+    ]
+  },
+  {
+    "objectID": "api/results.html#optimizer-internals-advanced",
+    "href": "api/results.html#optimizer-internals-advanced",
+    "title": "Summary (results object)",
+    "section": "Optimizer internals (advanced)",
+    "text": "Optimizer internals (advanced)\nAdvanced diagnostics are available from results.optim_result, including hessian, gradient_matrix, gradient_vector, dx_norm, its, msg, t0, t1, and log_likelihood_object.\nFor compatibility, results.output and results.table expose engine objects. Prefer the direct result attributes above for routine analysis; the engine objects are implementation details.",
+    "crumbs": [
+      "API Reference",
+      "Summary (results object)"
+    ]
+  },
+  {
+    "objectID": "examples.html",
+    "href": "examples.html",
+    "title": "Examples",
+    "section": "",
+    "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.Model(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
+    "crumbs": [
+      "Examples"
+    ]
+  },
+  {
+    "objectID": "examples.html#world-bank-data",
+    "href": "examples.html#world-bank-data",
+    "title": "Examples",
+    "section": "",
+    "text": "The downloadable example uses the same two-step API as the Quickstart.\n\nimport paneltime as pt\nimport loadwb\n\ndata = loadwb.load_worldbank_data()\ndata = data[data[\"Inflation\"].abs() &lt; 30]\nmodel = pt.Model(\n    \"Inflation ~ L(Gross_Savings) + L(Inflation) + L(Interest_rate)\",\n    data,\n    entity=\"country\",\n    time=\"date\",\n)\nresults = model.fit(order=(2, 2, 1), garch_order=(2, 2), vol=\"EGARCH\")\nprint(results.summary())\n\nDownload the working example.",
+    "crumbs": [
+      "Examples"
+    ]
+  },
+  {
+    "objectID": "guide/heteroskedasticity-functions.html",
+    "href": "guide/heteroskedasticity-functions.html",
+    "title": "Heteroskedasticity functions",
+    "section": "",
+    "text": "Define a function in terms of e (the residual) and z (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.\n\nimport sympy as sp\n\ne, z = sp.symbols(\"e z\")\nh_function = sp.log(e**2 + 1e-8)\nresults = model.fit(h_function=h_function)\n\nAt fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.\nSymPy is an optional dependency and must be installed to use symbolic expressions. Use smooth, real-valued expressions whose first and second derivatives exist on the residual domain. For example, use sp.sqrt(e**2 + 1e-8) rather than sp.Abs(e): the latter has a distributional second derivative and is rejected with a conversion error.\nIf the expression contains z, paneltime adds an estimated shape parameter named z in h(e,z). This requires at least one ARCH lag; otherwise the shape parameter cannot enter the variance recursion. It can be fixed using constraints={\"z\": 0.2}. Avoid redundant specifications: for example, sp.exp(z)*e**2 confounds the shape parameter with the ARCH coefficients. Successful compilation does not guarantee identification or convergence.\nThe expression defines the lagged variance innovation, not the likelihood distribution or the variance link. Select vol=\"EGARCH\" separately if a log-variance model is intended. A custom expression must remain valid over the residual and shape values encountered during estimation.",
+    "crumbs": [
+      "User Guide",
+      "Heteroskedasticity functions"
+    ]
+  },
+  {
+    "objectID": "guide/heteroskedasticity-functions.html#recommended-one-sympy-expression",
+    "href": "guide/heteroskedasticity-functions.html#recommended-one-sympy-expression",
+    "title": "Heteroskedasticity functions",
+    "section": "",
+    "text": "Define a function in terms of e (the residual) and z (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.\n\nimport sympy as sp\n\ne, z = sp.symbols(\"e z\")\nh_function = sp.log(e**2 + 1e-8)\nresults = model.fit(h_function=h_function)\n\nAt fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.\nSymPy is an optional dependency and must be installed to use symbolic expressions. Use smooth, real-valued expressions whose first and second derivatives exist on the residual domain. For example, use sp.sqrt(e**2 + 1e-8) rather than sp.Abs(e): the latter has a distributional second derivative and is rejected with a conversion error.\nIf the expression contains z, paneltime adds an estimated shape parameter named z in h(e,z). This requires at least one ARCH lag; otherwise the shape parameter cannot enter the variance recursion. It can be fixed using constraints={\"z\": 0.2}. Avoid redundant specifications: for example, sp.exp(z)*e**2 confounds the shape parameter with the ARCH coefficients. Successful compilation does not guarantee identification or convergence.\nThe expression defines the lagged variance innovation, not the likelihood distribution or the variance link. Select vol=\"EGARCH\" separately if a log-variance model is intended. A custom expression must remain valid over the residual and shape values encountered during estimation.",
+    "crumbs": [
+      "User Guide",
+      "Heteroskedasticity functions"
+    ]
+  },
+  {
+    "objectID": "guide/heteroskedasticity-functions.html#advanced-hand-writing-the-c-expression-directly",
+    "href": "guide/heteroskedasticity-functions.html#advanced-hand-writing-the-c-expression-directly",
+    "title": "Heteroskedasticity functions",
+    "section": "Advanced: hand-writing the C++ expression directly",
+    "text": "Advanced: hand-writing the C++ expression directly\nCustom likelihoods may still provide h_val_cpp and its Python counterpart. The expression is parsed by ExprTk. Use e, z, and temporary variables x0 through x4. Python ** becomes ExprTk ^.\nMultiple statements use ;; the final expression is returned. ExprTk uses := for assignment. Logical and/or are unsupported, so arithmetic masks must express conditions.\n\n\n\nFunction\nMeaning\n\n\n\n\nabs(x)\nAbsolute value\n\n\nsqrt(x)\nSquare root\n\n\nlog(x)\nNatural logarithm\n\n\nexp(x)\nExponential\n\n\nsin(x), cos(x), tan(x)\nTrigonometric functions\n\n\nfloor(x), ceil(x)\nRounding\n\n\nmin(x, y), max(x, y)\nBounds\n\n\nsign(x)\nSign of a value\n\n\n\nx0 := (e + z)^2; (x0 &lt;= 1) * x0^2 + (x0 &gt; 1) * x0\nSee the ExprTk documentation for parser details.",
+    "crumbs": [
+      "User Guide",
+      "Heteroskedasticity functions"
     ]
   },
   {
@@ -345,6 +356,6 @@
     "href": "options.html",
     "title": "Fit options",
     "section": "",
-    "text": "Fit options\nThese options are configured per model fit. The defaults, domains, and descriptions below are generated from the central option schema.\n\n\n\n\n\n\n\n\n\n\n\nGroup\nOption\nDefault\nDomain\nDescription\nExample\n\n\n\n\nfit\norder\n(1, 1, 0)\nThree non-negative integers.\nARIMA order (p, d, q).\n(2, 1, 2)\n\n\nfit\ngarch_order\n(1, 1)\nTwo non-negative integers.\nGARCH order (k, m).\n(2, 2)\n\n\nfit\nvol\n'GARCH'\nGARCH, EGARCH\nVolatility model.\nEGARCH\n\n\nfit\neffects\nEffects()\nAn Effects instance.\nFixed or random effects in the mean and variance models.\n| | fit | `optimizer` | `OptimizerOptions()` | An OptimizerOptions instance. | Numerical optimizer settings. |\n\n\nfit\nconstraints\nNone\nNone, a string, or a dictionary.\nRestrictions on coefficient estimates.\n| | fit | `add_intercept` | `True` | True or False. | Add an intercept when one is not present in the formula. |\n\n\nfit\nsubtract_means\nFalse\nTrue or False.\nSubtract variable means before estimation.\n| | fit | `include_initvar` | `False` | True or False. | Include an initial variance term. |\n\n\nfit\ntobit_limits\n(None, None)\nTwo positive numbers or None.\nLower and upper limits for a Tobit model.\n(0, None)\n\n\nfit\nsuppress_output\nTrue\nTrue or False.\nSuppress optimizer progress output.\n| | fit | `likelihood` | `None` | None or a likelihood class. | Custom likelihood model class. |\n\n\nfit\nh_function\nNone\nNone or a supported h-function.\nCustom heteroskedasticity function.\n| | effects | `group` | `'none'` | none, fixed, random | Group effect specification. |\n\n\neffects\ntime\n'none'\nnone, fixed, random\nTime effect specification.\n| | effects | `variance` | `'none'` | none, fixed, random | Variance effect specification. |\n\n\noptimizer\ntolerance\n0.0001\nPositive number.\nTolerance used by the numerical optimizer.\n1e-5\n\n\noptimizer\nmax_iterations\n150\nPositive integer.\nMaximum number of optimization iterations.\n300\n\n\noptimizer\naccuracy\n0\nNon-negative integer.\nOptimization accuracy level.\n1\n\n\noptimizer\ninitial_arima_garch_params\n0.1\nNon-negative number.\nInitial size of ARIMA-GARCH parameters.\n| | optimizer | `arma_constraint` | `3` | Positive number. | Maximum absolute value of ARMA coefficients. |\n\n\noptimizer\narma_round\n14\nPositive integer.\nNumber of significant digits used in ARMA matrices.\n| | optimizer | `garch_min` | `1e-12` | Positive number. | Minimum absolute value of GARCH coefficients. |\n\n\noptimizer\ngarch_assist\n0\nNon-negative number.\nWeight assigned to the assisting GARCH variance.\n| | optimizer | `multicoll_threshold_report` | `30` | Positive number. | Threshold for reporting multicollinearity. |\n\n\noptimizer\nmin_group_df\n1\nPositive integer.\nMinimum observations allowed in each group.\n| | optimizer | `robust_cov_lags` | `(100, 30)` | Two integers greater than one. | Lags used for robust covariance calculations. | `(100, 30)` | | optimizer | `variance_re_norm` | `5e-06` | Positive number. | Normalization point for variance random-effects calculations. |\n\n\noptimizer\nkurtosis_adj\n0\nNon-negative number.\nKurtosis adjustment.\n``"
+    "text": "Fit options\nThese options are configured per model fit. The defaults, domains, and descriptions below are generated from the central option schema.\n\n\n\n\n\n\n\n\n\n\n\nGroup\nOption\nDefault\nDomain\nDescription\nExample\n\n\n\n\nfit\norder\n(1, 1, 0)\nThree non-negative integers.\nARIMA order (p, q, d) (AR, MA, integer differencing).\n(2, 1, 2)\n\n\nfit\ngarch_order\n(1, 1)\nTwo non-negative integers.\nGARCH order (k, m).\n(2, 2)\n\n\nfit\nfractional_d\nNone\nNone, “estimate”, or a finite real number strictly between -0.5 and 0.5.\nConditional fractional differencing of regression residuals; estimate one common d or supply a fixed value. Requires regular observations and zero integer differencing.\nestimate\n\n\nfit\nvol\n'GARCH'\nGARCH, EGARCH\nVolatility model.\nEGARCH\n\n\nfit\neffects\nEffects()\nAn Effects instance.\nFixed or random effects in the mean and variance models.\n| | fit | `optimizer` | `OptimizerOptions()` | An OptimizerOptions instance. | Numerical optimizer settings. |\n\n\nfit\nconstraints\nNone\nNone, a string, or a dictionary.\nRestrictions on coefficient estimates.\n| | fit | `add_intercept` | `True` | True or False. | Add an intercept when one is not present in the formula. |\n\n\nfit\nsubtract_means\nFalse\nTrue or False.\nSubtract variable means before estimation.\n| | fit | `tobit_limits` | `(None, None)` | Two finite real numbers or None, with lower &lt;= upper. | Lower and upper limits for a Tobit model. | `(0, None)` | | fit | `suppress_output` | `True` | True or False. | Suppress fit status output. |\n\n\nfit\nlikelihood\nNone\nNone or a likelihood class.\nCustom likelihood model class.\n| | fit | `h_function` | `None` | None or a supported h-function. | Custom heteroskedasticity function. |\n\n\neffects\ngroup\n'none'\nnone, fixed, random\nGroup effect specification.\n| | effects | `time` | `'none'` | none, fixed, random | Time effect specification. |\n\n\neffects\nvariance\n'none'\nnone, fixed, random\nVariance effect specification.\n| | optimizer | `tolerance` | `0.0001` | Positive number. | Tolerance used by the numerical optimizer. | `1e-5` | | optimizer | `max_iterations` | `150` | Positive integer. | Maximum number of optimization iterations. | `300` | | optimizer | `accuracy` | `0` | Non-negative integer. | Optimization accuracy level. | `1` | | optimizer | `initial_arima_garch_params` | `0.1` | Non-negative number. | Initial size of ARIMA-GARCH parameters. |\n\n\noptimizer\narma_constraint\n3\nPositive number.\nMaximum absolute value of ARMA coefficients.\n| | optimizer | `arma_round` | `14` | Positive integer. | Number of significant digits used in ARMA matrices. |\n\n\noptimizer\ngarch_min\n1e-12\nPositive number.\nMinimum absolute value of GARCH coefficients.\n| | optimizer | `garch_assist` | `0` | Non-negative number. | Weight assigned to the assisting GARCH variance. |\n\n\noptimizer\ngarch_ridge_wald\n0.2\nFinite non-negative real number (excluding booleans).\nAbsolute squared-Wald-ratio threshold (strict) for attempting to fix the highest free gamma lag at zero. Negative variance uses a heuristic; zero variance is skipped. Accepted reductions get one release retry within the iteration budget; 0 disables ridge reduction.\n1.0\n\n\noptimizer\nmulticoll_threshold_report\n30\nPositive number.\nCondition-index threshold for reporting multicollinearity and gating automatic ARMA/GARCH reductions together with their Wald criteria.\n| | optimizer | `min_group_df` | `1` | Positive integer. | Minimum observations allowed in each group. |\n\n\noptimizer\nrobust_cov_lags\n(100, 30)\nTwo integers greater than one.\nLags used for robust covariance calculations.\n(100, 30)\n\n\noptimizer\nvariance_re_norm\n5e-06\nPositive number.\nNormalization point for variance random-effects calculations.\n| | optimizer | `kurtosis_adj` | `0` | Non-negative number. | Kurtosis adjustment. |"
   }
 ]

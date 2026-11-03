@@ -2,23 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Heteroskedasticity functions – paneltime</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -73,14 +67,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4e663f3a4ff1a491e18bd6a28adf0390.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b337f537912f5ab074b938eebad4c5d7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -110,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -148,6 +143,8 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">paneltime</span>
     </a>
@@ -184,6 +181,10 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -250,7 +251,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../api/results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Results object</span></a>
+ <span class="menu-text">Summary (results object)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -269,14 +270,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../migration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Migrating from options/execute (v1 to v2)</span></a>
+  <a href="../changelog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Changelog</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../changelog.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Changelog</span></a>
+  <a href="../paneltime_documentation.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model documentation (PDF)</span></a>
   </div>
 </li>
     </ul>
@@ -319,7 +320,7 @@ window.Quarto = {
 <section id="recommended-one-sympy-expression" class="level2">
 <h2 class="anchored" data-anchor-id="recommended-one-sympy-expression">Recommended: one SymPy expression</h2>
 <p>Define a function in terms of <code>e</code> (the residual) and <code>z</code> (the optional shape parameter). Paneltime derives the Python derivatives and generates the ExprTk-compatible C++ expression.</p>
-<div id="2d6ade87" class="cell" data-execution_count="1">
+<div id="eea1c618" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>e, z <span class="op">=</span> sp.symbols(<span class="st">"e z"</span>)</span>
@@ -327,6 +328,9 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(h_function<span class="op">=</span>h_function)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>At fit time, the Python and ExprTk implementations are evaluated on sample values and checked for agreement. Unsupported SymPy constructs produce a clear conversion error; use the manual dual implementation below as the escape hatch.</p>
+<p>SymPy is an optional dependency and must be installed to use symbolic expressions. Use smooth, real-valued expressions whose first and second derivatives exist on the residual domain. For example, use <code>sp.sqrt(e**2 + 1e-8)</code> rather than <code>sp.Abs(e)</code>: the latter has a distributional second derivative and is rejected with a conversion error.</p>
+<p>If the expression contains <code>z</code>, paneltime adds an estimated shape parameter named <code>z in h(e,z)</code>. This requires at least one ARCH lag; otherwise the shape parameter cannot enter the variance recursion. It can be fixed using <code>constraints={"z": 0.2}</code>. Avoid redundant specifications: for example, <code>sp.exp(z)*e**2</code> confounds the shape parameter with the ARCH coefficients. Successful compilation does not guarantee identification or convergence.</p>
+<p>The expression defines the lagged variance innovation, not the likelihood distribution or the variance link. Select <code>vol="EGARCH"</code> separately if a log-variance model is intended. A custom expression must remain valid over the residual and shape values encountered during estimation.</p>
 </section>
 <section id="advanced-hand-writing-the-c-expression-directly" class="level2">
 <h2 class="anchored" data-anchor-id="advanced-hand-writing-the-c-expression-directly">Advanced: hand-writing the C++ expression directly</h2>

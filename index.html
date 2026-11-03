@@ -2,23 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>paneltime – paneltime</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -73,14 +67,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4e663f3a4ff1a491e18bd6a28adf0390.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b337f537912f5ab074b938eebad4c5d7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -110,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -148,6 +143,8 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">paneltime</span>
     </a>
@@ -184,6 +181,10 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -250,7 +251,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./api/results.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Results object</span></a>
+ <span class="menu-text">Summary (results object)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -269,14 +270,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./migration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Migrating from options/execute (v1 to v2)</span></a>
+  <a href="./changelog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Changelog</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./changelog.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Changelog</span></a>
+  <a href="./paneltime_documentation.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model documentation (PDF)</span></a>
   </div>
 </li>
     </ul>
@@ -291,6 +292,9 @@ window.Quarto = {
   <ul>
   <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
   <li><a href="#formula-syntax" id="toc-formula-syntax" class="nav-link" data-scroll-target="#formula-syntax">Formula syntax</a></li>
+  <li><a href="#model-documentation" id="toc-model-documentation" class="nav-link" data-scroll-target="#model-documentation">Model documentation</a></li>
+  <li><a href="#arfima" id="toc-arfima" class="nav-link" data-scroll-target="#arfima">ARFIMA</a></li>
+  <li><a href="#garch-ridge-reduction" id="toc-garch-ridge-reduction" class="nav-link" data-scroll-target="#garch-ridge-reduction">GARCH ridge reduction</a></li>
   </ul>
 </nav>
     </div>
@@ -325,11 +329,11 @@ window.Quarto = {
 <p>Paneltime jointly handles common time-series problems (<strong>ARIMA</strong>/<strong>GARCH</strong>) and panel data with group and time effects. To the best of our knowledge, no other package combines all three in one model.</p>
 <p>The package can also be used on pure <strong>panel</strong> datasets without ARIMA/GARCH or single time-series data with ARIMA/GARCH problems.</p>
 <p><strong>Author:</strong> Espen Sirnes</p>
-<p><strong>Current version:</strong> 1.3.4</p>
+<p><strong>Current version:</strong> 1.3.7</p>
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
 <p>Install the package with:</p>
-<div id="c73ace25" class="cell" data-execution_count="1">
+<div id="c46859d6" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install paneltime</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
@@ -337,6 +341,18 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="formula-syntax">Formula syntax</h2>
 <p>Model formulas use the form <code>Y ~ X1 + X2</code>. Expressions supported by NumPy can be used with <code>np</code> as the alias, for example <code>np.abs(x)</code>.</p>
 <p>See the <a href="./quickstart.html">Quickstart</a> for a complete model example.</p>
+</section>
+<section id="model-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="model-documentation">Model documentation</h2>
+<p>The full model documentation is available as a <a href="https://paneltime.github.io/paneltime_documentation.pdf">PDF</a>.</p>
+</section>
+<section id="arfima" class="level2">
+<h2 class="anchored" data-anchor-id="arfima">ARFIMA</h2>
+<p>Pass <code>fractional_d="estimate"</code> to estimate a common stationary fractional parameter, or a fixed value such as <code>fractional_d=0.25</code>. Use <code>order=(p, q, 0)</code> (AR, MA, zero integer differencing). The conditional filter uses zero pre-sample residuals and requires regular observations without internal gaps. It works with the existing innovation likelihoods and GARCH models. See <a href="./api/fit-options.html#fractional-differencing-arfima">fit options</a> for details.</p>
+</section>
+<section id="garch-ridge-reduction" class="level2">
+<h2 class="anchored" data-anchor-id="garch-ridge-reduction">GARCH ridge reduction</h2>
+<p><code>pt.OptimizerOptions(garch_ridge_wald=0.2)</code> controls automatic reduction of weakly identified GARCH lag splits. The default <code>0.2</code> is a squared Wald threshold, not a continuous ridge penalty. Use <code>0</code> to disable reduction. Larger thresholds make reduction attempts more likely, but the refit must converge and pass a likelihood-ratio test before it is retained. See <a href="./api/fit-options.html#garch-ridge-reduction">fit options</a> for details.</p>
 
 
 

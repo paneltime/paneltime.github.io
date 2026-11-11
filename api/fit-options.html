@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Fit options – paneltime</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -67,15 +73,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b337f537912f5ab074b938eebad4c5d7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-039da9c96901740e614e1b943a8fff71.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -136,21 +142,18 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">paneltime</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -164,15 +167,16 @@ window.Quarto = {
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
+            <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/index.html">API Reference</a></li><li class="breadcrumb-item"><a href="../api/fit-options.html">Fit options</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/index.html">API Reference</a></li><li class="breadcrumb-item"><a href="../api/fit-options.html">Fit options</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -180,11 +184,7 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
-      </div>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Section">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -195,13 +195,10 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Quickstart</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Quickstart</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../quickstart.html" class="sidebar-item-text sidebar-link">
@@ -212,13 +209,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">User Guide</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">User Guide</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../guide/custom-likelihood-models.html" class="sidebar-item-text sidebar-link">
@@ -235,13 +229,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">API Reference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">API Reference</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../api/index.html" class="sidebar-item-text sidebar-link">
@@ -286,11 +277,13 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
   <li><a href="#arimagarch-order" id="toc-arimagarch-order" class="nav-link active" data-scroll-target="#arimagarch-order">ARIMA/GARCH order</a></li>
+  <li><a href="#arima-likelihood-initialization" id="toc-arima-likelihood-initialization" class="nav-link" data-scroll-target="#arima-likelihood-initialization">ARMA exact log likelihood and RE/FE correction</a></li>
+  <li><a href="#evaluate-without-fitting" id="toc-evaluate-without-fitting" class="nav-link" data-scroll-target="#evaluate-without-fitting">Evaluate without fitting</a></li>
   <li><a href="#fractional-differencing-arfima" id="toc-fractional-differencing-arfima" class="nav-link" data-scroll-target="#fractional-differencing-arfima">Fractional differencing (ARFIMA)</a></li>
   <li><a href="#effects" id="toc-effects" class="nav-link" data-scroll-target="#effects">Effects</a></li>
   <li><a href="#optimizer-and-covariance" id="toc-optimizer-and-covariance" class="nav-link" data-scroll-target="#optimizer-and-covariance">Optimizer and covariance</a>
@@ -307,9 +300,9 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/index.html">API Reference</a></li><li class="breadcrumb-item"><a href="../api/fit-options.html">Fit options</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../api/index.html">API Reference</a></li><li class="breadcrumb-item"><a href="../api/fit-options.html">Fit options</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Fit options</h1>
 </div>
@@ -332,20 +325,70 @@ window.Quarto = {
 <section id="arimagarch-order" class="level2">
 <h2 class="anchored" data-anchor-id="arimagarch-order">ARIMA/GARCH order</h2>
 <p><code>order=(p, q, d)</code> controls the ARIMA mean process (AR, MA, integer differencing). <code>garch_order=(k, m)</code> controls the GARCH variance process. Set <code>vol="GARCH"</code> or <code>vol="EGARCH"</code>.</p>
-<div id="dd361600" class="cell" data-execution_count="1">
+<div id="e20b9fb7" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), garch_order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>), vol<span class="op">=</span><span class="st">"GARCH"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="arima-likelihood-initialization" class="level2">
+<h2 class="anchored" data-anchor-id="arima-likelihood-initialization">ARMA exact log likelihood and RE/FE correction</h2>
+<p><code>exact_ll</code> defaults to <code>None</code> (automatic):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Value</th>
+<th>Likelihood selection</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>None</code></td>
+<td>Enable the Gaussian covariance correction for supported ARIMA models with <code>garch_order=(0, 0)</code>, including time series and panels with FE/RE. Otherwise use conditional likelihood.</td>
+</tr>
+<tr class="even">
+<td><code>True</code></td>
+<td>Force the correction on, including with GARCH; unsupported specifications still raise an error.</td>
+</tr>
+<tr class="odd">
+<td><code>False</code></td>
+<td>Force conditional likelihood with zero presample innovations.</td>
+</tr>
+</tbody>
+</table>
+<p><code>results.exact_ll</code> records the resolved boolean, not <code>None</code>. Automatic selection leaves fractional, EGARCH, custom/non-Gaussian and censored models conditional. Static models (<code>order=(0, 0, 0)</code>) also remain conditional in automatic mode.</p>
+<p>For constant-variance ARMA without effects, this gives exact stationary Gaussian likelihood, including the infinite AR history and all supplied regressors. It reuses the native inverse-MA column and a stationary Lyapunov prior. Factorizations are only <code>r</code>-by-<code>r</code>, where <code>r = max(p, q)</code>; no time-by-time covariance is built. Work and storage grow linearly with history length for fixed orders and parameter count. The Hessian batches its derivative solves.</p>
+<p>The corrected density replaces the conditional density once per entity. Analytic scores/Hessians, robust scores, whitening and forecasts use the same covariance. Ragged groups exclude padding and integer-differencing boundaries. After differencing this is not a diffuse likelihood for the original levels.</p>
+<p>GARCH/effects/variance-regressor models retain the dense finite-history approximation <code>C = diag(v) + v[0] * H @ H.T</code>. Their variance paths and effects transforms are unchanged; this is not exact joint GARCH or marginal-effects likelihood, and long histories can be expensive.</p>
+<p>Fixed or random effects do not remove the need to account for each series’ unobserved history. The correction remains applicable and is enabled automatically without GARCH. A small RE-only pilot suggested improved ARMA parameter RMSE, although this is preliminary evidence; the retained effects transformation does not provide exact joint integration over random effects.</p>
+<p>Exact stationary GARCH likelihood would require integrating over unobserved past shocks and initial volatility, whose stationary distribution generally has no closed form. This requires specialized numerical methods and is not implemented here. The ARMA correction alone does not provide that integration or a reliable improvement in estimates: a small paired pilot found no consistent RMSE gain with GARCH, with or without random effects. This is preliminary evidence, not a general result; automatic mode keeps GARCH models conditional.</p>
+<p>When enabled, the option requires regular observations and the built-in Gaussian model. Non-Gaussian/custom likelihoods, EGARCH, fractional differencing, censoring and IV are rejected. Invalid AR roots or nonpositive/clipped variances invalidate a trial. See the ARMA exact log likelihood and RE/FE correction section in <code>paneltime_doc/main.tex</code> for the implemented equations.</p>
+</section>
+<section id="evaluate-without-fitting" class="level2">
+<h2 class="anchored" data-anchor-id="evaluate-without-fitting">Evaluate without fitting</h2>
+<p><code>model.prepare_likelihood(FitOptions(...))</code> prepares the data once and returns a reusable evaluator. It does not optimize, build result tables, or impose a seasonal model. All regressors in the model formula remain in the coefficient vector, with the same analytic regression/ARMA/variance cross derivatives.</p>
+<div id="6bd9ef7e" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>evaluator <span class="op">=</span> model.prepare_likelihood(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pt.FitOptions(order<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>), garch_order<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>), exact_ll<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>parameters <span class="op">=</span> evaluator.initial_parameters.copy()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>evaluation <span class="op">=</span> evaluator.evaluate(parameters)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>evaluation.loglike, evaluation.score, evaluation.hessian</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>parameter_names</code> and <code>parameter_groups</code> describe the full vector, in engine coefficient coordinates. Supply all coefficients, including fixed ones: <code>evaluate</code> does not apply fit constraints. <code>derivative_order=0</code>, <code>1</code>, or <code>2</code> requests density only, density and score, or all three. Invalid parameter trials raise <code>ValueError</code>. Only the last parameter vector and its computed derivatives are reused; returned derivative arrays are copies. Preparation uses the existing initializer, so its warnings can still appear.</p>
+<p>For nonlinear coefficient relationships, an external optimizer can use this evaluator directly, without invoking <code>fit</code> at each trial. If <code>a = f(b)</code> maps optimizer coordinates to the full vector, transform derivatives as <code>g_b = J.T @ g_a</code> and <code>H_b = J.T @ H_a @ J + sum(g_a[k] * Hessian(f[k]))</code>. The second term is required for products, log variances and other nonlinear maps. Explicitly fixing every coefficient in a final <code>fit</code> is supported: the full vector is retained and results are constructed with zero optimization iterations. Standard errors conditional on all coefficients being fixed are unavailable; inference for the external coordinates must use their transformed curvature.</p>
 </section>
 <section id="fractional-differencing-arfima" class="level2">
 <h2 class="anchored" data-anchor-id="fractional-differencing-arfima">Fractional differencing (ARFIMA)</h2>
 <p>Use <code>fractional_d="estimate"</code> to estimate one common fractional parameter across entities, or pass a number strictly between <code>-0.5</code> and <code>0.5</code> to fix it. The default <code>None</code> leaves existing behavior unchanged; fixed <code>0.0</code> is equivalent to no fractional filtering.</p>
-<div id="80576cea" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ARFIMA(1, d, 1)-GARCH(1, 1): the integer-difference entry stays zero.</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), garch_order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>),</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                    fractional_d<span class="op">=</span><span class="st">"estimate"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.fractional_d)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># A fixed fractional parameter is not counted as an estimated coefficient.</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>fixed <span class="op">=</span> model.fit(order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), fractional_d<span class="op">=</span><span class="fl">0.25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="d227ae76" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ARFIMA(1, d, 1)-GARCH(1, 1): the integer-difference entry stays zero.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), garch_order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                    fractional_d<span class="op">=</span><span class="st">"estimate"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results.fractional_d)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># A fixed fractional parameter is not counted as an estimated coefficient.</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>fixed <span class="op">=</span> model.fit(order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>), fractional_d<span class="op">=</span><span class="fl">0.25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Estimated <code>d</code> appears in the parameter and standard-error tables. Its numerical bounds are <code>-0.5 + 1e-8</code> and <code>0.5 - 1e-8</code>; constraints such as <code>constraints={"d": (-0.3, 0.4)}</code> can narrow these bounds or fix the parameter. <code>results.fractional_d</code> gives either the estimated or fixed value.</p>
 <p>The conditional model filters regression residuals, including the intercept: <code>(1-L)^d (Y-X beta)</code> is passed through the existing ARMA filter, effects adjustment, and GARCH recursion. Fractional filtering is independent of the innovation distribution, variance link, and custom h-function. Effects retain their existing innovation-scale interpretation.</p>
@@ -354,28 +397,192 @@ window.Quarto = {
 </section>
 <section id="effects" class="level2">
 <h2 class="anchored" data-anchor-id="effects">Effects</h2>
-<p>Pass an <code>Effects</code> instance with <code>group</code>, <code>time</code>, and <code>variance</code> set to <code>"none"</code>, <code>"fixed"</code>, or <code>"random"</code>.</p>
-<div id="e71631d4" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>effects <span class="op">=</span> pt.Effects(group<span class="op">=</span><span class="st">"random"</span>, time<span class="op">=</span><span class="st">"fixed"</span>, variance<span class="op">=</span><span class="st">"none"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(effects<span class="op">=</span>effects)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Create <code>pt.Effects(...)</code> and pass it as the <code>effects</code> argument to <code>Model.fit()</code>, not to the <code>Model</code> constructor. <code>group</code> controls entity effects, <code>time</code> controls calendar-date effects, and <code>variance</code> controls effects in the variance transformation. Omitted fields keep their defaults.</p>
+<p>The complete option table below is generated by <code>setup_script.py</code> from the same definitions used to validate fits.</p>
+<!-- Generated by setup_script.py from paneltime.options; do not edit. -->
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 30%">
+<col style="width: 23%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th style="text-align: right;">Default</th>
+<th>Permitted values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>group</code></td>
+<td style="text-align: right;"><code>'none'</code></td>
+<td><code>'none'</code>, <code>'fixed'</code>, <code>'random'</code></td>
+<td>Group effect specification.</td>
+</tr>
+<tr class="even">
+<td><code>time</code></td>
+<td style="text-align: right;"><code>'none'</code></td>
+<td><code>'none'</code>, <code>'fixed'</code>, <code>'random'</code></td>
+<td>Time effect specification.</td>
+</tr>
+<tr class="odd">
+<td><code>variance</code></td>
+<td style="text-align: right;"><code>'none'</code></td>
+<td><code>'none'</code>, <code>'fixed'</code>, <code>'random'</code></td>
+<td>Variance effect specification.</td>
+</tr>
+</tbody>
+</table>
+<div id="e2a2e593" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>effects <span class="op">=</span> pt.Effects(group<span class="op">=</span><span class="st">"random"</span>, time<span class="op">=</span><span class="st">"fixed"</span>, variance<span class="op">=</span><span class="st">"none"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> pt.Model(<span class="st">"Y ~ X0 + X1"</span>, data, entity<span class="op">=</span><span class="st">"IDs"</span>, time<span class="op">=</span><span class="st">"dates"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(order<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>), garch_order<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">2</span>), effects<span class="op">=</span>effects)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Inline configuration: entity fixed effects, no time or variance effects.</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>fixed <span class="op">=</span> model.fit(effects<span class="op">=</span>pt.Effects(group<span class="op">=</span><span class="st">"fixed"</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Disable all effects (also the default).</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>pooled <span class="op">=</span> model.fit(effects<span class="op">=</span>pt.Effects())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Group and time effects are removed from the ARMA innovations, after the ARMA filter. This is exact when the effects enter the innovations of the ARMA process. When they are added directly to the serially correlated residuals, it is an approximation. In simulations the resulting error was small compared with ordinary finite-sample error.</p>
 </section>
 <section id="optimizer-and-covariance" class="level2">
 <h2 class="anchored" data-anchor-id="optimizer-and-covariance">Optimizer and covariance</h2>
-<p>Use <code>OptimizerOptions</code> for <code>tolerance</code>, <code>max_iterations</code>, <code>accuracy</code>, and other optimizer controls. Robust covariance lags are configured with <code>OptimizerOptions.robust_cov_lags</code>. Both conventional and robust standard errors are available on the returned results object as <code>bse</code> and <code>robust_bse</code>; <code>bse_at(params)</code> evaluates robust standard errors at supplied parameter values. The <code>cov_type</code> keyword is accepted by <code>Model.fit()</code> but does not currently select between these covariance results.</p>
-<div id="9ee06f38" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> pt.OptimizerOptions(tolerance<span class="op">=</span><span class="fl">1e-5</span>, max_iterations<span class="op">=</span><span class="dv">150</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>optimizer.robust_cov_lags <span class="op">=</span> (<span class="dv">100</span>, <span class="dv">30</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(optimizer<span class="op">=</span>optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Create <code>pt.OptimizerOptions(...)</code> and pass it as the <code>optimizer</code> argument to <code>Model.fit()</code>. These are configuration fields, not separate arguments to the <code>Model</code> constructor or <code>fit()</code>: for example, use <code>model.fit(optimizer=pt.OptimizerOptions(max_iterations=300))</code>, not <code>model.fit(max_iterations=300)</code>. Omitted fields retain their defaults; <code>pt.OptimizerOptions()</code> supplies all defaults. Settings are per fit, not global.</p>
+<p>All available controls, including constraints, initialization, numerical precision, reduction thresholds and covariance settings, are listed below. Defaults, permitted values and descriptions are generated from the central option schema whenever <code>setup_script.py</code> runs its normal build workflow.</p>
+<!-- Generated by setup_script.py from paneltime.options; do not edit. -->
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 30%">
+<col style="width: 23%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th style="text-align: right;">Default</th>
+<th>Permitted values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tolerance</code></td>
+<td style="text-align: right;"><code>0.0001</code></td>
+<td>Positive number.</td>
+<td>Tolerance used by the numerical optimizer.</td>
+</tr>
+<tr class="even">
+<td><code>max_iterations</code></td>
+<td style="text-align: right;"><code>150</code></td>
+<td>Positive integer.</td>
+<td>Maximum number of optimization iterations.</td>
+</tr>
+<tr class="odd">
+<td><code>accuracy</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td>Non-negative integer.</td>
+<td>Optimization accuracy level.</td>
+</tr>
+<tr class="even">
+<td><code>initial_arima_garch_params</code></td>
+<td style="text-align: right;"><code>0.1</code></td>
+<td>Non-negative number.</td>
+<td>Initial size of ARIMA-GARCH parameters.</td>
+</tr>
+<tr class="odd">
+<td><code>arma_constraint</code></td>
+<td style="text-align: right;"><code>3</code></td>
+<td>Positive number.</td>
+<td>Maximum absolute value of ARMA coefficients.</td>
+</tr>
+<tr class="even">
+<td><code>arma_round</code></td>
+<td style="text-align: right;"><code>14</code></td>
+<td>Positive integer.</td>
+<td>Number of significant digits used in ARMA matrices.</td>
+</tr>
+<tr class="odd">
+<td><code>garch_min</code></td>
+<td style="text-align: right;"><code>1e-12</code></td>
+<td>Positive number.</td>
+<td>Minimum absolute value of GARCH coefficients.</td>
+</tr>
+<tr class="even">
+<td><code>garch_assist</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td>Non-negative number.</td>
+<td>Weight assigned to the assisting GARCH variance.</td>
+</tr>
+<tr class="odd">
+<td><code>garch_ridge_wald</code></td>
+<td style="text-align: right;"><code>0.2</code></td>
+<td>Finite non-negative real number (excluding booleans).</td>
+<td>Absolute squared-Wald-ratio threshold (strict) for attempting to fix the highest free gamma lag at zero. Negative variance uses a heuristic; zero variance is skipped. Accepted reductions get one release retry within the iteration budget; 0 disables ridge reduction.</td>
+</tr>
+<tr class="even">
+<td><code>multicoll_threshold_report</code></td>
+<td style="text-align: right;"><code>30</code></td>
+<td>Positive number.</td>
+<td>Condition-index threshold for reporting multicollinearity and gating automatic ARMA/GARCH reductions together with their Wald criteria.</td>
+</tr>
+<tr class="odd">
+<td><code>min_group_df</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>Positive integer.</td>
+<td>Minimum observations allowed in each group.</td>
+</tr>
+<tr class="even">
+<td><code>robust_cov_lags</code></td>
+<td style="text-align: right;"><code>(100, 30)</code></td>
+<td>Two integers greater than one.</td>
+<td>Lags used for robust covariance calculations.</td>
+</tr>
+<tr class="odd">
+<td><code>variance_re_norm</code></td>
+<td style="text-align: right;"><code>5e-06</code></td>
+<td>Positive number.</td>
+<td>Normalization point for variance random-effects calculations.</td>
+</tr>
+<tr class="even">
+<td><code>kurtosis_adj</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td>Non-negative number.</td>
+<td>Kurtosis adjustment.</td>
+</tr>
+</tbody>
+</table>
+<p>Both conventional and robust standard errors are available on the returned results object as <code>bse</code> and <code>robust_bse</code>; <code>bse_at(params)</code> evaluates robust standard errors at supplied parameter values. The <code>cov_type</code> keyword is accepted by <code>Model.fit()</code> but does not currently select between these covariance results.</p>
+<div id="92650f03" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> pt.OptimizerOptions(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    tolerance<span class="op">=</span><span class="fl">1e-5</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    max_iterations<span class="op">=</span><span class="dv">300</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    robust_cov_lags<span class="op">=</span>(<span class="dv">100</span>, <span class="dv">30</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    garch_ridge_wald<span class="op">=</span><span class="dv">0</span>,  <span class="co"># Disable automatic GARCH ridge reduction.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    order<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    garch_order<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">2</span>),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    effects<span class="op">=</span>pt.Effects(group<span class="op">=</span><span class="st">"random"</span>, time<span class="op">=</span><span class="st">"random"</span>),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    optimizer<span class="op">=</span>optimizer,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># You can also update a configuration object before passing it to fit().</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>optimizer.max_iterations <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>refit <span class="op">=</span> model.fit(optimizer<span class="op">=</span>optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>For most fits, start with the defaults and adjust <code>max_iterations</code> or <code>tolerance</code> if needed. Other fields are advanced controls; changing <code>garch_assist</code> or <code>kurtosis_adj</code> also changes the likelihood, not merely the optimization algorithm. Invalid settings raise an error when the fit is prepared. See the sections below for reduction and initialization details.</p>
 <section id="garch-ridge-reduction" class="level3">
 <h3 class="anchored" data-anchor-id="garch-ridge-reduction">GARCH ridge reduction</h3>
 <p>Automatic ARMA common-factor and GARCH ridge reductions require <strong>both</strong> their Wald criterion and matching condition-index evidence from the current Hessian on free parameters. A dimension must have CI &gt;= <code>OptimizerOptions.multicoll_threshold_report</code> (default 30), with variance-decomposition proportions &gt; 0.5 for at least one free AR and one free MA coefficient (ARMA), or at least two free gamma lags (GARCH), in that same dimension. CI from unrelated parameters is insufficient. Raising this option therefore affects reduction eligibility as well as reporting. CI uses absolute eigenvalues and does not by itself establish concavity.</p>
 <p><code>OptimizerOptions.garch_ridge_wald</code> defaults to <code>0.2</code> and accepts finite non-negative real numbers (not booleans). Set it to <code>0</code> to disable automatic GARCH ridge reduction:</p>
-<div id="feade745" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> pt.OptimizerOptions(garch_ridge_wald<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(optimizer<span class="op">=</span>optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="dfcd9801" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> pt.OptimizerOptions(garch_ridge_wald<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> model.fit(optimizer<span class="op">=</span>optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>For converged or stalled fits with at least two free gamma lags, the detector uses the squared Wald statistic <code>W = far**2 / variance</code>. Here <code>far</code> is the distance from the highest free gamma coefficient to the farther endpoint (zero or total free gamma persistence), and <code>variance</code> is that coefficient’s diagonal entry in the pseudoinverse of the negative Hessian. If the variance is nonzero and <code>abs(W) &lt; garch_ridge_wald</code>, the highest free gamma lag is fixed at zero and the model is refitted. The reduction is retained only if the refit converges and <code>2 * (original_loglik - reduced_loglik) &lt;= 3.841</code>, the 5% chi-square(1) critical value. Otherwise the previous fit and constraints are restored. Accepted reductions are listed in the optimizer message. With negative variance, the absolute ratio is used only as a ridge heuristic, not a valid Wald test or proof of a flat ridge. Zero variance is skipped.</p>
 <p>After accepting a reduction, the optimizer releases the newly fixed gamma lag and retries from the reduced solution once. This uses the remaining <code>max_iterations</code> budget; earlier automatic reductions and user constraints remain in force. The released fit is retained only if it converges, has a negative-definite Hessian on free parameters, has no detected gamma ridge, and has likelihood no lower than either the original or reduced fit. Otherwise the reduced fit and constraints are restored. An accepted release ends the reduction loop, and the optimizer message records the release. No restrictions are toggled during individual optimizer iterations.</p>
@@ -570,7 +777,8 @@ E_0[\ell_{\rm exact}(\Sigma)]
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -579,8 +787,69 @@ E_0[\ell_{\rm exact}(\Sigma)]
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -594,6 +863,7 @@ E_0[\ell_{\rm exact}(\Sigma)]
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -756,44 +1026,54 @@ E_0[\ell_{\rm exact}(\Sigma)]
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -891,6 +1171,9 @@ E_0[\ell_{\rm exact}(\Sigma)]
       }
     }
   });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
   </script>
 </div> <!-- /content -->
 
